@@ -1,0 +1,313 @@
+﻿
+@{
+    ViewBag.Title = "FAPay";
+}
+
+    <div ng-app="RegistrationForm" ng-controller="Home">
+
+        <div class="row page-titles">
+            <div class="col-md-5 align-self-center">
+                <h4 class="text-themecolor">First Aid Payment</h4>
+            </div>
+            <div class="col-md-7 align-self-center">
+                <div class="d-flex justify-content-end align-items-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                        <li class="breadcrumb-item active">First Aid Payment</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div id="Banks" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">Select Bank Name</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-7">
+
+                            </div>
+                            <div class="col-md-1">
+                                <label for="CompSearch">Search:</label>
+                            </div>
+                            <div class="col-md-4 form-material">
+                                <input type="text" class="form-control" id="UserSearch" ng-model="TxtBnkSearch" />
+                            </div>
+                        </div>
+                        <div class="table-responsive-sm">
+                            <table class="table-sm table-hover table-bordered text-dark">
+                                <thead>
+                                    <tr>
+                                        <th>Banks Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in dtBankName | filter: TxtBnkSearch">
+                                        <td><button ng-click="GetBankName(item.BankName)" class="btn btn-link" data-dismiss="modal">{{item.BankName}}</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <div id="PayMeth" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">Select Payment Method</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-7">
+
+                            </div>
+                            <div class="col-md-1">
+                                <label for="CompSearch">Search:</label>
+                            </div>
+                            <div class="col-md-4 form-material">
+                                <input type="text" class="form-control" id="UserSearch" ng-model="TxtPaySearch" />
+                            </div>
+                        </div>
+                        <div class="table-responsive-sm">
+                            <table class="table-sm table-hover table-bordered text-dark">
+                                <thead>
+                                    <tr>
+                                        <th>Payment Methods</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in dtPayMeth | filter: TxtPaySearch">
+                                        <td><button ng-click="GetPayByid(item.MethodName)" class="btn btn-link" data-dismiss="modal">{{item.MethodName}}</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div id="FirstAidGet" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Patient Related to First Aid Payment</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Token No</th>
+                                                    <th>Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtGetAll">
+                                                    <td><button ng-click="GetDataByID(item.TokenNo)" class="btn btn-link" data-dismiss="modal">{{item.TokenNo}}</button></td>
+                                                    <td>{{item.FullName}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <div class="card-header bg-info">
+                        <h4 class="m-b-0 text-white">First Aid</h4>
+                    </div>
+                    <div class="card-body">
+                        <form name="FirstAid">
+                            <div class="form-body form-group">
+                                <div class="row p-t-20">
+                                    <!--/span-->
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-1">
+                                        <label class="control-label text-dark" for="TokenNo">Token No:</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <input type="text" id="TokenNo" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtTokenNo" maxlength="100" required readonly />
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#FirstAidGet" href="javascript:void(0)" ng-click="GetAllData()"><i class="ti-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-1">
+                                        <label class="control-label text-dark" for="RegNo">Reg No:</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <input type="text" id="RegNo" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtRegNo" required readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row p-t-20">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-1">
+                                        <label class="control-label text-dark" for="PatName">Patient Name:</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <input type="text" id="PatName" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtPatName" required readonly />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-1">
+                                        <label class="control-label text-dark" for="TokenDate">Token Date:</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <input type="text" id="TokenDate" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtTokenDate" required readonly />
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <div class="row p-t-20">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-1">
+                                        <label class="control-label text-dark" for="Age">Age:</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <input type="text" id="Age" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtPatAge" maxlength="100" required readonly />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-1">
+                                        <label class="control-label text-dark" for="Gender">Gender:</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <input type="text" id="Gender" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtGender" maxlength="100" required readonly />
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <div class="row p-t-20">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-1">
+                                        <label class="control-label text-dark" for="DocName">Doctor Name:</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <input type="text" id="DocName" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtDocName" maxlength="100" required readonly />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-1">
+                                        <label class="control-label text-dark" for="TotalFee">Total Fee:</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <input type="text" id="TotalFee" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtTotalFee" maxlength="100" required readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row p-t-20">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-1">
+                                        <label class="control-label text-dark" for="Bank">Payment Method:</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <input type="text" id="PayMethod" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtPayMethod" readonly />
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#PayMeth" href="javascript:void(0)" ng-click="GetPayMeth()"><i class="ti-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-1">
+                                        <label class="control-label text-dark" for="Bank">Bank:</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <input type="text" id="Bank" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtBank" readonly />
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#Banks" href="javascript:void(0)" ng-click="GetBank()"><i class="ti-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row p-t-20">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-1">
+                                        <label class="control-label text-dark" for="Paid">Paid:</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <input type="text" id="Paid" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtPaid" maxlength="100" ng-change="CalculateFee()" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-1">
+                                        <label class="control-label text-dark" for="Balance">Balance:</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <input type="text" id="Balance" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtBalance" maxlength="100" required readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row p-t-20">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-2 float-right">
+                                        <button ng-click="SaveCheck()" ng-disabled="AfterPayRec" ng-model="BtnSave" class="btn btn-outline-success form-control"><i class="icon-refresh"></i> Save </button>
+
+                                    </div>
+                                    <div class="col-md-2 float-right">
+                                        <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section scripts {
+<script src="~/Scripts/Custom/FaPay_JS.js"></script>
+}

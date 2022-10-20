@@ -1,0 +1,777 @@
+﻿
+@{
+    ViewBag.Title = "PatiRefundFee";
+}
+
+<div ng-app="RegistrationForm" ng-controller="Home">
+
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Patient Refund Fee</h4>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Patient Refund Fee</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!--row-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div id="PatientRefundInfo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Patient Info Related to Fee</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtPatinfoSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Token No</th>
+                                                <th>Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtGetAll | filter:TxtPatinfoSearch">
+                                                <td><button ng-click="GetDataByID(item.TokenNo)" class="btn btn-link" data-dismiss="modal">{{item.TokenNo}}</button></td>
+                                                <td>{{item.PatName}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <div id="PatientRefundType" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Patient Refund Type</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="PatTypeSearch" ng-model="TxtRefTypSearch"/>
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtGetRef | filter:TxtRefTypSearch">
+                                                <td><button ng-click="OnIDRefund(item.RefundType)" class="btn btn-link" data-dismiss="modal">{{item.RefundType}}</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                </div>
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Patient Refund Fee</h4>
+                </div>
+                <div class="card-body">
+                    <form name="PatientRefund">
+                        <div class="form-body form-group">
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="TokenNo">MR #:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="TokenNo" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtTokenNo" maxlength="100" readonly />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#PatientRefundInfo" href="javascript:void(0)" ng-click="GetAllData()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="RegNo">Reg No:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="RegNo" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtRegNo" readonly />
+                                    </div>
+                                </div>
+                                <!--/span-->
+
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="PatName">Patient Name:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="PatName" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtPatName" readonly />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="TokenDate">Token Date:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="TokenDate" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtTokenDate" readonly />
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Age">Age:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Age" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtPatAge" maxlength="100" readonly />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Gender">Gender:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Gender" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtGender" maxlength="100" readonly />
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="DocName">Doctor Name:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="DocName" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtDocName" maxlength="100" readonly />
+                                    </div>
+                                </div>
+                                @* ==============================Refund Type=================== *@
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="PatRefundType">Refund Type:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="PatRefundType" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtPatRefundType" maxlength="100" />
+
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#PatientRefundType" href="javascript:void(0)" ng-click="CheckRefundTyp()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <!--/span-->
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="TotalFee">Total Fee:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="TotalFee" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtTotalFee" maxlength="100" readonly />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="PaidFee">Paid Fee:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="PaidFee" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtPaidFee" maxlength="100" readonly />
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <!--/span-->
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Balance">Balance:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Balance" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtBalance" maxlength="100" readonly />
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Discount">Discount:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Discount" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtDiscount" maxlength="100" readonly />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row p-t-20">
+                                <!--/span-->
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="RefundApproval">Refund Approval:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="RefundApproval" class="form-control form-input-grey" ng-model="txtRefundApproval" maxlength="100" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="FeeRefund">Fee Refund:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        @*<input type="number" id="FeeRefund" class="form-control form-input-grey" ng-model="txtFeeRefund" maxlength="100" ng-change="CalculateFee()" required />*@
+                                        <input type="number" id="FeeRefund" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtFeeRefund" value="0" ng-change="CalculateFee()" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Remarks">Remarks:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Remarks" class="form-control form-input-grey" ng-model="txtRemarks" maxlength="100" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="CCPL_RowId">Refund ID:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="CCPL_RowId" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtCCPL_RowId" maxlength="100" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-click="SaveCheck()" ng-hide="CUSaveBtn" ng-disabled="PatientRefund.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
+                                        <button ng-click="On_Update()" ng-hide="CUUpdateBtn" ng-disabled="PatientRefund.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Update</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-disabled="CUDeleteBtn" ng-click="OnDelete()" class="btn btn-outline-danger form-control"><i class="icon-trash"></i>Delete</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="tab-pane" id="Refund" role="tabpanel">
+                        <!--row-->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Patient Refund</h4>
+                                        <hr />
+                                        <div class="table-responsive-sm">
+                                            <table class="table-sm table-hover table-bordered text-dark">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Token No</th>
+                                                        <th>Pat Name</th>
+                                                        <th>Refund Type</th>
+                                                        <th>Refund Amount</th>
+                                                        <th>Balance</th>
+                                                        <th>Paid Fee</th>
+                                                        <th>Total Fee</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in dtViewGetAll">
+                                                        <td>{{item.TokenNo}}</td>
+                                                        <td>{{item.PatName}}</td>
+                                                        <td>{{item.RefundType}}</td>
+                                                        <td>{{item.RefundFee}}</td>
+                                                        <td>{{item.Balance}}</td>
+                                                        <td>{{item.PaidFee}}</td>
+                                                        <td>{{item.TotalFee}}</td>
+                                                        <td>
+                                                            <button ng-click="GetViewDataByID(item.CCPL_ROW_ID)" class="btn btn-link" alt="default" data-toggle="modal" data-target="#RefundModalFad" href="javascript:void(0)"> Edit </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <hr />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Row -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row -->
+</div>
+@section scripts {
+
+    <script>
+
+        var RegistrationForm = angular.module("RegistrationForm", []);
+        RegistrationForm.controller("Home", function ($scope, $http,$filter) {
+            $scope.Notification = function (Type, Heading, Test) {
+                //info, warning, success, error
+                $.toast({
+                    heading: Heading,
+                    text: Test,
+                    position: 'top-right',
+                    loaderBg: '#ff6849',
+                    icon: Type,
+                    hideAfter: 3500,
+                    stack: 6
+                });
+            };
+            //==========Display Patient Data By Lookup===========
+            $scope.GetAllData = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatRefundFee/Get_data",
+                    data: {}
+                }
+                $http(displayReq).then(function (Return)
+                {
+                    $scope.On_Clear();
+                    $scope.Notification('warning', 'Information', 'After Refund you Cannot Change and Update Token,If You Can Then Refund Entry is Delete.');
+                    $scope.dtGetAll = angular.fromJson(Return.data);
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //==============Patient Refund Delete=================
+            $scope.OnDelete = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatRefundFee/OnDelete",
+                    data: {
+                        id: $scope.txtCCPL_RowId,
+                        TokenNo: $scope.txtTokenNo,
+                        RefundType: $scope.txtPatRefundType
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.On_Clear();
+                    if (Return.data == "Delete") {
+                        $scope.Notification('success', 'Operation Completed', 'Delete Patient Refund');
+                    }
+                    else {
+                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    $scope.On_Clear();
+                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                });
+
+            };
+            //=========Get Patient Data By ID=================
+            $scope.GetDataByID = function (ID) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatRefundFee/Get_databyid",
+                    data: {
+                        TokenNo:ID
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    if (dt.length > 0) {
+                        $scope.txtTokenNo = dt[0].TokenNo;
+                        $scope.txtTokenDate = $filter('date')(dt[0].TokenDate, 'dd/MM/yyyy');
+                        $scope.txtRegNo = dt[0].RegNo;
+                        $scope.txtGender = dt[0].Gender;
+                        $scope.txtPatAge = dt[0].Age;
+                        $scope.txtPatCNIC = dt[0].CNIC;
+                        $scope.txtPatName = dt[0].PatName;
+                        $scope.txtDocName = dt[0].DrName;
+                        $scope.GetViewAllData(dt[0].TokenNo);
+                    }
+                    else {
+                        $scope.txtTokenNo = '';
+                        $scope.txtTokenDate = '';
+                        $scope.txtRegNo = '';
+                        $scope.txtGender = '';
+                        $scope.txtPatAge = '';
+                        $scope.txtPatCNIC = '';
+                        $scope.txtDiscount = '';
+                        $scope.txtPatName = '';
+                        $scope.txtDocName = '';
+                        $scope.txtBalance = '';
+                        $scope.txtTotalFee = '';
+                        $scope.txtPaidFee = '';
+                    }
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+             //==============For Save Data =============
+            $scope.SaveCheck = function () {
+                    if ($scope.txtFeeRefund > 0) {
+                        $scope.savedata();
+                    }
+                    else {
+                        $scope.Notification('error', 'System Alert', 'Please Enter Refund Amount');
+                    }
+            };
+             //==============Check Refund Type=============
+            $scope.CheckRefundTyp = function () {
+                if ($scope.txtTokenNo == '' || $scope.txtTokenNo == null) {
+                    $scope.Notification('error', 'System Alert', 'Please Select Token To Poplist');
+                    }
+                    else {
+                        $scope.GetPatiRefType();
+                    }
+            };
+            //==============View Refund Data Get By ID==============
+            $scope.GetViewDataByID = function (CCPL_RowId) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatRefundFee/Get_Viewdatabyid",
+                    data: {
+                        id: CCPL_RowId,
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    var dt = angular.fromJson(Return.data);
+
+                    if (dt.length > 0) {
+                        $scope.txtTokenNo = dt[0].TokenNo;
+                        $scope.txtPatName = dt[0].PatName;
+                        $scope.txtRegNo = dt[0].RegNo;
+                        $scope.txtTokenDate = dt[0].TokenDate;
+                        $scope.txtPatAge = dt[0].Age;
+                        $scope.txtGender = dt[0].Gender;
+                        $scope.txtDocName = dt[0].DrName;
+                        $scope.txtPatRefundType = dt[0].RefundType;
+                        $scope.txtTotalFee = dt[0].TotalFee;
+                        $scope.txtPaidFee = dt[0].PaidFee;
+                        $scope.txtBalance = dt[0].Balance;
+                        $scope.txtRefundApproval = dt[0].RefundApproval;
+                        $scope.txtFeeRefund = dt[0].RefundFee;
+                        $scope.txtRemarks = dt[0].Remarks;
+                        $scope.txtCCPL_RowId = dt[0].CCPL_ROW_ID;
+
+                        $scope.CUSaveBtn = true;
+                        $scope.CUDeleteBtn = false;
+                        $scope.CUUpdateBtn = false;
+                    }
+                    else {
+
+                        $scope.txtTokenNo = '';
+                        $scope.txtPatName = '';
+                        $scope.txtRegNo = '';
+                        $scope.txtTokenDate = '';
+                        $scope.txtPatAge = '';
+                        $scope.txtGender = '';
+                        $scope.txtDocName = '';
+                        $scope.txtPatRefundType = '';
+                        $scope.txtTotalFee = '';
+                        $scope.txtPaidFee = '';
+                        $scope.txtDiscount = '';
+                        $scope.txtBalance = '';
+                        $scope.txtRefundApproval = '';
+                        $scope.txtFeeRefund = 0;
+                        $scope.txtRemarks = '';
+                    }
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //============Display Refund View All Data===============
+            $scope.GetViewAllData = function (Token) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatRefundFee/Get_Viewdata",
+                    data: {
+                        TokenNo: Token
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    $scope.dtViewGetAll = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //===============Insert Refund Data=============
+            $scope.savedata = function () {
+                var displayReq = {
+                    method: 'POST',
+                    url: '/PatRefundFee/Add_Refund',
+                    data: {
+                        //CCPL_ROW_ID:$scope.txtCCPL_RowId,
+                        TokenNo: $scope.txtTokenNo,
+                        TokenDate: $scope.txtTokenDate,
+                        PatName: $scope.txtPatName,
+                        Balance: $scope.txtBalance,
+                        TotalFee: $scope.txtTotalFee,
+                        PaidFee: $scope.txtPaidFee,
+                        RefundFee: $scope.txtFeeRefund,
+                        Remarks: $scope.txtRemarks,
+                        RefundApproval: $scope.txtRefundApproval,
+                        RefundType: $scope.txtPatRefundType,
+                        Discount: $scope.txtDiscount
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.On_Clear();
+                    if (Return.data == "Inserted") {
+                        $scope.Notification('success', 'Operation Completed', 'Insert Patient Refund');
+                    }
+                    else {
+                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    $scope.On_Clear();
+                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                });
+            };
+            //==============Update Refund Data=================
+            $scope.On_Update = function () {
+                //alert("Update");
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatRefundFee/update_record",
+                    data: {
+                        TokenNo: $scope.txtTokenNo,
+                        TokenDate: $scope.txtTokenDate,
+                        PatName: $scope.txtPatName,
+                        Balance: $scope.txtBalance,
+                        TotalFee: $scope.txtTotalFee,
+                        PaidFee: $scope.txtPaidFee,
+                        RefundFee: $scope.txtFeeRefund,
+                        Remarks: $scope.txtRemarks,
+                        RefundApproval: $scope.txtRefundApproval,
+                        RefundType: $scope.txtPatRefundType,
+                        Discount: $scope.txtDiscount
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.On_Clear();
+                    if (Return.data == "Updated") {
+                        $scope.Notification('success', 'Operation Completed', 'Update Patient Refund');
+                    }
+                    else {
+                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    $scope.On_Clear();
+                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                });
+            };
+            //==============Calculate Fee=============
+            $scope.CalculateFee = function () { 
+                var Paid=0;
+                var dis = $scope.txtDiscount;
+                var Refund = $scope.txtFeeRefund;
+                var amount = 0;
+                if (Paid == 0) {
+                    Paid = $scope.txtTotalFee - $scope.txtBalance - $scope.txtDiscount;
+                }
+                else if (Paid == null) {
+                    Paid = $scope.txtTotalFee - $scope.txtBalance - $scope.txtDiscount;
+                }
+                else if (Paid == '') {
+                    Paid = $scope.txtTotalFee - $scope.txtBalance - $scope.txtDiscount;
+                }
+                else {
+                    Paid = $scope.txtPaidFee
+                }
+                amount = Paid - Refund;
+                $scope.txtPaidFee = amount;
+            };
+            //============Get Patient Refund Type============
+            $scope.GetPatiRefType = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatRefundFee/Get_PatRefType",
+                    data: {
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.txtPatRefundType = '';
+                    $scope.txtBalance = '';
+                    $scope.txtCCPL_RowId = '';
+                    $scope.txtTotalFee = '';
+                    $scope.txtPaidFee = '';
+                    $scope.txtFeeRefund = 0;
+                    $scope.txtRemarks = '';
+                    $scope.txtRefundApproval = '';
+                    $scope.txtDiscount = '';
+                    $scope.dtGetRef = angular.fromJson(Return.data);
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //===========Get Refund By Type===============
+            $scope.OnIDRefund = function (RefType) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatRefundFee/Get_RefByType",
+                    data: {
+                        TokenNo: $scope.txtTokenNo,
+                        RefundType: RefType
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    var dt = angular.fromJson(Return.data);
+
+                    if (dt.length > 0) {
+                        $scope.txtCCPL_RowId = dt[0].CCPL_ROW_ID;
+                        $scope.txtPatRefundType = dt[0].RefundType;
+                        $scope.txtBalance = dt[0].Balance;
+                        $scope.txtTotalFee = dt[0].TotalFee;
+                        $scope.txtPaidFee = dt[0].PaidFee;
+                        $scope.txtRefundApproval = dt[0].RefundApproval;
+                        $scope.txtRemarks = dt[0].Remarks;
+                        $scope.txtFeeRefund = dt[0].RefundFee;
+                        $scope.txtDiscount = dt[0].Discount;
+                        var savupd = $scope.txtFeeRefund;
+                        if (savupd == '')
+                        {
+                            $scope.CUSaveBtn = false;
+                            $scope.CUDeleteBtn = true;
+                            $scope.CUUpdateBtn = true;
+                        }
+                        else if (savupd == null)
+                        {
+                            $scope.CUSaveBtn = false;
+                            $scope.CUDeleteBtn = true;
+                            $scope.CUUpdateBtn = true;
+                        }
+                        else if (savupd == 0)
+                        {
+                            $scope.CUSaveBtn = false;
+                            $scope.CUDeleteBtn = true;
+                            $scope.CUUpdateBtn = true;
+                        }
+                        else {
+                        $scope.CUSaveBtn = true;
+                        $scope.CUUpdateBtn = false;
+                        $scope.CUDeleteBtn = false;
+                        }
+                    }
+                    else {
+                        $scope.txtCCPL_RowId = '';
+                        $scope.CUSaveBtn = false;
+                        $scope.CUDeleteBtn = true;
+                        $scope.CUUpdateBtn = true;
+                        $scope.txtBalance = '';
+                        $scope.txtPatRefundType = '';
+                        $scope.txtTotalFee = '';
+                        $scope.txtPaidFee = '';
+                        $scope.txtRefundApproval = '';
+                        $scope.txtDiscount = '';
+                        $scope.txtFeeRefund = 0;
+                        $scope.txtRemarks = '';
+                    }
+                },
+                    function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };         
+            //====================Clear Function================
+            $scope.On_Clear = function () {
+                $scope.txtTokenNo = '';
+                $scope.txtGender = '';
+                $scope.txtPatAge = '';
+                $scope.txtCCPL_RowId = '';
+                $scope.txtTokenDate = '';
+                $scope.txtRegNo = '';
+                $scope.txtPatCNIC = '';
+                $scope.txtPatName = '';
+                $scope.txtBalance = '';
+                $scope.txtTotalFee = '';
+                $scope.txtPaidFee = '';
+                $scope.txtDocName = '';
+                $scope.txtFeeRefund = 0;
+                $scope.txtRemarks = '';
+                $scope.txtDiscount = '';
+                $scope.txtPatRefundType = '';
+                $scope.txtRefundApproval = '';
+                //$scope.GetViewAllData('');
+                $scope.dtViewGetAll = '';
+                $scope.OnLoad();
+                $scope.CUSaveBtn = true;
+                $scope.CUDeleteBtn = true;
+                $scope.CUUpdateBtn = true;
+            };
+            //================On Load Function=============
+            $scope.OnLoad = function () {
+                $scope.CUSaveBtn = true;
+                $scope.CUUpdateBtn = true;
+                $scope.CUDeleteBtn = true;
+                $scope.txtFeeRefund = 0;
+            };
+            $scope.OnLoad();
+        });
+    </script>
+
+}
+

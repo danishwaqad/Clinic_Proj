@@ -1,0 +1,224 @@
+﻿
+@{
+    ViewBag.Title = "CompanyDisc";
+}
+
+<div ng-app="RegistrationForm" ng-controller="Home">
+
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Discount All Companies</h4>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Create Discount All Companies</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!--row-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Create Company Discount</h4>
+                </div>
+                <div class="card-body">
+                    <form name="CreateCompDisc">
+                        <div class="form-body form-group">
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="AllCompClinicDisc">All Companies Clinic Disc:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="AllCompClinicDisc" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtAllCompClinicDisc" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="AllCompPharDisc">All Companies Pharmacy Disc:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="AllCompPharDisc" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtAllCompPharDisc" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-8"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="DiscAllow">Discount Allow All Companies:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="checkbox" style="height:30px;width:30px;" ng-change="OnLoad()" ng-model="txtDiscAllow" ng-true-value="true" ng-false-value="false">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-click="savedata()" ng-disabled="CreateCompDisc.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-disabled="CreateCompDisc.$invalid" ng-click="OnDelete()" class="btn btn-outline-danger form-control"><i class="icon-trash"></i>Delete</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row -->
+</div>
+@section scripts {
+
+    <script>
+
+        var RegistrationForm = angular.module("RegistrationForm", []);
+        RegistrationForm.controller("Home", function ($scope, $http) {
+            $scope.Notification = function (Type, Heading, Test) {
+                //info, warning, success, error
+                $.toast({
+                    heading: Heading,
+                    text: Test,
+                    position: 'top-right',
+                    loaderBg: '#ff6849',
+                    icon: Type,
+                    hideAfter: 3500,
+                    stack: 6
+                });
+            };
+             $scope.reloadCurrentPage = function () {
+                window.location.reload();
+            };
+           //===========Display All Companies Discount=============
+            $scope.GetAllData = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/CompDisc/Get_data",
+                    data: {}
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    if (dt.length > 0) {
+                        $scope.txtAllCompClinicDisc = dt[0].Discount3;
+                        $scope.txtAllCompPharDisc = dt[0].Discount4;
+
+                        if (dt[0].IsAllow == 0) {
+                            $scope.txtDiscAllow = false;
+                        }
+                        else {
+                            $scope.txtDiscAllow = true;
+                        }
+
+                    }
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //============Delete All Companies Discount===============
+            $scope.OnDelete = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/CompDisc/OnDelete",
+                    data: {
+                     CompanyID: 0,
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    if (Return.data == "Delete") {
+                        $scope.On_Clear();
+                        $scope.reloadCurrentPage();
+                        $scope.Notification('success', 'Operation Completed', 'Delete All Companies Discount');
+                    }
+                    else {
+                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    $scope.On_Clear();
+                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                });
+            };
+            //==============All Companies Discount Data Insert==================
+            $scope.savedata = function () {
+                var displayReq = {
+                    method: 'POST',
+                    url: '/CompDisc/Add_CompDisc',
+                    data: {
+                        Discount3: $scope.txtAllCompClinicDisc,
+                        Discount4: $scope.txtAllCompPharDisc,
+                        IsAllow: $scope.txtDiscAllow
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+             if (Return.data == "Inserted") {
+                  $scope.On_Clear();
+              $scope.Notification('success', 'Operation Completed', 'Insert Company Discount');
+                       }
+              else {
+                $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                   }
+                }, function myError(Return) {
+                        $scope.On_Clear();
+             $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+              });
+            };
+            //=============All Companies Discount Data Update=============
+            $scope.On_Update = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/CompDisc/update_record",
+                    data: {
+                        Discount3: $scope.txtAllCompClinicDisc,
+                        Discount4: $scope.txtAllCompPharDisc,
+                        IsAllow: $scope.txtDiscAllow
+                    }
+                }
+                $http(displayReq).then(function (Return)
+                {
+                if (Return.data == "Updated") {
+                $scope.On_Clear();
+                 $scope.Notification('success', 'Operation Completed', 'Update Company Discount');
+                       }
+              else {
+                $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                   }
+                }, function myError(Return)
+                    {
+                        $scope.On_Clear();
+             $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+              });
+            };
+            //=================Clear Function======================
+            $scope.On_Clear = function () {
+                $scope.GetAllData();
+            };
+            $scope.OnLoad = function ()
+            {
+                $scope.GetAllData();
+            };
+            $scope.OnLoad();
+        });
+
+    </script>
+
+}
+

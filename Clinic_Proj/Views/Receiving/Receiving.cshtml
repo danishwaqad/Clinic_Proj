@@ -1,0 +1,835 @@
+﻿
+@{
+    ViewBag.Title = "Receiving";
+}
+
+<div ng-app="RegistrationForm" ng-controller="Home">
+
+    @*<div class="row page-titles">
+            <div class="col-md-5 align-self-center">
+                <h4 class="text-themecolor">Create New Item</h4>
+            </div>
+            <div class="col-md-7 align-self-center">
+                <div class="d-flex justify-content-end align-items-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                        <li class="breadcrumb-item active">Create New Item</li>
+                    </ol>
+                </div>
+            </div>
+        </div>*@
+
+    <!--row-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div id="DocModel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Document Number</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtDocSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Doc Number</th>
+                                                <th>Doc Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtDocGetAll | filter:TxtDocSearch">
+                                                <td><button ng-click="GetProdDataByID(item.DocNumber)" class="btn btn-link" data-dismiss="modal">{{item.DocNumber}}</button></td>
+                                                <td>{{item.DocumentDate | date:dd-MMM-yyyy}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <div id="ItemModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl modal-x">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Item</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtItemSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Item Name</th>
+                                                <th>Type Name</th>
+                                                <th>Sub Type Name</th>
+                                                <th>Is Auto Batch</th>
+                                                <th>Is Expiry</th>
+                                                <th>UOM</th>
+                                                <th>Manufacturer</th>
+                                                <th>Units in pack</th>
+                                                <th>Description</th>
+                                                <th>Remarks</th>
+                                                <th>Active</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtItemGetAll | filter:TxtItemSearch">
+                                                <td><button ng-click="GetItemDataByID(item.ItemName)" class="btn btn-link" data-dismiss="modal">{{item.ItemName}}</button></td>
+                                                <td>{{item.TypeID}}</td>
+                                                <td>{{item.SubTypeID}}</td>
+                                                <td>{{item.IsAutoBatch}}</td>
+                                                <td>{{item.IsExpiry}}</td>
+                                                <td>{{item.UOM}}</td>
+                                                <td>{{item.Manufacturer}}</td>
+                                                <td>{{item.UnitsInPack}}</td>
+                                                <td>{{item.Description}}</td>
+                                                <td>{{item.Remarks}}</td>
+                                                <td>{{item.InActive}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Receiving Module</h4>
+                </div>
+                <div class="card-body">
+                    <form name="CreateReceiving">
+                        <div class="form-body form-group">
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="DocNo">Doc #:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="DocNo" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtDocNo" required readonly />
+                                        <div class="input-group-append">
+                                            <button ng-click="GetDocByID()" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#DocModel" ng-click="GetProdAllData()" href="javascript:void(0)"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-centext-dark" for="DocDate">Doc Date:</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="date" id="DocDate" class="form-control text-center font-weight-bold" ng-model="txtDocDate" required readonly />
+                                </div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="VendorNo">Vendor Inv #:</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" id="VendorNo" class="form-control" ng-model="txtVendorNo" />
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Product">Product:</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="input-group">
+                                        <input type="text" id="ProductCode" class="form-control form-input-grey" placeholder="Product Code" ng-model="txtProductCode" readonly required />
+                                        <input type="text" id="ProductName" class="form-control form-input-grey" placeholder="Prouct Name" ng-model="txtProductName" readonly required />
+                                        <input type="text" id="UnitInPack" class="form-control form-input-grey" placeholder="Unit In Pack" ng-model="txtUnitInPack" readonly />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#ItemModal" ng-click="GetItemAllData()" href="javascript:void(0)"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Qty">Quantity:</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Paid</span>
+                                        </div>
+                                        <input type="number" class="form-control text-center font-weight-bold" ng-model="TxtPaidQty" value="0" ng-blur="getTotalQty()">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Bonus</span>
+                                        </div>
+                                        <input type="number" class="form-control text-center font-weight-bold" ng-model="TxtBonusQty" value="0" ng-blur="getTotalQty()">
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">P-Rate</span>
+                                        </div>
+                                        <input type="number" class="form-control text-center font-weight-bold" ng-model="TxtPRate" value="0" ng-blur="getTotalRate()">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">S-Rate</span>
+                                        </div>
+                                        <input type="number" class="form-control text-center font-weight-bold" ng-model="TxtSRate" value="0" ng-blur="getTotalRate()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="TotalAmount">Total Amount:</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <input type="number" id="TotalAmount" class="form-control form-input-grey text-right font-weight-bold" ng-model="txtTotalAmount" readonly value="0" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="TotalQty">Total Qty:</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <input type="number" id="TotalQty" class="form-control form-input-grey font-weight-bold" ng-model="txtTotalQty" readonly value="0" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="BatchNo">Batch #:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="BatchNo" class="form-control form-input-grey font-weight-bold" ng-model="txtBatchNo" ng-disabled="btnforDisable" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="ExpiryDate">Expiry date:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="date" id="ExpiryDate" class="form-control" ng-model="txtExpiryDate" ng-blur="GetExpiry()" ng-disabled="btnforExpiry" />
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-click="Cart()" ng-hide="CUCartBtn" ng-disabled="CreateReceiving.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Cart</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-click="All_Clear()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                        </div>
+                    </form>
+                    <div class="form-group row">
+                        <div class="col-sm-12" style="overflow-x:auto;overflow-y:scroll;height:300px;">
+                            <table class="table table-sm table-head-fixed table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Prod Code</th>
+                                        <th>Prod Name</th>
+                                        <th>Unit In Pack</th>
+                                        <th>Qty</th>
+                                        <th>Purch Rate</th>
+                                        <th>Sale Rate</th>
+                                        <th>Total Amount</th>
+                                        <th>Total Qty</th>
+                                        <th>Batch #</th>
+                                        <th>Exp Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in dtProdGetAll | filter:TxtSearchProducts">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{item.ItemCode}}</td>
+                                        <td>{{item.ItemName}}</td>
+                                        <td>{{item.UnitsInPack}}</td>
+                                        <td>{{item.UnitPaidQty}}</td>
+                                        <td>{{item.PurRate}}</td>
+                                        <td>{{item.SaleRate}}</td>
+                                        <td>{{item.LineTotal}}</td>
+                                        <td>{{item.TotalUnitQty}}</td>
+                                        <td>{{item.BatchNo}}</td>
+                                        <td>{{item.ExpiryDate | date:dd-MMM-yyyy}}</td>
+                                        <td>
+                                            <button ng-click="OnDelete(item.CCPL_ROW_ID)" alt="default" data-toggle="modal" href="javascript:void(0)" class="btn btn-sm btn-danger"><span class="fa fa-trash"></span></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row p-t-20">
+                    <div class="col-md-1"></div>
+                    <label class="control-label text-dark" for="Count">Count:</label>
+                    <div class="col-md-1">
+                        <input type="text" id="Count" class="form-control form-input-grey" ng-model="txtCount" value="0" readonly />
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Tax</span>
+                            </div>
+                            <input type="number" class="form-control text-center font-weight-bold" ng-model="TxtTax" ng-blur="getGrandTax()" value="0">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Discount</span>
+                            </div>
+                            <input type="number" class="form-control text-center font-weight-bold" ng-model="TxtDiscount" ng-blur="getGrandTax()"  value="0">
+                        </div>
+                    </div>
+                    <label for="Remarks" class="col-form-label">Remarks:</label>
+                    <div class="col-sm-3">
+                        <div class="input-group input-group-md">
+                            <input type="text" placeholder="Remarks (If Any)!" class="form-control" ng-model="TxtRemarks">
+
+                        </div>
+                    </div>
+                    <label for="TotalAm" class="col-form-label">Sub Total:</label>
+                    <div class="col-sm-2">
+                        <div class="input-group input-group-md">
+                            <input type="number" class="form-control font-weight-bold text-right" ng-blur="getGrandQty()" ng-model="TxtAmount" value="0" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="row p-t-20">
+                    <div class="col-sm-2"></div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <button ng-click="savedata()" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <button ng-click="PostDocNum()" class="btn btn-outline-danger form-control"><i class="icon-trash"></i>Post</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <button ng-click="All_Clear()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i>Clear</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-1"></div>
+                    <label for="TotalAm" class="col-form-label">Pay able:</label>
+                    <div class="col-sm-2">
+                        <div class="input-group input-group-md">
+                            <input type="number" class="form-control font-weight-bold text-right" ng-model="TxtGrandAmount" value="0" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row -->
+@section scripts {
+
+    <script>
+
+        var RegistrationForm = angular.module("RegistrationForm", []);
+        RegistrationForm.controller("Home", function ($scope, $http) {
+            $scope.Notification = function (Type, Heading, Test) {
+                //info, warning, success, error
+                $.toast({
+                    heading: Heading,
+                    text: Test,
+                    position: 'top-right',
+                    loaderBg: '#ff6849',
+                    icon: Type,
+                    hideAfter: 3500,
+                    stack: 6
+                });
+            };
+        //===========Create Document No=================
+        $scope.GetDocByID = function () {
+        var displayReq = {
+            method: "POST",
+            url: "/Receiving/get_Doc_No",
+            data: {}
+        }
+        $http(displayReq).then(function (Return) {
+            var dt = angular.fromJson(Return.data);
+            if (dt.length > 0) {
+                $scope.txtDocNo = dt[0].GRN;
+                $scope.SaveDocNum();
+                //$scope.GetProdDataByID('');
+                $scope.On_Clear();
+            }
+            else {
+                $scope.txtDocNo = '';
+            }
+        }, function myError(Return) {
+            $scope.Notification('error', Return.data);
+        });
+    };
+        //===================Save Document Number===============
+            $scope.SaveDocNum = function ()
+            {
+            var displayReq = {
+                method: "POST",
+                url: "/Receiving/SaveDocNum",
+                data: {
+                    DocNo: $scope.txtDocNo,
+                    DocDate: $scope.txtDocDate
+                }
+            }
+            $http(displayReq).then(function (Return) {
+                $scope.Notification('success', 'Save Document Number');
+            }, function myError(Return) {
+                $scope.Notification('error', Return.data);
+            });
+            };
+            //===================Save Cart===============
+            $scope.Cart = function ()
+            {
+            var displayReq = {
+                method: "POST",
+                url: "/Receiving/SaveCart",
+                data: {
+                    DocNo: $scope.txtDocNo,
+                    DocDate: $scope.txtDocDate,
+                    VendorNo: $scope.txtVendorNo,
+                    ProductCode: $scope.txtProductCode,
+                    PaidQty: $scope.TxtPaidQty,
+                    BonusQty: $scope.TxtBonusQty,
+                    PRate: $scope.TxtPRate,
+                    SRate: $scope.TxtSRate,
+                    BatchNo: $scope.txtBatchNo,
+                    ExpiryDate: $scope.txtExpiryDate
+                }
+            }
+                $http(displayReq).then(function (Return) {
+                $scope.Notification('success', 'Save Cart Product');
+                    $scope.GetProdDataByID($scope.txtDocNo);
+                    $scope.getGrandQty();
+                $scope.On_Clear();
+            }, function myError(Return) {
+                $scope.Notification('error', Return.data);
+            });
+            };
+            //===================Save Complete Document Number===============
+            $scope.savedata = function ()
+            {
+            var displayReq = {
+                method: "POST",
+                url: "/Receiving/SaveDocCom",
+                data: {
+                    DocNo: $scope.txtDocNo,
+                    DocDate: $scope.txtDocDate,
+                    SubTotal: $scope.TxtGrandAmount,
+                    Discount: $scope.TxtDiscount,
+                    Tax: $scope.TxtTax,
+                    Remarks: $scope.TxtRemarks
+                }
+            }
+            $http(displayReq).then(function (Return) {
+                $scope.Notification('success', 'Save Complete Document');
+                $scope.All_Clear();
+            }, function myError(Return) {
+                $scope.Notification('error', Return.data);
+            });
+            };
+            //===================Post Document Number===============
+            $scope.PostDocNum = function ()
+            {
+            var displayReq = {
+                method: "POST",
+                url: "/Receiving/PostDocCom",
+                data: {
+                    DocNo: $scope.txtDocNo,
+                    DocDate: $scope.txtDocDate,
+                }
+            }
+            $http(displayReq).then(function (Return) {
+                $scope.Notification('success', 'Document Posted');
+                $scope.All_Clear();
+            }, function myError(Return) {
+                $scope.Notification('error', Return.data);
+            });
+            };
+            //==================Get Expiry Days=======================
+    $scope.GetExpiry = function () {
+        var displayReq = {
+            method: "POST",
+            url: "/Receiving/Get_Expiry",
+            data: {}
+        }
+        $http(displayReq).then(function (Return) {
+            let sentOn = $scope.txtExpiryDate;
+            let todayDate = new Date();
+            let sentOnDate = new Date(sentOn);
+            sentOnDate.setDate(sentOnDate.getDate());
+            let differenceInTime = sentOnDate.getTime() - todayDate.getTime();
+            let differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
+            var dt = angular.fromJson(Return.data);
+            if (dt.length > 0) {
+                if (differenceInDays <= 0) {
+                    alert('Invalid Expiry Date...');
+                }
+                else if (differenceInDays <= $scope.ExpiryDays) {
+                    alert('Expiry Days must be greater than : [ ' + $scope.ExpiryDays + ' ] Days or [ ' + $scope.ExpiryDays / 30 + ' ] Months');
+                }
+                else {
+                }
+            }
+            else {
+                //$scope.DT_ExpiryHide = false;
+            }
+
+        }, function myError(Return) {
+            $scope.Notification('error', Return.data);
+        });
+    };
+            //===========Display Item by lookup=============
+            $scope.GetItemAllData = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Item/GetItem_data",
+                    data: {}
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.txtBatchNo = '';
+                    $scope.dtItemGetAll = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //===========Display Auto Batch=============
+            $scope.GetABatchAllData = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Receiving/GetAutoBatch_data",
+                    data: {
+                        ItemCode: $scope.txtProductCode,
+                        DocDate: $scope.txtDocDate
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    if (dt.length > 0) {
+                        $scope.txtBatchNo = dt[0].NewAutoBatch;
+                    }
+                    else {
+                        $scope.txtBatchNo = '';
+                    }
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //===========Document Lookup Data=============
+            $scope.GetProdAllData = function () {
+                //alert("abc");
+                var displayReq = {
+                    method: "POST",
+                    url: "/Receiving/GetProd_data",
+                    data: {}
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.All_Clear();
+                    $scope.dtDocGetAll = angular.fromJson(Return.data);
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //===========View Docnumber=============
+            //$scope.GetDocData = function () {
+            //    var displayReq = {
+            //        method: "POST",
+            //        url: "/Receiving/GetDoc_data",
+            //        data: {}
+            //    }
+            //    $http(displayReq).then(function (Return) {
+            //        var dt = angular.fromJson(Return.data);
+            //        if (dt.length > 0) {
+            //            $scope.txtDocNo = dt[0].DocNo;
+            //            $scope.GetProdDataByID();
+            //            $scope.GetAmountDataByID();
+            //        }
+            //        else {
+            //            $scope.txtDocNo = '';
+            //        }
+            //        $scope.dtDocGetAll = angular.fromJson(Return.data);
+
+            //    }, function myError(Return) {
+            //        $scope.Notification('error', 'Error Code LC0001', Return.data);
+            //    });
+            //};
+            //===========Get Total Qty=============
+            $scope.getTotalQty = function () {
+                $scope.txtTotalQty= $scope.txtUnitInPack * $scope.TxtPaidQty + $scope.TxtBonusQty * $scope.txtUnitInPack 
+            }
+            //===========Grand Total Qty=============
+            $scope.getGrandQty = function () {
+               $scope.TxtGrandAmount = $scope.TxtAmount;
+            }
+            //===========Grand Tax and Discount=============
+            $scope.getGrandTax = function () {
+                var TotalAmnt = $scope.TxtAmount;
+                var Tax = $scope.TxtTax;
+                var Disc = $scope.TxtDiscount;
+                if (Tax != '' && Disc == '' || Disc == null && Tax != null) {
+                    $scope.TxtGrandAmount = Tax + TotalAmnt;
+                }
+                if (Disc != '' && Tax == '' || Disc != null && Tax == null) {
+                    $scope.TxtGrandAmount = TotalAmnt - Disc;
+                }
+                if (Disc != '' && Tax != '' || Disc != null && Tax != null) {
+                    $scope.TxtGrandAmount = Tax + TotalAmnt - Disc;
+                }
+                
+            }
+            //===========Get Total Amount=============
+            $scope.getTotalRate = function () {
+                $scope.txtTotalAmount = $scope.TxtPRate * $scope.TxtPaidQty;
+            }
+             //=============Get Product View By ID=================
+            $scope.GetProdDataByID = function (DocNumber) {
+                //alert("" + $scope.txtDocNo);
+                var displayReq = {
+                    method: "POST",
+                    url: "/Receiving/Get_Prodbyid",
+                    data: {
+                        DocNo: DocNumber
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    if (dt.length > 0) {
+                        if (dt[0].ItemCode != '' && dt[0].ItemCode != null) {
+                            $scope.txtCount = dt.length;
+                            $scope.dtProdGetAll = angular.fromJson(Return.data);
+                            $scope.txtDocNo = dt[0].DocNo;
+                            $scope.TxtRemarks = dt[0].Remarks;
+                            $scope.TxtTax = dt[0].Tax;
+                            $scope.TxtDiscount = dt[0].Discount;
+                            $scope.GetAmountDataByID();
+                        }
+                        else {
+                            if (dt[0].ItemCode == null) {
+                            $scope.txtDocNo = dt[0].DocNo;
+                            $scope.TxtRemarks = dt[0].Remarks;
+                            $scope.TxtTax = dt[0].Tax;
+                            $scope.TxtDiscount = dt[0].Discount;
+                            $scope.dtProdGetAll = '';
+                            $scope.GetAmountDataByID();
+                            $scope.txtCount = 0;
+                            }
+                        }
+                    }
+                    //var dt = angular.fromJson(Return.data);
+                    //if (dt.length > 0) {
+                    //    $scope.txtDocNo = dt[0].DocNo;
+                    //    $scope.TxtRemarks = dt[0].Remarks;
+                    //    $scope.TxtTax = dt[0].Tax;
+                    //    $scope.TxtDiscount = dt[0].Discount;
+                    //    $scope.GetAmountDataByID();
+                    //}
+                    //else {
+                    //    $scope.txtDocNo = '';
+                    //}
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+             //=============Get Total Amount By Doc=================
+            $scope.GetAmountDataByID = function () {
+                //alert("" + $scope.txtDocNo);
+                var displayReq = {
+                    method: "POST",
+                    url: "/Receiving/Get_Amountbyid",
+                    data: {
+                        DocNo: $scope.txtDocNo
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    if (dt.length > 0) {
+                        $scope.TxtAmount = dt[0].TotalAmount;
+                        $scope.getGrandQty();
+                    }
+                    else {
+                        $scope.TxtAmount = '';
+                    }
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //=============Get Item Data By ID=================
+            $scope.GetItemDataByID = function (ItemName) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Item/Get_Itemdatabyid",
+                    data: {
+                        id: ItemName
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    var dt = angular.fromJson(Return.data);
+
+                    if (dt.length > 0) {
+                        if (dt[0].IsAutoBatch == false) {
+                            $scope.txtProductCode = dt[0].ItemCode;
+                            $scope.txtProductName = dt[0].ItemName;
+                            $scope.txtUnitInPack = dt[0].UnitsInPack;
+                            $scope.GetABatchAllData();
+                            $scope.btnforDisable = true;
+                        }
+                        else {
+                            if (dt[0].IsAutoBatch == true) {
+                            $scope.txtProductCode = dt[0].ItemCode;
+                            $scope.txtProductName = dt[0].ItemName;
+                            $scope.txtUnitInPack = dt[0].UnitsInPack;
+                            $scope.btnforDisable = false;
+                            }
+                        }
+                        if (dt[0].IsExpiry == false) {
+                            $scope.btnforExpiry = false;
+                        }
+                        else {
+                            if (dt[0].IsExpiry == true) {
+                            $scope.btnforExpiry = true;
+                        }
+                        }
+                    }
+                    else {
+                        $scope.txtProductCode = '';
+                        $scope.txtProductName = '';
+                        $scope.txtUnitInPack = '';
+                    }
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //============Delete Item===============
+            $scope.OnDelete = function (Row_ID) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Receiving/OnDelete",
+                    data: {
+                        id: Row_ID
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    if (Return.data == "Delete")
+                    {
+                        $scope.GetProdDataByID($scope.txtDocNo);
+                        $scope.Notification('success', 'Operation Completed', 'Delete Product');
+                    }
+                    else {
+                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                });
+
+            };
+            //=================All Clear Function======================
+            $scope.All_Clear = function () {
+                $scope.txtDocNo = '';
+                $scope.txtVendorNo = '';
+                $scope.txtProductCode = '';
+                $scope.TxtPaidQty = 0;
+                $scope.TxtBonusQty = 0;
+                $scope.txtVendorNo = '';
+                $scope.txtProductName = '';
+                $scope.txtUnitInPack = '';
+                $scope.TxtPRate = 0;
+                $scope.TxtAmount = 0;
+                $scope.TxtGrandAmount = 0;
+                $scope.TxtRemarks = '';
+                $scope.TxtSRate = 0;
+                $scope.txtTotalAmount = 0;
+                $scope.txtCount = 0;
+                $scope.txtTotalQty = 0;
+                $scope.TxtDiscount = 0;
+                $scope.TxtTax = 0;
+                $scope.txtBatchNo = '';
+                //$scope.GetAmountDataByID('');
+                //$scope.GetProdDataByID('');
+                $scope.dtProdGetAll = '';
+                $scope.txtExpiryDate = new Date('01/01/1900');
+            };
+            //=================Clear Function======================
+            $scope.On_Clear = function () {
+                //$scope.txtDocNo = '';
+                $scope.txtVendorNo = '';
+                $scope.txtProductCode = '';
+                $scope.TxtPaidQty = 0;
+                $scope.TxtBonusQty = 0;
+                $scope.txtVendorNo = '';
+                $scope.txtProductName = '';
+                $scope.txtUnitInPack = '';
+                $scope.TxtPRate = 0;
+                $scope.TxtAmount = 0;
+                $scope.TxtGrandAmount = 0;
+                $scope.TxtRemarks = '';
+                $scope.TxtSRate = 0;
+                $scope.txtTotalAmount = 0;
+                $scope.txtCount = 0;
+                $scope.txtTotalQty = 0;
+                $scope.TxtDiscount = 0;
+                $scope.TxtTax = 0;
+                
+                $scope.txtBatchNo = '';
+                //$scope.GetAmountDataByID('');
+                //$scope.GetProdDataByID('');
+                $scope.txtExpiryDate = new Date('01/01/1900');
+            };
+            $scope.OnLoad = function ()
+            {
+                $scope.On_Clear();
+                $scope.txtDocDate = new Date();
+                $scope.txtExpiryDate = new Date('01/01/1900');
+            };
+            $scope.OnLoad();
+        });
+
+
+    </script>
+
+}
+
+
+

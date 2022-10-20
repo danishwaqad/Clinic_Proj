@@ -1,0 +1,521 @@
+﻿@{
+    ViewBag.Title = "Opening Balance";
+}
+
+    <div ng-app="RegistrationForm" ng-controller="Home">
+
+        <div class="row page-titles">
+            <div class="col-md-5 align-self-center">
+                <h4 class="text-themecolor">Create Closing Balance</h4>
+            </div>
+            <div class="col-md-7 align-self-center">
+                <div class="d-flex justify-content-end align-items-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                        <li class="breadcrumb-item active">Create Closing Balance</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!--row-->
+        @*===========================Main Form============================*@
+        <!-- Main content -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+
+                <!-- left column -->
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Create Closing Balance</h4>
+                </div>
+                <!--/.col (left) -->
+
+            <!-- /.row -->
+            <!-- left column -->
+                <!-- general form elements -->
+                <!-- Horizontal Form -->
+                <div class="card card-info">
+                    <!-- form start -->
+                    <div class="form-horizontal">
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-1 col-form-label">Consultancy</label>
+                                <div class="col-sm-2">
+                                    <div class="input-group input-group-md">
+                                        <input type="number" placeholder="Consultancy" class="form-control font-weight-bold" ng-model="TxtConsultancy" readonly>
+                                    </div>
+                                </div>
+                                <label for="inputEmail3" class="col-sm-1 col-form-label">First Aid</label>
+                                <div class="col-sm-2">
+                                    <div class="input-group input-group-md">
+                                        <input type="number" placeholder="First Aid" class="form-control font-weight-bold" ng-model="TxtFirstAid" readonly>
+                                    </div>
+                                </div>
+                                <label for="inputEmail3" class="col-sm-1 col-form-label">Session</label>
+                                <div class="col-sm-2">
+                                    <div class="input-group input-group-md">
+                                        <input type="number" placeholder="Session" class="form-control font-weight-bold" ng-model="TxtSession" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-1 col-form-label">Doc No</label>
+                                <div class="col-sm-3">
+                                    <div class="input-group input-group-md">
+                                        <input type="text" placeholder="Code!" class="form-control" ng-model="TxtDocNo" readonly>
+                                        <span class="input-group-append">
+                                            <button type="button" class="btn btn-success btn-flat" ng-click="GenerateDoc()" title="Generate Doc"><i class="fas fa-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <label for="inputEmail3" class="col-sm-1 col-form-label">Doc Date</label>
+                                <div class="col-sm-3">
+                                    <div class="input-group input-group-md">
+                                        <input type="date" placeholder="Code!" class="form-control" ng-model="DT_Doc" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-12 table-responsive text-nowrap">
+                                    <table class="table table-sm table-fixed table-striped table-hover" id="example">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Rs Value</th>
+                                                <th>Qty</th>
+                                                <th>Remarks</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtList">
+                                                <td>{{$index + 1}}</td>
+                                                <td><input type="text" class="form-control font-weight-bold" ng-model="item.RsNote | number:0" readonly /></td>
+                                                <td><input type="number" class="form-control" ng-model="item.Qty" ng-blur="AddTotal($index,item.Qty)" /></td>
+                                                <td><input type="text" class="form-control" ng-model="item.LineRemarks" ng-blur="AddRemarks($index, item.LineRemarks)" /></td>
+                                                <td><input type="text" class="form-control font-weight-bold text-right" ng-model="item.Total | number:2" readonly /></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            <hr />
+                            <div class="form-group row">
+                                <label for="Remarks" class="col-sm-1 col-form-label">Remarks</label>
+                                <div class="col-sm-7">
+                                    <div class="input-group input-group-md">
+                                        <input type="text" placeholder="Remarks (If Any)!" class="form-control" ng-model="TxtRemarks">
+
+                                    </div>
+                                </div>
+                                <label for="DocTotal" class="col-sm-1 col-form-label">Doc Total</label>
+                                <div class="col-sm-3">
+                                    <div class="input-group input-group-md">
+                                        <input type="text" placeholder="Total!" class="form-control font-weight-bold text-right" ng-model="TxtTotalAmount" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-30">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2">
+                                    <button formtarget="_blank" ng-click="FinalOBSave();RptFinalOBSave();Printing()" ng-hide="CUSaveBtn" ng-disabled="CreateDiv.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i> Save</button>
+                                    @*<a ng-click="Printing()" target="_blank" ng-hide="CUSaveBtn" ng-disabled="CreateDiv.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i> Print</a>*@
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="fa fa-times"></i> Clear </button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <!-- /.card-footer -->
+                            <!-- ./row -->
+
+
+
+                        </div>
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!--/.col (left) -->
+                </div>
+        </div>
+        </div>
+        <!-- /.content -->
+    </div>
+
+@section scripts {
+
+    <script>
+
+        var RegistrationForm = angular.module("RegistrationForm", []);
+        RegistrationForm.controller("Home", function ($scope, $http, $window) {
+            $scope.Notification = function (Type, Heading, Test) {
+                //info, warning, success, error
+                $.toast({
+                    heading: Heading,
+                    text: Test,
+                    position: 'top-right',
+                    loaderBg: '#ff6849',
+                    icon: Type,
+                    hideAfter: 3500,
+                    stack: 6
+                });
+            };
+             //==================Print Report=======================
+            $scope.Printing = function () {
+            $scope.PrintingTest();
+            var displayReq = {
+            method: "POST",
+            url: "/OB/Print_Slip_Test",
+            data: {
+                DocNumber : $scope.TxtDocNo
+                //DocDate: new Date($scope.DT_Doc)
+            }
+        }
+            $http(displayReq).then(function (Return)
+            {
+                //$scope.dtGetDocHistory = angular.fromJson(Return.data);
+            }, function myError(Return)
+                {
+                    //$scope.Clear();
+                    //alert(Return.data);
+            $scope.Notification('error', Return.data);
+        });
+            }; 
+
+            $scope.PrintingTest = function () {
+                $window.open('/OB/Print_Slip_Test?DocNumber=' + $scope.TxtDocNo, '_blank');
+            }; 
+
+             //=============Get Consultancy and First Aid Data=============
+            $scope.GetCF = function ()
+            {
+            var displayReq = {
+            method: "POST",
+            url: "/OB/Get_CF",
+            data: {}
+             }
+            $http(displayReq).then(function (Return) {
+                var DTCF = angular.fromJson(Return.data);
+                var Consult = 0;
+                var FA = 0;
+                var Session = 0;
+                for (i = 0; i < DTCF.length; i++) {
+                    if (DTCF[i].TypeID == "Consultancy") {
+                        Consult = DTCF[i].TotalPaid;
+                    }
+                    else if (DTCF[i].TypeID == "First Aid") {
+                        FA = DTCF[i].TotalPaid;
+                    }
+                    else if (DTCF[i].TypeID == "Session") {
+                        Session = DTCF[i].TotalPaid;
+                    }
+                    else {
+                        Consult = 0;
+                        FA = 0;
+                        Session = 0;
+                    }
+                    $scope.TxtConsultancy = Consult;
+                    $scope.TxtFirstAid = FA;
+                    $scope.TxtSession = Session;
+                }
+        }, function myError(Return) {
+            $scope.Notification('error', 'Error Code LC0001', Return.data);
+        });
+    };
+             //===============Insert Detail Data=========================
+            $scope.saveDetaildata = function () {
+                var displayReq = {
+                    method: 'POST',
+                    url: '/OB/Add_Detail',
+                    data: {
+                        DocNo: $scope.txtDocumentNum,
+                        DocDate: $scope.txtDocumentDate,
+                        RsNote: $scope.txtRsNote,
+                        Quantity: $scope.txtQty,
+                        Total: $scope.txtTotal,
+                        Remarks: $scope.txtRemarks 
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.GetAllVData($scope.txtDocumentNum);
+                    $scope.On_Clear_Ins();
+                if (Return.data == "Inserted") {
+                $scope.Notification('success', 'Operation Completed', 'Insert Detail');
+                       }
+              else {
+                $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                   }
+                }, function myError(Return) {
+             $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+              });
+            };
+            //==================Update OB Header=======================
+            $scope.UpdateOBSave = function () {
+               alert("Final");
+                    var displayReq = {
+                        method: "POST",
+                        url: "/OB/update_Docrecord",
+                        data: {
+                            DocNo: $scope.TxtDocNo,
+                            DocDate: $scope.DT_Doc,
+                            Opening: $scope.TxtTotalAmount,
+                            RsNote: TxtRemarks
+
+                        }
+                    }
+                    $http(displayReq).then(function (Return) {
+                        if (Return.data == "Updated Header") {
+                            $scope.Notification('success', 'Updated Header');
+                            $scope.On_Clear();
+                        }
+                        else {
+                            $scope.Notification('warning', 'Please Contact to Admin');
+                        }
+                    }, function myError(Return) {
+                        $scope.On_Clear();
+                        $scope.Notification('error', Return.data);
+                        });
+            };
+        //==================Final OB Insert=======================
+            $scope.FinalOBSave = function () {
+                //alert("Final");
+                for (var i = 0; i < $scope.dtList.length; i++) {
+                    var displayReq = {
+                        method: "POST",
+                        url: "/OB/AddF_Docrecord",
+                        data: {
+                            DocNo: $scope.TxtDocNo,
+                            DocDate: $scope.DT_Doc,
+                            Opening: $scope.TxtTotalAmount,
+                            RsNote: $scope.dtList[i].RsNote,
+                            Quantity: $scope.dtList[i].Qty,
+                            LineRemarks: $scope.dtList[i].LineRemarks,
+                            Total: $scope.dtList[i].Total
+
+                        }
+                    }
+                    $http(displayReq).then(function (Return) {
+                        if (Return.data == "Inserted") {
+                            //$scope.UpdateOBSave();
+                            $scope.Notification('success', 'Opening Balance Generated');
+                            $scope.On_Clear();
+                        }
+                        else {
+                            $scope.Notification('warning', 'Please Contact to Admin');
+                        }
+                    }, function myError(Return) {
+                        $scope.On_Clear();
+                        $scope.Notification('error', Return.data);
+                        });
+                  }
+            };
+             //==================For Closing Report OB Insert=======================
+            $scope.RptFinalOBSave = function () {
+                //alert("Final");
+                for (var i = 0; i < $scope.dtList.length; i++) {
+                    var displayReq = {
+                        method: "POST",
+                        url: "/OB/RptAddF_Docrecord",
+                        data: {
+                            DocNo: $scope.TxtDocNo,
+                            DocDate: $scope.DT_Doc,
+                            RsNote: $scope.dtList[i].RsNote,
+                            Quantity: $scope.dtList[i].Qty,
+                            Remarks: $scope.TxtRemarks,
+                            Total: $scope.dtList[i].Total,
+                            Consultancy: $scope.TxtConsultancy,
+                            Session:$scope.TxtSession,
+                            FirstAid:$scope.TxtFirstAid
+                        }
+                    }
+                    $http(displayReq).then(function (Return) {
+                        if (Return.data == "Inserted") {
+                            $scope.Notification('success', 'Opening Balance Generated');
+                            $scope.On_Clear();
+                        }
+                        else {
+                            $scope.Notification('warning', 'Please Contact to Admin');
+                        }
+                    }, function myError(Return) {
+                        $scope.On_Clear();
+                        $scope.Notification('error', Return.data);
+                        });
+                                                       }
+            };
+                //==================Get New Doc No=======================
+    $scope.GetNewDocNum = function () {
+        var displayReq = {
+            method: "POST",
+            url: "/OB/Generate_DocNum",
+            data: {}
+        }
+        $http(displayReq).then(function (Return) {
+
+            var dt = angular.fromJson(Return.data);
+
+            if (dt.length > 0) {
+
+                $scope.TxtDocNo = dt[0].OB;
+                $scope.GenerateNewDOC($scope.TxtDocNo);   
+            }
+            else {
+                $scope.TxtDocNo = '';
+            }
+        }, function myError(Return) {
+                $scope.Notification('error', Return.data);
+        });
+            };
+     //==================Generate New Doc No=======================
+    $scope.GenerateNewDOC = function (Doc) {
+        var displayReq = {
+            method: "POST",
+            url: "/OB/AddDoc",
+            data: {
+                DocNo: Doc,
+                DocDate : new Date(),
+            }
+        }
+        $http(displayReq).then(function (Return) {
+            if (Return.data == "Inserted") {
+                $scope.Notification('success', 'Document Generated');
+            }
+            else {
+                $scope.Notification('warning', 'Please Contact to Admin');
+            }
+        }, function myError(Return) {
+            $scope.On_Clear();
+                $scope.Notification('error', Return.data);
+        });
+            };
+    //==================Get Active Product List=======================
+    $scope.GetData = function () {
+        var displayReq = {
+            method: "POST",
+            url: "/OB/NoteList",
+            data: {}
+        }
+        $http(displayReq).then(function (Return) {
+
+            var dt = angular.fromJson(Return.data);
+
+            if (dt.length > 0) {
+                $scope.dtList = angular.fromJson(Return.data);
+            }
+            else {
+                $scope.dtList = null;
+            }
+            $scope.CalculateGrandTotal($scope.dtList);
+
+        }, function myError(Return) {
+            $scope.Notification('error', Return.data);
+        });
+            };
+            //=============Closed All Tokens=================
+            $scope.GetDiscClassData = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Graph/Get_Closeddata",
+                    data: {}
+                }
+                $http(displayReq).then(function (Return) {
+                if (Return.data == "Done") {
+                $scope.Notification('success', 'Operation Completed', 'All Pending Token Closed');
+                       }
+                else {
+                $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                   }
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+   $scope.GenerateDoc = function ()
+   {
+       $scope.GetNewDocNum();
+       $scope.GetData();
+       $scope.GetDiscClassData();
+    };
+
+    $scope.AddTotal = function (row, NewValue) {
+        $scope.dtList[row].Qty = NewValue;
+        $scope.dtList[row].Total = NewValue * $scope.dtList[row].RsNote;
+
+        $scope.CalculateGrandTotal($scope.dtList);
+    };
+    $scope.AddRemarks = function (row, NewValue) {
+        $scope.dtGetRO[row].LineRemarks = NewValue;
+    };
+    //=================Calculate Grand Total===============
+    $scope.CalculateGrandTotal = function (dt) {
+        //alert($scope.dtList);
+        var Total = 0;
+        if (dt.length > 0) {
+            for (var i = 0; i < dt.length; i++) {
+                Total = Total + dt[i].Total;
+            }
+        }
+        else {
+            Total = 0;
+        }
+        $scope.TxtTotalAmount = Total
+    };
+    //==================Generate Barcode=======================
+    $scope.SaveBarcode = function () {
+        var displayReq = {
+            method: "POST",
+            url: "/Barcode/Add_Barcode",
+            data: {
+                Barcode: $scope.TxtBarcode,
+                ItemCode: $scope.TxtCode,
+                BrandName: $scope.TxtName,
+                ExpiryDate: $scope.DTExpiry,
+                BatchNo: $scope.TxtBatch,
+                PrintCopy: $scope.TxtCopy
+            }
+        }
+        $http(displayReq).then(function (Return) {
+            if (Return.data == "Inserted") {
+                $scope.Clear();
+            }
+            else {
+                $scope.Notification('warning', 'Something went wrong');
+            }
+        }, function myError(Return) {
+            $scope.Clear();
+            $scope.Notification('error', Return.data);
+        });
+    };
+
+    $scope.GenerateBarcode = function () {
+        var Barcode = $scope.TxtCode + '-' + $scope.TxtBatch;
+        $scope.TxtBarcode = Barcode;
+    };
+
+    //=============Clear==========
+    $scope.Clear = function () {
+        $scope.TxtTotalAmount = '0';
+        $scope.DT_Doc = new Date();
+
+    };
+
+    $scope.OnLoad = function () {
+        $scope.DT_Doc = new Date();
+        $scope.TxtTotalAmount = '0';
+        $scope.GetCF();
+    };
+
+    //==========The End==========
+    $scope.OnLoad();
+
+});
+
+
+    </script>
+
+}
+

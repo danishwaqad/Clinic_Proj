@@ -1,0 +1,187 @@
+﻿
+@{
+    ViewBag.Title = "UserRights";
+}
+
+<div ng-app="RegistrationForm" ng-controller="Home">
+
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Create New User Rights</h4>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Create User Rights</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====================Login List Lookup============================ -->
+    <div class="modal fade" id="modal-Login">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Login List (Active)</h4>
+                    <input type="text" class="form-control col-sm-3" placeholder="Search.." ng-model="TxtSearch">
+                </div>
+                <div class="modal-body">
+                    <table class="table table-hover table-sm">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Name</th>
+                                <th>Designation</th>
+                                <th>Email ID</th>
+                                <th>User Type</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in dtGetLoginList | filter:TxtSearch">
+                                <td><button ng-click="GetLoginInfo(item.Username,item.Status,item.UserType)" class="btn btn-link" data-dismiss="modal">{{item.Username}}</button></td>
+                                <td>{{item.Name}}</td>
+                                <td>{{item.Designation}}</td>
+                                <td>{{item.EmailID}}</td>
+                                <td>{{item.UserType}}</td>
+                                <td>{{item.Status}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default float-right" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <!-- Horizontal Form -->
+            <div class="card card-info">
+                <!-- form start -->
+                <div class="form-horizontal">
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <label for="inputPassword3" class="col-sm-2 col-form-label">Username</label>
+                            <div class="col-sm-3">
+                                <div class="input-group input-group-md">
+                                    <input type="text" placeholder="Username!" class="form-control" ng-model="TxtUsername" readonly>
+                                    <span class="input-group-append">
+                                        <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#modal-Login" href="javascript:void(0)" ng-click="GetLoginList()"><i class="fas fa-search"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <label for="inputEmail3" class="col-sm-1 col-form-label">Status</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" placeholder="Status!" ng-model="TxtStatus" readonly />
+                            </div>
+                            <label for="inputEmail3" class="col-sm-1 col-form-label">User Type</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" placeholder="Type!" ng-model="TxtUserType" readonly />
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card card-yellow">
+                                    <div class="card-header">
+                                        <h3 class="card-title"><b>Site Access</b></h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                </div>
+                                <div class="table-responsive" style="overflow-x:auto;overflow-y:scroll;height:250px;">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Site ID</th>
+                                                <th>Division ID</th>
+                                                <th>Is Allow</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtSiteRights">
+                                                <td>{{item.SiteID}}</td>
+                                                <td>{{item.DivisionID}}</td>
+                                                <td>
+                                                    <input type="checkbox" class="" id="V-{{item.SiteID}}" ng-model="item.IsAllow" ng-true-value="true" ng-false-value="false" ng-change="AllowSite(item.SiteID, item.IsAllow)">
+                                                    <label for="V-{{item.SiteID}}"></label>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card card-yellow">
+                                    <div class="card-header">
+                                        <h3 class="card-title"><b>Menu Access</b></h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                </div>
+                                <div class="table-responsive" style="overflow-x:auto;overflow-y:scroll;height:250px;">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Sr.No</th>
+                                                <th>Menu ID</th>
+                                                <th>Menu Caption</th>
+                                                <th>Is Allow</th>
+                                                @*<th>Is Print</th>*@
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtMenuRights">
+                                                <td>{{$index + 1}}</td>
+                                                <td>{{item.MenuName}}</td>
+                                                <td>{{item.MenuCaption}}</td>
+                                                <td>
+                                                    <input type="checkbox" class="" id="V-{{item.MenuName}}" ng-model="item.IsAllow" ng-true-value="true" ng-false-value="false" ng-change="AllowMenu(item.MenuName, item.IsAllow)">
+                                                    <label for="V-{{item.MenuName}}"></label>
+                                                </td>
+                                                @*<td>
+                                                    <input type="checkbox" id="P-{{item.ChildCaption}}" ng-model="item.IsPrint" ng-true-value="true" ng-false-value="false" ng-change="AllowPrintMenu(item.ChildName, item.IsPrint)">
+                                                    <label for="P-{{item.ChildCaption}}"></label>
+                                                </td>*@
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <hr />
+                        <div class="row p-t-30">
+                            <div class="col-md-5"></div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="fa fa-times"></i> Clear </button>
+                                </div>
+                            </div>
+                            <div class="col-md-5"></div>
+                        </div>
+
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!--/.col (left) -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/Custom/UserRights_JS.js"></script>
+
+}
+
+

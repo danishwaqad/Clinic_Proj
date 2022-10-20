@@ -1,0 +1,284 @@
+﻿
+@{
+    ViewBag.Title = "TknPrintAndUnclose";
+}
+
+<div ng-app="RegistrationForm" ng-controller="Home">
+
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Token Print And Unclose</h4>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Token Print And Unclose</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Token Print And Unclose</h4>
+                </div>
+                <div class="card-body">
+                    @* ===============================Site Selection======================= *@
+                    <div id="SiteFrom" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Patient Site(From)</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="SiteFTSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Site ID</th>
+                                                    <th>Site Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtGetSFTAll | filter:SiteFTSearch">
+                                                    <td><button ng-click="GetSFByID(item.SiteCode)" class="btn btn-link" data-dismiss="modal">{{item.SiteCode}}</button></td>
+                                                    <td>{{item.SiteName}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <div class="row p-t-20">
+                        <div class="col-md-1"></div>
+                        @*<div class="col-md-1"></div>*@
+                        <div class="col-sm-1">
+                            <label class="control-label text-dark" for="MrNo">Site ID:</label>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <input type="text" id="Sitefrm" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtSitefrm" readonly />
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#SiteFrom" href="javascript:void(0)" ng-click="GetSiteFTall()"><i class="ti-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="" role="tabpanel">
+                        <!--row-->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Token Close And Print</h4>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-md-7">
+
+                                            </div>
+                                            <div class="col-md-1">
+                                                <label for="CompSearch">Search:</label>
+                                            </div>
+                                            <div class="col-md-4 form-material">
+                                                <input type="text" class="form-control" id="PatSearch" ng-model="TxtSearch" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 scrollbar-secondary" style="overflow-x:auto;overflow-y:auto;height:600px; font-size:11px;">
+                                            <table class="table table-sm table-bordered table-head-fixed table-hover text-nowrap display">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sr #</th>
+                                                        <th>Reg No</th>
+                                                        <th>Token</th>
+                                                        <th>Token Date</th>
+                                                        <th>Patient Name</th>
+                                                        <th>Gender</th>
+                                                        <th>Age</th>
+                                                        <th>Dr Name</th>
+                                                        <th>Tel 1</th>
+                                                        <th>Tel 2</th>
+                                                        <th>Type</th>
+                                                        <th>Total Fee</th>
+                                                        <th>Paid Fee</th>
+                                                        <th>Unclosed</th>
+                                                        <th>Print</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in dtGetViewData | filter:TxtSearch">
+                                                        <td>{{$index + 1}}</td>
+                                                        <td>{{item.RegNo}}</td>
+                                                        <td>{{item.TokenNo}}</td>
+                                                        <td>{{item.TokenDate | date:dd-MMM-yyyy}}</td>
+                                                        <td>{{item.Title}} {{item.FullName}}</td>
+                                                        <td>{{item.Gender}}</td>
+                                                        <td>{{item.Age}}</td>
+                                                        <td>{{item.DrName}}</td>
+                                                        <td>{{item.Tel1}}</td>
+                                                        <td>{{item.Tel2}}</td>
+                                                        <td>{{item.PatType}}</td>
+                                                        <td>{{item.TotalFee}}</td>
+                                                        <td>{{item.PaidFee}}</td>
+                                                        <td class="text-center">
+                                                            <button type="button" ng-click="UncloseToken(item.TokenNo)" class="btn btn-xs btn btn-danger" title="Token Un-Close"><span class="fa fa-window-close"></span></button>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <button type="button" ng-click="PrintToken(item.TokenNo,item.PatType)" class="btn btn-xs btn btn-primary" title="Token Print"><span class="fa fa-print"></span></button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <hr />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Row -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row -->
+</div>
+@section scripts {
+
+    <script>
+
+        var RegistrationForm = angular.module("RegistrationForm", []);
+        RegistrationForm.controller("Home", function ($scope, $http, $window) {
+            $scope.Notification = function (Type, Heading, Test) {
+                //info, warning, success, error
+                $.toast({
+                    heading: Heading,
+                    text: Test,
+                    position: 'top-right',
+                    loaderBg: '#ff6849',
+                    icon: Type,
+                    hideAfter: 3500,
+                    stack: 6
+                });
+            };
+      //Display Site FROM and To
+            $scope.GetSiteFTall = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatHist/Get_SiteFTdata",
+                    data: {}
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.dtGetSFTAll = angular.fromJson(Return.data);
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //Data Site FROM Get By ID
+            $scope.GetSFByID = function (SiteCode) {
+                $scope.txtSitefrm = SiteCode;
+                $scope.ViewPatientBySite(SiteCode);
+            };
+    //=============View Patients By Site================
+    $scope.ViewPatientBySite = function (SiteCode) {
+        var displayReq = {
+            method: "POST",
+            url: "/TknPrintNClose/Get_ViewData",
+            data:
+            {
+                Site: SiteCode
+            }
+        }
+        $http(displayReq).then(function (Return) {
+
+            $scope.dtGetViewData = angular.fromJson(Return.data);
+
+        }, function myError(Return) {
+            $scope.Notification('error', 'Error Code LC0001', Return.data);
+        });
+            };
+            //=============Unclose Token================
+            $scope.UncloseToken = function (TokenNo) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/TknPrintNClose/Get_UncloseData",
+                    data: {
+                        TokenNo: TokenNo,
+                        Site: $scope.txtSitefrm
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    if (Return.data == "Token Unclosed") {
+                        $scope.Notification('success', 'Operation Completed', 'Token Unclosed Successfully');
+                    }
+                    else {
+                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                });
+
+            };
+            //=============Unclose Token================
+            //$scope.UncloseToken = function (TokenNo) {
+            //    var displayReq = {
+            //        method: "POST",
+            //        url: "/TknPrintNClose/Get_UncloseData",
+            //        data:
+            //        {
+            //            TokenNo: TokenNo,
+            //            Site: $scope.txtSitefrm
+            //        }
+            //    }
+            //    $http(displayReq).then(function (Return) {
+
+            //        $scope.dtUncloseTkn = angular.fromJson(Return.data);
+
+            //    }, function myError(Return) {
+            //        $scope.Notification('error', 'Error Code LC0001', Return.data);
+            //    });
+            //};
+             //=========First Aid Slip============
+            $scope.FAPrint = function (TokenNo) {
+                $window.open("/TknPrintNClose/FAPrint?TokenNo=" + TokenNo + "&SiteID=" + $scope.txtSitefrm, "_blank");
+            };
+             //=========Token Print Slip============
+            $scope.TokenPrint = function (TokenNo) {
+                  $window.open("/TknPrintNClose/Token_Print?TokenNo=" + TokenNo + "&SiteID=" + $scope.txtSitefrm, "_blank");
+            };
+            //=============Print Token================
+            $scope.PrintToken = function (TokenNo, Type) {
+                if (Type == "Consultancy" || Type =="Session") {
+                    $scope.TokenPrint(TokenNo);
+                }
+                else if (Type == "First Aid") {
+                    $scope.FAPrint(TokenNo);
+                }
+             };
+        });
+    </script>
+
+}
+
+

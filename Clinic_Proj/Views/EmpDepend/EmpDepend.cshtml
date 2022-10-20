@@ -1,0 +1,835 @@
+﻿
+@{
+    ViewBag.Title = "EmpDepend";
+}
+
+<div ng-app="RegistrationForm" ng-controller="Home">
+
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Register Employee Dependent</h4>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Register Employee Dependent</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!--row-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div id="EmpDepend" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Employee</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtEmpSearch" ng-blur="GetSearchEmpByID()" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Sr#</th>
+                                                <th>Employee Name</th>
+                                                <th>Employee Cnic</th>
+                                                <th>Employee City</th>
+                                                <th>Employee Company</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtGetAll">
+                                                <td>{{$index + 1}}</td>
+                                                <td><button ng-click="GetDataByID(item.EmpID)" class="btn btn-link" data-dismiss="modal">{{item.Title}} {{item.FirstName}} {{item.MidName}} {{item.LastName}}</button></td>
+                                                <td>{{item.EmpCNIC}}</td>
+                                                <td>{{item.EmpCity}}</td>
+                                                <td>{{item.CompanyName}}</td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <div id="Relation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Relation Name</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtRelationSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Relation Name</th>
+                                                <th>In Active</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtGetRelationAll | filter: TxtRelationSearch">
+                                                <td><button ng-click="GetPatByRelation(item.RelationName)" class="btn btn-link" data-dismiss="modal">{{item.RelationName}}</button></td>
+                                                <td>{{item.InActive}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Register Employee Dependent</h4>
+                </div>
+                <div class="card-body">
+                    <form name="CreateEmpDepend">
+                        <div class="form-body form-group">
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="EmpID">Emp ID:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="EmpID" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtEmpID" required readonly />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#EmpDepend" href="javascript:void(0)" ng-click="GetAllData()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="EmpNam">Employee Name:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="EmpNam" class="form-control form-input-grey" ng-model="txtEmpName" required readonly />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="EmployeeNam">Name:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <select class="form-control form-input-grey col-md-2" ng-model="DDLTitle" ng-change="GenderSelction()">
+                                            <option value="Mr">Mr.</option>
+                                            <option value="Master">Master.</option>
+                                            <option value="Mrs">Mrs.</option>
+                                            <option value="MS">Ms.</option>
+                                            <option value="Mrs">Baby.</option>
+                                        </select>
+                                        <input type="text" id="EmpFName" class="form-control form-input-grey" placeholder="First Name" ng-model="txtFEmpName" required />
+                                        <input type="text" id="EmpMName" class="form-control form-input-grey" placeholder="Middle Name" ng-model="txtMEmpName" />
+                                        <input type="text" id="EmpLName" class="form-control form-input-grey" placeholder="Last Name" ng-model="txtLEmpName" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Fname">Guardian:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" id="Fname" class="form-control form-input-grey" ng-model="txtFname" />
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-1">
+                                    <label class="control-label text-dark" for="Gender">Gender:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <select id="Gender" ng-model="txtGender" class="btn btn-outline-secondary dropdown-toggle form-control form-input-grey" required>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="DOB">DOB:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="date" id="DOB" class="form-control form-input-grey" ng-model="txtDOB" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="CNIC">CNIC:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="CNIC" class="form-control form-input-grey" ng-model="txtCNIC" required />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#EmpDepend" href="javascript:void(0)" ng-click="GetAllData()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="CnicIssue">CNIC Issue Date:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="date" id="CnicIssue" class="form-control" ng-model="txtCnicIssue" ng-blur="GetCNICIsue()" />
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="CnicExp">CNIC Expire Date:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="date" id="CnicExp" class="form-control form-input-grey" ng-model="txtCnicExp" ng-blur="GetCNICExpiry()" />
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="FamilyNo">Family No:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" id="FamilyNo" class="form-control form-input-grey" ng-model="txtFamilyNo" />
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="CnicIdentity">CNIC Identity:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" id="CnicIdentity" class="form-control form-input-grey" ng-model="txtCnicIdentity" />
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Tel1">Tel 1:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" maxlength="12" id="Tel1" placeholder="923001234567" class="form-control form-input-grey" ng-model="txtTel1" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Tel2">Tel 2:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" maxlength="12" id="Tel1" placeholder="923001234567" class="form-control form-input-grey" ng-model="txtTel2" />
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="City">City:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="City" class="form-control form-input-grey" ng-model="txtCity" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Country">Country:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Country" class="form-control form-input-grey" ng-model="txtCountry" />
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Address">Address:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <input type="text" id="Address" class="form-control form-input-grey" ng-model="txtAddress" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Relation">Relation:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Relation" class="form-control form-input-grey" ng-model="txtRelation" readonly required />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#Relation" href="javascript:void(0)" ng-click="GetPatRelation()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="EmpReferBy">Refer By:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="EmpReferBy" class="form-control form-input-grey" ng-model="txtEmpReferBy" />
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Remarks">Remarks:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Remarks" class="form-control form-input-grey" ng-model="txtRemarks" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-1">
+                                    <label class="control-label text-dark" for="txtStatus">Status:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <select id="Status" ng-model="txtStatus" class="btn btn-outline-secondary dropdown-toggle form-control form-input-grey">
+                                        <option value="false">Active</option>
+                                        <option value="true">InActive</option>
+                                    </select>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-click="savedata()" ng-hide="CUSaveBtn" ng-disabled="CreateEmpDepend.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
+                                        <button ng-click="On_Update()" ng-hide="CUUpdateBtn" ng-disabled="CreateEmpDepend.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Update</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                            <div class="tab-pane" id="Address" role="tabpanel">
+                                <!--row-->
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title">Employee Dependents</h4>
+                                                <hr />
+                                                <div class="table-responsive-sm">
+                                                    <table class="table-sm table-hover table-bordered text-dark">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Name</th>
+                                                                <th>CNIC</th>
+                                                                <th>Relation</th>
+                                                                <th>Gender</th>
+                                                                <th>Company</th>
+                                                                <th>Edit</th>
+                                                                <th>Delete</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in dtViewGetAll">
+                                                                <td>{{item.Title}} {{item.FirstName}} {{item.MidName}} {{item.LastName}}</td>
+                                                                <td>{{item.CNIC}}</td>
+                                                                <td>{{item.Relation}}</td>
+                                                                <td>{{item.Gender}}</td>
+                                                                <td>{{item.CompanyName}}</td>
+                                                                <td>
+                                                                    <button ng-click="GetViewDataByID(item.CCPL_ROW_ID)" class="btn btn-link" alt="default" data-toggle="modal" href="javascript:void(0)">Edit</button>
+                                                                </td>
+                                                                <td>
+                                                                    <button ng-click="OnDelete(item.CCPL_ROW_ID)" class="btn btn-link" alt="default" data-toggle="modal" href="javascript:void(0)">Delete</button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Row -->
+                            </div>
+                        </div>
+                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row -->
+</div>
+@section scripts {
+
+    <script>
+
+        var RegistrationForm = angular.module("RegistrationForm", []);
+        RegistrationForm.controller("Home", function ($scope, $http) {
+            $scope.Notification = function (Type, Heading, Test) {
+                //info, warning, success, error
+                $.toast({
+                    heading: Heading,
+                    text: Test,
+                    position: 'top-right',
+                    loaderBg: '#ff6849',
+                    icon: Type,
+                    hideAfter: 3500,
+                    stack: 6
+                });
+            };
+            //=============Employee Search Data By ID=================
+            $scope.GetSearchEmpByID = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/EmployeeReg/Get_Searchbyid",
+                    data: {
+                        SearchEmployee: $scope.TxtEmpSearch
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.dtGetAll = angular.fromJson(Return.data);
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //===================View Employee Dependent Data Get By ID==========================
+            $scope.GetViewDataByID = function (ID) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/EmpDepend/Get_Viewdatabyid",
+                    data: {
+                        ID: ID
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    var dt = angular.fromJson(Return.data);
+
+                    if (dt.length > 0) {
+                        $scope.txtEmpID = dt[0].EmpID;
+                        $scope.txtEmpName = dt[0].EmpName;
+                        $scope.txtCNIC= dt[0].CNIC;
+                        $scope.txtTel1 = dt[0].Tel1;
+                        $scope.txtTel2 = dt[0].Tel2;
+                        $scope.txtCnicIssue = new Date(dt[0].CNICIssueDate);
+                        $scope.txtCnicExp = new Date(dt[0].CNICExpiryDate);
+                        $scope.DDLTitle = dt[0].Title;
+                        $scope.txtFamilyNo = dt[0].FamilyNumber;
+                        $scope.txtFname = dt[0].GuardianName;
+                        $scope.txtFEmpName = dt[0].FirstName;
+                        $scope.txtMEmpName = dt[0].MidName;
+                        $scope.txtLEmpName = dt[0].LastName;
+                        $scope.txtCnicIdentity = dt[0].CNICIdentity;
+                        $scope.txtEmpReferBy = dt[0].ReferBy;
+                        $scope.txtAddress = dt[0].Address;
+                        $scope.txtCountry = dt[0].Country;
+                        $scope.txtDOB = dt[0].DOB;
+                        $scope.txtRemarks = dt[0].Remarks;
+                        $scope.txtCity = dt[0].City;
+                        $scope.txtGender = dt[0].Gender;
+                        $scope.txtRelation = dt[0].Relation;
+                        if (dt[0].InActive == false) {
+                            $scope.txtStatus = 'false';
+                        }
+                        else {
+                            $scope.txtStatus = 'true';
+                        }
+
+                        $scope.CUSaveBtn = true;
+                        $scope.CUUpdateBtn = false;
+                    }
+                    else {
+                        $scope.CUSaveBtn = false;
+                        $scope.CUUpdateBtn = true;
+
+                        $scope.txtEmpID = '';
+                        $scope.txtEmpName = '';
+                        $scope.txtCNIC= '';
+                        $scope.txtTel1 = '';
+                        $scope.txtTel2 = '';
+                        $scope.txtCnicIssue = new Date('01/01/1900');
+                        $scope.txtCnicExp = new Date('01/01/1900');
+                        $scope.DDLTitle = 'Mr';
+                        $scope.txtFamilyNo = '';
+                        $scope.txtFname = '';
+                        $scope.txtFEmpName = '';
+                        $scope.txtMEmpName = '';
+                        $scope.txtLEmpName = '';
+                        $scope.txtCnicIdentity = '';
+                        $scope.txtEmpReferBy = '';
+                        $scope.txtAddress = '';
+                        $scope.txtCountry = '';
+                        $scope.txtDOB = new Date();
+                        $scope.txtStatus = 'false';
+                        $scope.txtRemarks = '';
+                        $scope.txtCity = '';
+                        $scope.txtGender = 'Male';
+                        $scope.txtRelation = '';
+                    }
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+             //=================Display View All Employee Dependant Data===================
+            $scope.GetViewAllData = function (Empid) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/EmpDepend/Get_Viewdata",
+                    data: {
+                        EmployeeID : Empid
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    $scope.dtViewGetAll = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+             //==================Get CNIC ISSUE=======================
+                $scope.GetCNICIsue = function () {
+                    var GivenDate = $scope.txtCnicIssue;
+                    var CurrentDate = new Date();
+                    GivenDate = new Date(GivenDate);
+                    if (GivenDate > CurrentDate) {
+                        alert('CNIC Issue Not Be Greater Then Today...');
+                    }
+                    else if (GivenDate.setHours(0, 0, 0, 0) == CurrentDate.setHours(0, 0, 0, 0)) {
+                        alert('Current Date Not Be Issue Date...');
+                    }
+                    else if (GivenDate < CurrentDate) {
+                        $scope.txtCnicIssue = GivenDate;
+                    }
+            };
+            //==================Get CNIC Expiry=======================
+            $scope.GetCNICExpiry = function () {
+                var GivenExpDate = $scope.txtCnicExp;
+                var GivenIsueDate = $scope.txtCnicIssue;
+                var CurrentExpDate = new Date();
+                GivenExpDate = new Date(GivenExpDate);
+                GivenIsueDate = new Date(GivenIsueDate);
+                if (GivenExpDate > CurrentExpDate) {
+                    $scope.txtCnicExp = GivenExpDate;
+                }
+                else if (GivenExpDate.setHours(0, 0, 0, 0) == CurrentExpDate.setHours(0, 0, 0, 0)) {
+                    alert('Current Date Not Be Expiry Date...');
+                }
+                else if (GivenExpDate.setHours(0, 0, 0, 0) == GivenIsueDate.setHours(0, 0, 0, 0)) {
+                    alert('CNIC Issue and Expiry Not Equal To Same Date...');
+                }
+                else if (GivenExpDate < GivenIsueDate) {
+                    alert('CNIC Expiry Not Be Less Then Issue Date...');
+                }
+                else if (GivenExpDate < CurrentExpDate) {
+                    alert('CNIC Expiry Not Be Less Then Today...');
+                }
+            };
+                //==================Gender Selection===================
+                $scope.GenderSelction = function () {
+                    if ($scope.DDLTitle == "Mr" || $scope.DDLTitle == "Master") {
+                        $scope.txtGender = "Male";
+                    }
+                    else if ($scope.DDLTitle == "Mrs" || $scope.DDLTitle == "MS" || $scope.DDLTitle == "Baby") {
+                        $scope.txtGender = "Female";
+                    }
+                }
+                $scope.TokenPrint = function () {
+                    $window.open("/Registeration/Token_Print?TokenNo=" + $scope.txtTokenNo, "_blank");
+                };
+            //=============Get Relation related All Data=================
+            $scope.GetPatRelation = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatientReg/Get_PatdataRelation",
+                    data: {
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    $scope.dtGetRelationAll = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //==========Get Relation by id==============
+            $scope.GetPatByRelation = function (Relation) {
+                $scope.txtRelation = Relation;
+            };
+            //===========Display All Employee Depend Data by lookup=============
+            $scope.GetAllData = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/EmpDepend/Get_data",
+                    data: {}
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.dtGetAll = angular.fromJson(Return.data);
+                    $scope.On_Clear();
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //============Delete Employee Depend===============
+            $scope.OnDelete = function (id) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/EmpDepend/OnDelete",
+                    data: {
+                        ID: id
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.On_AllClear();
+                    if (Return.data == "Delete") {
+                        $scope.Notification('success', 'Operation Completed', 'Delete Employee Depend');
+                    }
+                    else {
+                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    $scope.On_Clear();
+                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                });
+            };
+            //=============Employee Depend Data Get Data By ID=================
+            $scope.GetDataByID = function (ID) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/EmpDepend/Get_databyid",
+                    data: {
+                        EmployeeID: ID
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    if (dt.length > 0) {
+                        $scope.txtEmpID = dt[0].EmpID;
+                        $scope.txtEmpName = dt[0].EmpName;
+                        $scope.GetViewAllData(dt[0].EmpID);
+                    }
+                    else {
+                        $scope.CUSaveBtn = false;
+                        $scope.CUUpdateBtn = true;
+
+                        $scope.txtEmpID = '';
+                        $scope.txtEmpName = '';
+                    }
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //==============Employee Dependant Data Insert==================
+            $scope.savedata = function () {
+                var displayReq = {
+                    method: 'POST',
+                    url: '/EmpDepend/Add_EmpDepend',
+                    data: {
+                        EmployeeID : $scope.txtEmpID,
+                        EmpName : $scope.txtEmpName,
+                        CNIC : $scope.txtCNIC,
+                        Tel1 : $scope.txtTel1,
+                        Tel2: $scope.txtTel2,
+                        CNICIssue: $scope.txtCnicIssue,
+                        CNICExp: $scope.txtCnicExp,
+                        Title: $scope.DDLTitle,
+                        FamilyNo: $scope.txtFamilyNo,
+                        Guardian : $scope.txtFname,
+                        FirstName: $scope.txtFEmpName,
+                        MidName: $scope.txtMEmpName,
+                        LastName: $scope.txtLEmpName,
+                        CNICIdentity: $scope.txtCnicIdentity,
+                        ReferBy: $scope.txtEmpReferBy,
+                        Address : $scope.txtAddress,
+                        Country : $scope.txtCountry,
+                        DOB : $scope.txtDOB,
+                        InActive : $scope.txtStatus,
+                        Remarks : $scope.txtRemarks,
+                        City : $scope.txtCity,
+                        Gender : $scope.txtGender,
+                        Relation : $scope.txtRelation
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                  $scope.On_AllClear();
+              if (Return.data == "Inserted") {
+              $scope.Notification('success', 'Operation Completed', 'Insert Employee Dependant');
+                       }
+              else {
+                $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                   }
+                }, function myError(Return) {
+                        $scope.On_Clear();
+             $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+              });
+            };
+            //===============Employee Dependant Data Update=============
+            $scope.On_Update = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/EmpDepend/update_record",
+                    data: {
+                        EmployeeID : $scope.txtEmpID,
+                        EmpName : $scope.txtEmpName,
+                        CNIC : $scope.txtCNIC,
+                        Tel1 : $scope.txtTel1,
+                        Tel2: $scope.txtTel2,
+                        CNICIssue: $scope.txtCnicIssue,
+                        CNICExp: $scope.txtCnicExp,
+                        Title: $scope.DDLTitle,
+                        FamilyNo: $scope.txtFamilyNo,
+                        Guardian : $scope.txtFname,
+                        FirstName: $scope.txtFEmpName,
+                        MidName: $scope.txtMEmpName,
+                        LastName: $scope.txtLEmpName,
+                        CNICIdentity: $scope.txtCnicIdentity,
+                        ReferBy: $scope.txtEmpReferBy,
+                        Address : $scope.txtAddress,
+                        Country : $scope.txtCountry,
+                        DOB : $scope.txtDOB,
+                        InActive : $scope.txtStatus,
+                        Remarks : $scope.txtRemarks,
+                        City : $scope.txtCity,
+                        Gender : $scope.txtGender,
+                        Relation : $scope.txtRelation
+                    }
+                }
+                $http(displayReq).then(function (Return)
+                {
+                 $scope.On_AllClear();
+                 if (Return.data == "Updated") {
+                 $scope.Notification('success', 'Operation Completed', 'Update Employee Dependant');
+                       }
+              else {
+                $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                   }
+                }, function myError(Return)
+                    {
+                        $scope.On_Clear();
+             $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+              });
+            };
+            //=================Save Update Delete Clear Function======================
+            $scope.On_AllClear = function () {
+            $scope.txtCNIC= '';
+            $scope.txtTel1 = '';
+            $scope.txtTel2 = '';
+            $scope.txtAddress = '';
+            $scope.txtCountry = '';
+            $scope.txtDOB = new Date();
+            $scope.txtStatus = 'false';
+            $scope.txtRemarks = '';
+            $scope.txtCity = '';
+            $scope.txtGender = 'Male';
+            $scope.GetViewAllData($scope.txtEmpID);
+            $scope.txtRelation = '';
+            $scope.txtCnicIssue = new Date('01/01/1900');
+            $scope.txtCnicExp = new Date('01/01/1900');
+            $scope.DDLTitle = 'Mr';
+            $scope.txtFamilyNo = '';
+            $scope.txtFname = '';
+            $scope.txtFEmpName = '';
+            $scope.txtMEmpName = '';
+            $scope.txtLEmpName = '';
+            $scope.txtCnicIdentity = '';
+            $scope.txtEmpReferBy = '';
+
+            $scope.CUSaveBtn = false;
+            $scope.CUUpdateBtn = true;
+            };
+            //=================Clear Function======================
+            $scope.On_Clear = function () {
+            $scope.txtEmpID = '';
+            $scope.txtEmpName = '';
+            $scope.txtCNIC= '';
+            $scope.txtTel1 = '';
+            $scope.txtTel2 = '';
+            $scope.txtAddress = '';
+            $scope.txtCountry = '';
+            $scope.txtDOB = new Date();
+            $scope.txtStatus = 'false';
+            $scope.txtRemarks = '';
+            $scope.txtCity = '';
+            $scope.txtGender = 'Male';
+            $scope.txtRelation = '';
+            $scope.txtCnicIssue = new Date('01/01/1900');
+            $scope.txtCnicExp = new Date('01/01/1900');
+            $scope.DDLTitle = 'Mr';
+            $scope.txtFamilyNo = '';
+            $scope.txtFname = '';
+            $scope.txtFEmpName = '';
+            $scope.txtMEmpName = '';
+            $scope.txtLEmpName = '';
+            $scope.txtCnicIdentity = '';
+            $scope.txtEmpReferBy = '';
+            $scope.dtViewGetAll = '';
+
+            $scope.CUSaveBtn = false;
+            $scope.CUUpdateBtn = true;
+            };
+            $scope.OnLoad = function ()
+            {
+                $scope.CUSaveBtn = false;
+                $scope.CUUpdateBtn = true;
+                $scope.On_Clear();
+            };
+            $scope.OnLoad();
+        });
+
+    </script>
+
+}
+

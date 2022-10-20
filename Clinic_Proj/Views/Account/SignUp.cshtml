@@ -1,0 +1,248 @@
+﻿@{
+    ViewBag.Title = "SignUp";
+}
+
+<div ng-app="RegistrationForm" ng-controller="Home">
+
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Create New User Account</h4>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Create Account</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!--row-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Create Account</h4>
+                </div>
+                <div class="card-body">
+                    <div id="UserModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Login ID</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="TxtSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Username</th>
+                                                    <th>Name</th>
+                                                    <th>Designation</th>
+                                                    <th>Email ID</th>
+                                                    <th>User Type</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtGetLoginList | filter:TxtSearch">
+                                                    <td><button ng-click="GetLoginInfo(item.Username)" class="btn btn-link" data-dismiss="modal">{{item.Username}}</button></td>
+                                                    <td>{{item.Name}}</td>
+                                                    <td>{{item.Designation}}</td>
+                                                    <td>{{item.EmailID}}</td>
+                                                    <td>{{item.UserType}}</td>
+                                                    <td>{{item.Status}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <form name="CreateDiv">
+                        <div class="form-body form-group">
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Username">Username:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Username" class="form-control form-input-grey" ng-model="TxtUsername" required />
+
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" ng-disabled="Lookupbtn" alt="default" data-toggle="modal" data-target="#UserModal" href="javascript:void(0)" ng-click="GetLoginList()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Password">Password:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="password" id="Password" class="form-control form-input-grey" ng-model="TxtPassword" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Name">Name:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <input type="text" id="Name" class="form-control form-input-grey" ng-model="TxtName" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Username">InActive:</label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select ng-model="DDL_InActive" class="btn btn-outline-secondary dropdown-toggle form-control form-input-grey">
+                                        <option value="false" label="Active"></option>
+                                        <option value="true" label="InActive"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Designation">Designation:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Designation" class="form-control form-input-grey" ng-model="TxtDesignation" />
+                                    </div>
+                                </div>
+
+
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Contact">Contact No:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Contact" class="form-control form-input-grey" ng-model="TxtContactNo" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Email">Email ID:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Email" class="form-control form-input-grey" ng-model="TxtEmailID" />
+                                    </div>
+                                </div>
+
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="IP">IP Access:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <select ng-model="DDL_IPAccess" class="btn btn-outline-secondary dropdown-toggle form-control form-input-grey">
+                                            <option value="false" label="Allow"></option>
+                                            <option value="true" label="Deny"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Department">Department:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Department" class="form-control form-input-grey" ng-model="TxtDepartment" />
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Remarks">Section:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Section" class="form-control form-input-grey" ng-model="TxtSection" />
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-1"></div>
+                                <div class="col-md-1">
+                                    <label class="control-label text-dark" for="User">User Type:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <select id="InActive" ng-model="DDL_UserType" class="btn btn-outline-secondary dropdown-toggle form-control form-input-grey">
+                                        <option value="0" label="-Please Select-"></option>
+                                        <option ng-repeat="item in dtGetLoginTypeList" value="{{item.TypeID}}">{{item.TypeID}}</option>
+                                    </select>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-click="SelectionCreate()" ng-hide="CUHSaveBtn" ng-disabled="CUSavBtn" class="btn btn-outline-success form-control"><i class="fa fa-check"></i> Save</button>
+                                        <button ng-click="UpdateLogin()" ng-hide="CUHpdateBtn" ng-disabled="CUpdateBtn" class="btn btn-outline-primary form-control"><i class="fa fa-edit"></i> Update</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="fa fa-times"></i> Clear </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-disabled="CUDeleteBtn" ng-click="OnDelete()" class="btn btn-outline-danger form-control"><i class="icon-trash"></i>Delete</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                        </div>
+</form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row -->
+</div>
+@section scripts{
+    <script src="~/Scripts/Custom/SignUp.js"></script>
+
+}
+
+

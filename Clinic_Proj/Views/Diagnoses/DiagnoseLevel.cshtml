@@ -1,0 +1,185 @@
+﻿@{
+    ViewBag.Title = "DiagnoseLevel";
+}
+<div ng-app="LevelForm" ng-controller="Home">
+
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Create Diagnose Level</h4>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Create Diagnose Level</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <!-- Horizontal Form -->
+            <div class="card card-info">
+                <!-- form start -->
+                <div class="form-horizontal">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-5" style="overflow-x:auto;overflow-y:auto;height:650px;">
+                                <div class="card card-yellow">
+                                    <div class="card-header bg-purple">
+                                        <h3 class="card-title text-white"><b>List</b></h3>
+                                    </div>
+
+                                    <div id="AllNodes" class="text-nowrap" style="font-size:8px;"></div>
+                                    <!-- /.card-header -->
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="card card-yellow">
+                                    <div class="card-header bg-purple">
+                                        <h3 class="card-title text-warning"><b>Detail</b></h3>
+                                    </div>
+                                    <h3 class="card-title"><b>Parent</b></h3>
+                                    <div class="form-group row">
+                                        <label for="NodeID" class="col-sm-2 col-form-label">Node ID</label>
+                                        <div class="col-md-2">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control font-weight-bold text-center" id="TxtNodeID" placeholder="0" name="TxtNodeID" readonly />
+                                            </div>
+                                        </div>
+
+                                        <label for="ParentID" class="col-sm-2 col-form-label">Parent ID</label>
+                                        <div class="col-sm-2">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" placeholder="Parent ID!" id="TxtParentID" class="form-control font-weight-bold text-center" name="TxtParentID" readonly>
+                                            </div>
+                                        </div>
+
+                                        <label for="inputPassword3" class="col-sm-2 col-form-label">In Active</label>
+                                        <div class="col-sm-2">
+                                            <div class="input-group input-group-sm">
+                                                <select class="form-control" id="TxtInActive" name="TxtInActive">
+                                                    <option value="true">True</option>
+                                                    <option value="false">False</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="ICDCode" class="col-sm-2 col-form-label">ICD Code</label>
+                                        <div class="col-md-2">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control" placeholder="Enter Code!" id="TxtICDCode" name="TxtICDCode" />
+                                            </div>
+                                        </div>
+
+                                        <label class="col-sm-2 col-form-label">Parent Name</label>
+                                        <div class="col-sm-6">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" placeholder="Parent Name!" class="form-control" id="TxtParentName" name="TxtParentName" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputPassword3" class="col-sm-2 col-form-label">ICD Name</label>
+                                        <div class="col-md-10">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control" placeholder="ICD Name!" id="TxtICDName" name="TxtICDName" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-6">
+                                            <button onclick="savedata()" name="SaveBtn" id="SaveBtn" ng-disabled="SaveBtn" class="btn btn-warning form-control"><i class="fa fa-arrow-right"></i> UPDATE </button>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <button onclick="Node_Delete()" name="DelBtn" id="DelBtn" class="btn btn-danger form-control"><i class="fa fa-times"></i> Delete </button>
+                                        </div>
+                                    </div>
+                                    <h3 class="card-title"><b>Child</b></h3>
+                                    <div class="form-group row">
+                                        <label for="NodeIDCh" class="col-sm-2 col-form-label">Node ID</label>
+                                        <div class="col-md-2">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control font-weight-bold text-center" id="TxtChNodeID" placeholder="0" name="TxtChNodeID" readonly />
+                                            </div>
+                                        </div>
+
+                                        <label for="ParentIDCh" class="col-sm-2 col-form-label">Parent ID</label>
+                                        <div class="col-sm-2">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" placeholder="Parent ID!" id="TxtChildID" class="form-control font-weight-bold text-center" name="TxtChildID" readonly>
+                                            </div>
+                                        </div>
+
+                                        <label for="InActiveCh" class="col-sm-2 col-form-label">In Active</label>
+                                        <div class="col-sm-2">
+                                            <div class="input-group input-group-sm">
+                                                <select class="form-control" id="TxtChInActive" name="TxtChInActive">
+                                                    <option value="true">True</option>
+                                                    <option value="false">False</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="ICDCodeCh" class="col-sm-2 col-form-label">ICD Code</label>
+                                        <div class="col-md-2">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control" placeholder="Enter Code!" id="TxtICDChCode" name="TxtICDChCode" />
+                                            </div>
+                                        </div>
+
+                                        <label class="col-sm-2 col-form-label">Parent Name</label>
+                                        <div class="col-sm-6">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" placeholder="Parent Name!" class="form-control" id="TxtChParentName" name="TxtChParentName" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputPassword3" class="col-sm-2 col-form-label">ICD Name</label>
+                                        <div class="col-md-10">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control" placeholder="ICD Name!" id="TxtChICDName" name="TxtChICDName" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-6">
+                                            <button onclick="saveChdata()" class="btn btn-success form-control"><i class="fa fa-arrow-right"></i> SAVE </button>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <button onclick="OnClear()" class="btn btn-outline-warning form-control"><i class="fa fa-times"></i> Clear </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- /.card-header -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <hr />
+
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!--/.col (left) -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/Custom/DiagnoseLevel.js"></script>
+
+}
+
+
+
+

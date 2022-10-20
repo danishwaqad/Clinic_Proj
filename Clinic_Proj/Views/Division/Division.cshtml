@@ -1,0 +1,433 @@
+﻿
+@{
+    ViewBag.Title = "Division";
+}
+
+<div ng-app="RegistrationForm" ng-controller="Home">
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Create Division</h4>
+    </div>
+    <div class="col-md-7 align-self-center">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Create Divison</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<!--row-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+
+            <div class="card-header bg-info">
+                <h4 class="m-b-0 text-white">Create Division</h4>
+            </div>
+            <div class="card-body">
+                <div id="UserModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Division</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtDivSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Code</th>
+                                                <th>Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtGetAll | filter:TxtDivSearch">
+                                                <td><button ng-click="GetDataByID(item.DivisionCode)" class="btn btn-link" data-dismiss="modal">{{item.DivisionCode}}</button></td>
+                                                <td>{{item.DivisionName}}</td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <form name="CreateDiv">
+                    <div class="form-body form-group">
+                        <div class="row p-t-20">
+                            <div class="col-md-1"></div>
+                            <div class="col-sm-1">
+                                <label class="control-label text-dark" for="DivID">Division ID:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" id="DivisionCode" class="form-control form-input-grey" ng-model="txtDivisionCode" maxlength="6" required />
+
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#UserModal" href="javascript:void(0)" ng-click="GetAllData()"><i class="ti-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-1"></div>
+                            <div class="col-sm-1">
+                                <label class="control-label text-dark" for="DivisionName">Division Name:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" id="DivisionName" class="form-control form-input-grey" ng-model="txtDivisionName" maxlength="100" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row p-t-20">
+
+                            <!--/span-->
+                            <div class="col-md-1"></div>
+                            <div class="col-sm-1">
+                                <label class="control-label text-dark" for="Address">Address:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" id="Address" class="form-control form-input-grey" ng-model="txtAddress" maxlength="100" />
+                                </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-sm-1">
+                                <label class="control-label text-dark" for="City">City:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" id="City" class="form-control form-input-grey" ng-model="txtCity" />
+                                </div>
+                            </div>
+                           
+
+                            <!--/span-->
+                        </div>
+                        <div class="row p-t-20">
+                            <div class="col-md-1"></div>
+                            <div class="col-sm-1">
+                                <label class="control-label text-dark" for="Country">Country:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" id="Country" class="form-control form-input-grey" ng-model="txtCountry" maxlength="70" />
+                                </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-sm-1">
+                                <label class="control-label text-dark" for="Tel">Tel:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" id="Tel" class="form-control form-input-grey" ng-model="txtTel" maxlength="20" />
+                                </div>
+                            </div>
+
+                            <!--/span-->
+                        </div>
+                        <div class="row p-t-20">
+                            <div class="col-md-1"></div>
+                            <div class="col-sm-1">
+                                <label class="control-label text-dark" for="Mobile1">Mobile1:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" id="Mobile1" class="form-control form-input-grey" ng-model="txtMobile1" maxlength="70" />
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-1"></div>
+                            <div class="col-sm-1">
+                                <label class="control-label text-dark" for="Mobile2">Mobile2:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" id="Mobile2" class="form-control form-input-grey" ng-model="txtMobile2" maxlength="25" />
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <!--/span-->
+                        </div>
+                        <div class="row p-t-20">
+                            <div class="col-md-1"></div>
+                            <div class="col-sm-1">
+                                <label class="control-label text-dark" for="Remarks">Remarks:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" id="Remarks" class="form-control form-input-grey" ng-model="txtRemarks" maxlength="25" />
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1">
+                                <label class="control-label text-dark" for="InActive">Status:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <select id="InActive" ng-model="txtInActive" class="btn btn-outline-secondary dropdown-toggle form-control form-input-grey">
+                                    <option value="false">Active</option>
+                                    <option value="true">In Active</option>
+                                </select>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <div class="row p-t-20">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <button ng-click="savedata()" ng-hide="CUSaveBtn" ng-disabled="CreateDiv.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
+                                    <button ng-click="On_Update()" ng-hide="CUUpdateBtn" ng-disabled="CreateDiv.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Update</button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <button ng-disabled="DelBtnEnable" ng-click="OnDelete()" class="btn btn-outline-danger form-control"><i class="icon-trash"></i>Delete</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Row -->
+</div>
+@section scripts {
+
+    <script>
+
+        var RegistrationForm = angular.module("RegistrationForm", []);
+        RegistrationForm.controller("Home", function ($scope, $http)
+        {
+            $scope.Notification = function (Type, Heading, Test) {
+           //info, warning, success, error
+            $.toast({
+            heading: Heading,
+            text: Test,
+            position: 'top-right',
+            loaderBg: '#ff6849',
+            icon: Type,
+            hideAfter: 3500,
+            stack: 6
+        });
+    };
+            //===============Display DT All Data================
+            $scope.GetAllData = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Division/Get_data",
+                    data: {}
+                }
+                $http(displayReq).then(function (Return) {
+
+                    $scope.dtGetAll = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //==================Delete Division====================
+            $scope.OnDelete = function () {
+                        var displayReq = {
+                        method: "POST",
+                        url: "/Division/OnDelete",
+                            data: {
+                                DivisionCode: $scope.txtDivisionCode
+                            }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.On_Clear();
+              if (Return.data == "Delete") {
+              $scope.Notification('success', 'Operation Completed', 'Delete Division');
+                       }
+              else {
+                $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                   }
+                }, function myError(Return) {
+                        $scope.On_Clear();
+             $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+              });     
+            };
+
+            //================Division Data Get By ID=====================
+            $scope.GetDataByID = function (ID) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Division/Get_databyid",
+                    data: {
+                        DivisionCode: ID
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    var dt = angular.fromJson(Return.data);
+
+                    if (dt.length > 0) {
+                        $scope.txtDivisionCode = dt[0].DivisionCode;
+                        $scope.txtDivisionName = dt[0].DivisionName;
+                        $scope.txtAddress = dt[0].Address;
+                        $scope.txtTel = dt[0].Tel;
+                        $scope.txtMobile1 = dt[0].Mobile1;
+                        $scope.txtMobile2 = dt[0].Mobile2;
+                        $scope.txtCity = dt[0].City;
+                        $scope.txtCountry = dt[0].Country;
+                        $scope.txtRemarks = dt[0].Remarks;
+                        $scope.txtInActive = dt[0].InActive.toString();
+                        $scope.txtLoginID = dt[0].LoginID;
+
+                        $scope.CUSaveBtn = true;
+                        $scope.CUUpdateBtn = false;
+                        $scope.DelBtnEnable = false;
+                    }
+                 else {
+                        $scope.CUSaveBtn = false;
+                        $scope.CUUpdateBtn = true;
+                        $scope.DelBtnEnable = true;
+
+                        $scope.txtDivisionCode = '';
+                        $scope.txtDivisionName = '';
+                        $scope.txtAddress = '';
+                        $scope.txtTel = '';
+                        $scope.txtMobile1 = '';
+                        $scope.txtMobile2 = '';
+                        $scope.txtCity = '';
+                        $scope.txtCountry ='';
+                        $scope.txtRemarks = '';
+                        $scope.txtInActive = 'false';
+                        $scope.txtLoginID = '';
+                    }
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //===============Insert Division Data=========================
+            $scope.savedata = function () {
+                var displayReq = {
+                    method: 'POST',
+                    url: '/Division/Add_record',
+                    data: {
+                        DivisionCode: $scope.txtDivisionCode,
+                        DivisionName: $scope.txtDivisionName,
+                        Address: $scope.txtAddress,
+                        Tel: $scope.txtTel,
+                        Mobile1: $scope.txtMobile1,
+                        Mobile2: $scope.txtMobile2,
+                        City: $scope.txtCity,
+                        Country: $scope.txtCountry,
+                        Remarks: $scope.txtRemarks,
+                        InActive: $scope.txtInActive,
+                        LoginID: $scope.txtLoginID
+
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                  $scope.On_Clear();
+              if (Return.data == "Inserted") {
+              $scope.Notification('success', 'Operation Completed', 'Insert Division');
+                       }
+              else {
+                $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                   }
+                }, function myError(Return) {
+                        $scope.On_Clear();
+             $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+              });
+            };
+            //====================Update Division=========================
+            $scope.On_Update = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Division/update_record",
+                    data: {
+                        DivisionCode: $scope.txtDivisionCode,
+                        DivisionName: $scope.txtDivisionName,
+                        Address: $scope.txtAddress,
+                        Tel: $scope.txtTel,
+                        Mobile1: $scope.txtMobile1,
+                        Mobile2: $scope.txtMobile2,
+                        City: $scope.txtCity,
+                        Country: $scope.txtCountry,
+                        Remarks: $scope.txtRemarks,
+                        InActive: $scope.txtInActive,
+                        LoginID: $scope.txtLoginID
+                    }
+                }
+                $http(displayReq).then(function (Return)
+                {
+                 $scope.On_Clear();
+                 if (Return.data == "Updated") {
+                 $scope.Notification('success', 'Operation Completed', 'Update Division');
+                       }
+              else {
+                $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                   }
+                }, function myError(Return)
+                    {
+                        $scope.On_Clear();
+             $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+              });
+            };
+            //===============Clear Function========================
+            $scope.On_Clear = function () {
+            $scope.txtDivisionCode = '';
+            $scope.txtDivisionName = '';
+            $scope.txtAddress = '';
+            $scope.txtTel = '';
+            $scope.txtMobile1 = '';
+            $scope.txtMobile2 = '';
+            $scope.txtCity = '';
+            $scope.txtCountry ='';
+            $scope.txtRemarks = '';
+            $scope.txtInActive = 'false';
+            $scope.txtLoginID = '';
+
+            $scope.CUSaveBtn = false;
+            $scope.CUUpdateBtn = true;
+            $scope.DelBtnEnable = true;
+            };
+            $scope.OnLoad = function ()
+            {
+            $scope.CUSaveBtn = false;
+            $scope.DelBtnEnable = true;
+            $scope.CUUpdateBtn = true;
+            $scope.txtInActive = 'false';
+            };
+        $scope.OnLoad();
+        });
+
+
+    </script>
+
+}
+

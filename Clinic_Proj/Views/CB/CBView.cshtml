@@ -1,0 +1,476 @@
+﻿
+@{
+    ViewBag.Title = "CBView";
+}
+<div ng-app="RegistrationForm" ng-controller="Home">
+
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Create Closing Balance</h4>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Create Closing Balance</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!--row-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Create Closing Balance</h4>
+                </div>
+                <div class="card-body">
+                    <div id="UserModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select RS</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="TxtDivSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Code</th>
+                                                    <th>Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtGetAll | filter:TxtDivSearch">
+                                                    <td><button ng-click="GetDataByID(item.DivisionCode)" class="btn btn-link" data-dismiss="modal">{{item.DivisionCode}}</button></td>
+                                                    <td>{{item.DivisionName}}</td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <form name="CreateOB">
+                        <div class="form-body form-group">
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="DocumentNum">Document Number:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="DocumentNum" class="form-control form-input-grey" ng-model="txtDocumentNum" readonly />
+                                        <div class="input-group-append">
+                                            <button ng-click="GetNewDocNum()" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="DocumentDate">Document Date:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="date" id="DocumentDate" ng-model="txtDocumentDate" class="form-control form-input-grey" title="Document Date" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-1">
+                                    <label class="control-label text-dark" for="RsNote">Rs Note:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <select class="form-control" ng-model="txtRsNote">
+                                        <option value="0" label="-Please Select-"></option>
+                                        <option ng-repeat="item in dtGetRsNote" value="{{item.RsNote}}">{{item.RsNote}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Qty">Quantity:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Qty" class="form-control form-input-grey" ng-blur="GetTotal()" ng-model="txtQty" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Remarks">Line Remarks</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Remarks" class="form-control form-input-grey" ng-model="txtRemarks" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Total">Total:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="number" id="Total" class="form-control" ng-model="txtTotal" readonly />
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <button ng-click="saveDetaildata()" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Add</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </form>
+                    <div class="table-responsive-sm" style="overflow-x:auto;overflow-y:scroll;height:200px;">
+                        <table class="table-sm table-hover table-bordered text-dark">
+                            <thead>
+                                <tr>
+                                    <th>Rs Note</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th>Remarks</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in dtViewData">
+                                    <td>{{item.RsNote}}</td>
+                                    <td>{{item.Qty}}</td>
+                                    <td>{{item.Total}}</td>
+                                    <td>{{item.LineRemarks}}</td>
+                                    <td class="text-center">
+                                        <button type="button" ng-click="Delete(item.CCPL_ROW_ID)" title="Delete" class="btn btn-xs btn-danger" alt="default" data-toggle="modal" data-target="#" href="javascript:void(0)"><span class="fas fa-trash"></span></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr />
+
+                    <div class="row p-t-20">
+                        <div class="col-md-1">
+                            <label class="control-label text-dark" for="Count">Count:</label>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="text" id="Count" class="form-control form-input-grey" ng-model="txtCount" readonly />
+                        </div>
+                        <div class="col-sm-1">
+                            <label class="control-label text-dark" for="RemarksF">Remarks:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" id="RemarksF" class="form-control form-input-grey" ng-model="txtFRemarks" />
+                        </div>
+                        <div class="col-md-1">
+                            <label class="control-label text-dark" for="TotalOB">Total OB:</label>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" id="TotalOB" class="form-control form-input-grey" ng-model="txtTotalOB" readonly />
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row p-t-20">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <button ng-click="saveDetaildata()" ng-hide="CUSaveBtn" ng-disabled="CreateDiv.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
+                                @*<button ng-click="On_Update()" ng-hide="CUUpdateBtn" ng-disabled="CreateDiv.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Update</button>*@
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                @*<button ng-disabled="CreateDiv.$invalid" ng-click="OnDelete()" class="btn btn-outline-danger form-control"><i class="icon-trash"></i>Delete</button>*@
+                            </div>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row -->
+</div>
+@section scripts {
+
+    <script>
+
+        var RegistrationForm = angular.module("RegistrationForm", []);
+        RegistrationForm.controller("Home", function ($scope, $http)
+        {
+            $scope.Notification = function (Type, Heading, Test) {
+           //info, warning, success, error
+            $.toast({
+            heading: Heading,
+            text: Test,
+            position: 'top-right',
+            loaderBg: '#ff6849',
+            icon: Type,
+            hideAfter: 3500,
+            stack: 6
+        });
+            };
+    //==================Get New Doc No=======================
+    $scope.GetNewDocNum = function () {
+        var displayReq = {
+            method: "POST",
+            url: "/CB/Generate_DocNum",
+            data: {}
+        }
+        $http(displayReq).then(function (Return) {
+
+            var dt = angular.fromJson(Return.data);
+
+            if (dt.length > 0) {
+
+                $scope.txtDocumentNum = dt[0].CB;
+                $scope.GenerateNewDOC($scope.txtDocumentNum);
+            }
+            else {
+                $scope.txtDocumentNum = '';
+            }
+        }, function myError(Return) {
+                $scope.Notification('error', Return.data);
+        });
+            };
+     //==================Generate New Doc No=======================
+    $scope.GenerateNewDOC = function (Doc) {
+        var displayReq = {
+            method: "POST",
+            url: "/CB/AddDoc",
+            data: {
+                DocNo: Doc,
+                DocDate : new Date(),
+            }
+        }
+        $http(displayReq).then(function (Return) {
+            if (Return.data == "Inserted") {
+                $scope.Notification('success', 'Document Generated');
+            }
+            else {
+                $scope.Notification('warning', 'Please Contact to Admin');
+            }
+        }, function myError(Return) {
+            $scope.On_Clear();
+                $scope.Notification('error', Return.data);
+        });
+            };
+            //===============Display dropdown Rupees Data================
+             $scope.Get_RupeesdtAll = function () {
+            var displayReq = {
+            method: "POST",
+            url: "/CB/Get_RupeesdtAll",
+            data: {
+            }
+        }
+        $http(displayReq).then(function (Return) {
+
+            var dt = angular.fromJson(Return.data);
+
+            if (dt.length > 0) {
+                $scope.dtGetRsNote = angular.fromJson(Return.data);
+            }
+            else {
+
+            }
+        }, function myError(Return) {
+            $scope.Notification('error', Return.data);
+        });
+            };
+        //=================Get Total====================
+            $scope.GetTotal = function () {
+                var Qty = $scope.txtQty;
+                var Rup = $scope.txtRsNote;
+                var Total;
+                Total = Qty * Rup;
+                $scope.txtTotal = Total;
+            };
+        //==========View All Data================
+        $scope.GetAllVData = function (ID) {
+        var displayReq = {
+            method: "POST",
+            url: "/CB/GetView_data",
+            data: {
+                id: ID
+            }
+        }
+        $http(displayReq).then(function (Return)
+        {
+            var dt = angular.fromJson(Return.data);
+            $scope.txtCount = dt.length;
+            $scope.GetOpnBal();
+            $scope.dtViewData = angular.fromJson(Return.data);
+
+        }, function myError(Return) {
+            $scope.Notification('error', 'Error Code LC0001', Return.data);
+        });
+            };
+        //==========Get Opening Balance Data================
+        $scope.GetOpnBal = function () {
+        var displayReq = {
+            method: "POST",
+            url: "/CB/GetCB_data",
+            data: {
+                id: $scope.txtDocumentNum
+            }
+        }
+        $http(displayReq).then(function (Return)
+        {
+            var dt = angular.fromJson(Return.data);
+            if (dt.length > 0) {
+            $scope.txtTotalOB = dt[0].CB;
+            }
+            else
+            {
+             $scope.txtTotalOB = '';
+            }
+        }, function myError(Return) {
+            $scope.Notification('error', 'Error Code LC0001', Return.data);
+        });
+        };
+            //==================Delete Ob Detail====================
+            $scope.Delete = function (DocNo) {
+                        var displayReq = {
+                        method: "POST",
+                        url: "/CB/OnDelete",
+                            data: {
+                                ID: DocNo
+                            }
+                }
+                $http(displayReq).then(function (Return) {
+               $scope.GetAllVData($scope.txtDocumentNum);
+              if (Return.data == "Delete") {
+              $scope.Notification('success', 'Operation Completed', 'Delete CB Detail');
+                       }
+              else {
+                $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                   }
+                }, function myError(Return) {
+             $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+              });
+            };
+            //===============Insert Detail Data=========================
+            $scope.saveDetaildata = function () {
+                var displayReq = {
+                    method: 'POST',
+                    url: '/CB/Add_Detail',
+                    data: {
+                        DocNo: $scope.txtDocumentNum,
+                        DocDate: $scope.txtDocumentDate,
+                        RsNote: $scope.txtRsNote,
+                        Quantity: $scope.txtQty,
+                        Total: $scope.txtTotal,
+                        Remarks: $scope.txtRemarks
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.GetAllVData($scope.txtDocumentNum);
+                    $scope.On_Clear_Ins();
+                if (Return.data == "Inserted") {
+                $scope.Notification('success', 'Operation Completed', 'Insert Detail');
+                       }
+              else {
+                $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                   }
+                }, function myError(Return) {
+             $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+              });
+            };
+        //==================Final OB Insert=======================
+        $scope.FinalOBSave = function () {
+        var displayReq = {
+            method: "POST",
+            url: "/CB/update_Docrecord",
+            data: {
+                DocNo:$scope.txtDocumentNum,
+                DocDate: $scope.txtDocumentDate,
+                Opening: $scope.txtTotalOB,
+                Remarks: $scope.txtFRemarks
+            }
+        }
+            $http(displayReq).then(function (Return)
+            {
+            if (Return.data == "Inserted") {
+                $scope.Notification('success', 'Closing Balance Generated');
+                $scope.On_Clear();
+            }
+            else {
+                $scope.Notification('warning', 'Please Contact to Admin');
+            }
+        }, function myError(Return) {
+            $scope.On_Clear();
+                $scope.Notification('error', Return.data);
+        });
+            };
+            //===============Clear Function on Insert========================
+            $scope.On_Clear_Ins = function () {
+                $scope.txtRsNote = '0';
+                $scope.txtQty = '';
+                $scope.txtOpnBal = '';
+                $scope.txtTotal = '';
+                $scope.txtRemarks = '';
+                $scope.txtDocumentDate = new Date();
+
+            $scope.CUSaveBtn = false;
+            $scope.CUUpdateBtn = true;
+            };
+            //===============Clear Function on Final Insert========================
+            $scope.On_Clear = function () {
+                $scope.txtRsNote = '0';
+                $scope.txtQty = '';
+                $scope.txtOpnBal = '';
+                $scope.txtTotal = '';
+                $scope.txtRemarks = '';
+                $scope.txtDocumentNum = '';
+                $scope.txtFRemarks = '';
+                $scope.txtTotalOB = '';
+                $scope.txtDocumentDate = new Date();
+                $scope.txtCount = '';
+                $scope.GetAllVData('');
+            };
+            $scope.OnLoad = function ()
+            {
+            $scope.txtDocumentDate = new Date();
+            $scope.Get_RupeesdtAll();
+            $scope.txtRsNote = '0';
+            };
+        $scope.OnLoad();
+        });
+
+
+    </script>
+
+}
+
+

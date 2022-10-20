@@ -1,0 +1,44 @@
+﻿.form-input-grey{
+    border-color:grey;
+}
+
+    .form-input-grey:before:required {
+        border-color: red;
+    }
+
+    .form-input-grey:read-only:required:focus {
+        border-color: green;
+    }
+
+    .form-input-grey:invalid {
+        border-color: red;
+    }
+
+    .form-input-grey:valid {
+        border-color: green;
+    }
+
+/*.form-control, input[type=text], select {
+    border-color: green;
+}*/
+
+    .form-control, input:focus {
+        border-color: green;
+    }
+
+
+
+.table-sm {
+    width: 100%;
+}
+
+.modal-x {
+    max-width: 90%;
+}
+
+.urdu-show {
+    text-align: right;
+    text-decoration:solid;
+    color: black;
+    font-size:25px;
+}

@@ -1,0 +1,1121 @@
+﻿
+@{
+    ViewBag.Title = "Reports";
+}
+
+<div ng-app="RegistrationForm" ng-controller="Home">
+
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Management Reports</h4>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Management Reports</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!--row-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div id="SiteFrom" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Site(From)</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="SiteFTSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Site ID</th>
+                                                <th>Site Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtGetSFTAll | filter:SiteFTSearch">
+                                                <td><button ng-click="GetSFByID(item.SiteCode)" class="btn btn-link" data-dismiss="modal">{{item.SiteCode}}</button></td>
+                                                <td>{{item.SiteName}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <div id="SiteTo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Site(To)</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="SiteFTSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Site ID</th>
+                                                <th>Site Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtGetSFTAll | filter:SiteFTSearch">
+                                                <td><button ng-click="GetSTByID(item.SiteCode)" class="btn btn-link" data-dismiss="modal">{{item.SiteCode}}</button></td>
+                                                <td>{{item.SiteName}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <div id="DoctorSelect" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Doctor</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TypeSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Doctor Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtGetDoctorAll | filter:TypeSearch">
+                                                <td><button ng-click="GetDocByID(item.DoctorName)" class="btn btn-link" data-dismiss="modal">{{item.DoctorName}}</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Management Reports</h4>
+                </div>
+                <div class="card-body">
+                    <form name="PatientRefund">
+                        <div class="form-body form-group">
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="SiteFrm">Site From:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Sitefrm" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtSitefrm" readonly />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#SiteFrom" href="javascript:void(0)" ng-click="GetSiteFTall()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="SiteTo">Site To:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="SiteTo" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtSiteTo" maxlength="100" readonly />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#SiteTo" href="javascript:void(0)" ng-click="GetSiteFTall()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="DTFrm">Date From:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="date" id="DTFrm" ng-model="txtDTFrm" class="form-control form-input-grey text-center font-weight-bold" />
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="DTTo">Date To:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="date" id="DTTo" ng-model="txtDTTo" class="form-control form-input-grey text-center font-weight-bold" />
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Doctor">Doctor:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Doctor" ng-model="txtDoctor" class="form-control form-input-grey text-center font-weight-bold" readonly />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#DoctorSelect" href="javascript:void(0)" ng-click="GetDocall()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <div class="row p-t-20">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                            </div>
+                    </form>
+                    <h4 class="card-title" style="color:red;"><b>For Pdf All Given Fields Are Required</b></h4>
+                    <div class="table-responsive-sm">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item"> <a class="nav-link" ng-click="GetClinicViewAllData();GetClinicTotal()" data-toggle="tab" href="#ClinicRpt" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Clinic</span></a> </li>
+                            <li class="nav-item"> <a class="nav-link" ng-click="GetSessionViewAllData();GetSessionTotal()" data-toggle="tab" href="#SessionRpt" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Sessions</span></a> </li>
+                            <li class="nav-item"> <a class="nav-link" ng-click="GetFirstAidViewAllData();GetFirstAidTotal()" data-toggle="tab" href="#FirstAid" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">First Aid</span></a> </li>
+                            <li class="nav-item"> <a class="nav-link" ng-click="" data-toggle="tab" href="#SummaryRpt" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Summary Report</span></a> </li>
+                        </ul>
+                        <div class="tab-content tabcontent-border">
+                            <div class="tab-pane" id="ClinicRpt" role="tabpanel">
+                                <!--row-->
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title">Clinic Report</h4>
+                                                <div class="col-md-4">
+                                                    <div class="input-group input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <button type="button" class="btn btn-warning dropdown-toggle" ng-model="BtnClinicExport" data-toggle="dropdown">
+                                                                Export
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                @*<li class="dropdown-item"><a href="#" class="btn btn-link" ng-click="ExportClinicToPDF()">Pdf</a></li>*@
+                                                                <li class="dropdown-item"><a href="#" class="btn btn-link" ng-click="PrintingTest(txtDTFrm,txtDTTo,txtSitefrm,txtSiteTo,txtDoctor)">Pdf</a></li>
+                                                                <li class="dropdown-divider"></li>
+                                                                <li class="dropdown-item"><a href="#" class="btn btn-link" ng-click="ExportClinicToExcell()">Excell</a></li>
+                                                            </ul>
+                                                        </div>
+                                                        <!-- /btn-group -->
+                                                        <input type="text" class="form-control" ng-model="TxtClinicFileName" placeholder="Enter Export File Name Here..">
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                                <div class="modal-body" style="overflow-x:auto;overflow-y:scroll;height:400px; font-size:12px;">
+                                                    <table id="ClinicRpt" class="table table-sm table-bordered display">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Sr #</th>
+                                                                <th>TokenDate</th>
+                                                                <th>PatType</th>
+                                                                <th>DoctorID</th>
+                                                                <th>DrName</th>
+                                                                <th>TotalPatient</th>
+                                                                <th>TotalAmount</th>
+                                                                <th>Discount</th>
+                                                                <th>Refund</th>
+                                                                <th>PaidAmount</th>
+                                                                <th>SiteID</th>
+                                                                <th>SiteName</th>
+                                                                <th>DivisionID</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in dtClinicGetAll">
+                                                                <td>{{$index + 1}}</td>
+                                                                <td>{{item.TokenDate | date:dd-MMM-yyyy}}</td>
+                                                                <td>{{item.PatType}}</td>
+                                                                <td>{{item.DoctorID}}</td>
+                                                                <td>{{item.DrName}}</td>
+                                                                <td>{{item.TotalPatient}}</td>
+                                                                <td>{{item.TotalAmount}}</td>
+                                                                <td>{{item.Discount}}</td>
+                                                                <td>{{item.RefundFee}}</td>
+                                                                <td>{{item.TotalPaid}}</td>
+                                                                <td>{{item.SiteID}}</td>
+                                                                <td>{{item.SiteName}}</td>
+                                                                <td>{{item.DivisionID}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tfoot>
+                                                            <tr ng-repeat="item in dtGetSumClinic">
+                                                                <td colspan="5">Total</td>
+                                                                <td>{{item.TotalPatient}}</td>
+                                                                <td>{{item.TotalFee}}</td>
+                                                                <td>{{item.Discount}}</td>
+                                                                <td>{{item.RefundFee}}</td>
+                                                                <td>{{item.TotalPaid}}</td>
+                                                                <td colspan="3"></td>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Row -->
+                            </div>
+                            @* Session Start *@
+                            <div class="tab-pane" id="SessionRpt" role="tabpanel">
+                                <!--row-->
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title">Session Report</h4>
+                                                <div class="col-md-4">
+                                                    <div class="input-group input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <button type="button" class="btn btn-warning dropdown-toggle" ng-model="BtnClinicExport" data-toggle="dropdown">
+                                                                Export
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                @*<li class="dropdown-item"><a href="#" class="btn btn-link" ng-click="ExportClinicToPDF()">Pdf</a></li>*@
+                                                                <li class="dropdown-item"><a href="#" class="btn btn-link" ng-click="PrintingSessionTest(txtDTFrm,txtDTTo,txtSitefrm,txtSiteTo,txtDoctor)">Pdf</a></li>
+                                                                <li class="dropdown-divider"></li>
+                                                                <li class="dropdown-item"><a href="#" class="btn btn-link" ng-click="ExportSessionToExcell()">Excell</a></li>
+                                                            </ul>
+                                                        </div>
+                                                        <!-- /btn-group -->
+                                                        <input type="text" class="form-control" ng-model="TxtSessionFileName" placeholder="Enter Export File Name Here..">
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                                <div class="modal-body" style="overflow-x:auto;overflow-y:scroll;height:400px; font-size:12px;">
+                                                    <table id="SessionRpt" class="table table-sm table-bordered display">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Sr #</th>
+                                                                <th>TokenDate</th>
+                                                                <th>PatType</th>
+                                                                <th>DoctorID</th>
+                                                                <th>DrName</th>
+                                                                <th>TotalPatient</th>
+                                                                <th>TotalAmount</th>
+                                                                <th>Discount</th>
+                                                                <th>Refund</th>
+                                                                <th>PaidAmount</th>
+                                                                <th>SiteID</th>
+                                                                <th>SiteName</th>
+                                                                <th>DivisionID</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in dtSessionGetAll">
+                                                                <td>{{$index + 1}}</td>
+                                                                <td>{{item.TokenDate | date:dd-MMM-yyyy}}</td>
+                                                                <td>{{item.PatType}}</td>
+                                                                <td>{{item.DoctorID}}</td>
+                                                                <td>{{item.DrName}}</td>
+                                                                <td>{{item.TotalPatient}}</td>
+                                                                <td>{{item.TotalAmount}}</td>
+                                                                <td>{{item.Discount}}</td>
+                                                                <td>{{item.RefundFee}}</td>
+                                                                <td>{{item.TotalPaid}}</td>
+                                                                <td>{{item.SiteID}}</td>
+                                                                <td>{{item.SiteName}}</td>
+                                                                <td>{{item.DivisionID}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tfoot>
+                                                            <tr ng-repeat="item in dtGetSumSession">
+                                                                <td colspan="5">Total</td>
+                                                                <td>{{item.TotalPatient}}</td>
+                                                                <td>{{item.TotalFee}}</td>
+                                                                <td>{{item.Discount}}</td>
+                                                                <td>{{item.RefundFee}}</td>
+                                                                <td>{{item.TotalPaid}}</td>
+                                                                <td colspan="3"></td>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Row -->
+                            </div>
+                            @* Session End *@
+                            <div class="tab-pane" id="FirstAid" role="tabpanel">
+                                <!--row-->
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title">First Aid Reports</h4>
+                                                <div class="col-md-4">
+                                                    <div class="input-group input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <button type="button" class="btn btn-warning dropdown-toggle" ng-model="BtnExport" data-toggle="dropdown">
+                                                                Export
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li class="dropdown-item"><a href="#" class="btn btn-link" ng-click="PrintFirstAid(txtDTFrm,txtDTTo,txtSitefrm,txtSiteTo,txtDoctor)">Pdf</a></li>
+                                                                <li class="dropdown-divider"></li>
+                                                                <li class="dropdown-item"><a href="#" class="btn btn-link" ng-click="ExportToExcell()">Excell</a></li>
+                                                            </ul>
+                                                        </div>
+                                                        <!-- /btn-group -->
+                                                        <input type="text" class="form-control" ng-model="TxtFileName" placeholder="Enter Export File Name Here..">
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                                <div class="modal-body" style="overflow-x:auto;overflow-y:scroll;height:400px; font-size:12px;">
+                                                    <table id="FirstAid" class="table table-sm table-bordered display">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Sr #</th>
+                                                                <th>TokenDate</th>
+                                                                <th>PatType</th>
+                                                                <th>TotalPatient</th>
+                                                                <th>TotalAmount</th>
+                                                                <th>Discount</th>
+                                                                <th>PaidAmount</th>
+                                                                <th>SiteID</th>
+                                                                <th>SiteName</th>
+                                                                <th>Doctor</th>
+                                                                <th>DivisionID</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in dtFirstAidGetAll">
+                                                                <td>{{$index + 1}}</td>
+                                                                <td>{{item.TokenDate | date:dd-MMM-yyyy}}</td>
+                                                                <td>{{item.PatType}}</td>
+                                                                <td>{{item.TotalPatient}}</td>
+                                                                <td>{{item.TotalAmount}}</td>
+                                                                <td>{{item.Discount}}</td>
+                                                                <td>{{item.PaidAmount}}</td>
+                                                                <td>{{item.SiteID}}</td>
+                                                                <td>{{item.SiteName}}</td>
+                                                                <td>{{item.DoctorName}}</td>
+                                                                <td>{{item.DivisionID}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tfoot>
+                                                            <tr ng-repeat="item in dtGetSumFirstAid">
+                                                                <td colspan="3">Total</td>
+                                                                <td>{{item.TotalPatient}}</td>
+                                                                <td>{{item.TotalFee}}</td>
+                                                                <td>{{item.Discount}}</td>
+                                                                <td>{{item.PaidFee}}</td>
+                                                                <td colspan="3"></td>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Row -->
+                            </div>
+                            <div class="tab-pane" id="SummaryRpt" role="tabpanel">
+                                <!--row-->
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title">Performance</h4>
+                                                <div class="col-md-4">
+                                                    <div class="input-group input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <div class="col-md-1"></div>
+                                                            <div class="col-sm-2">
+                                                                <label class="control-label text-dark" for="DTFrm">Preview Summary</label>
+                                                            </div>
+                                                            <div class="col-md-2"></div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <button type="button" ng-click="PrintingSumaryTest(txtDTFrm,txtDTTo,txtSitefrm,txtSiteTo)" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i>Preview</button>
+                                                                </div>
+                                                            </div>
+                                                            @*<div class="col-md-3"></div>
+                                        <button type="button" class="btn btn-warning dropdown-toggle" ng-model="BtnSumaryExport" data-toggle="dropdown">
+                                            Export
+                                        </button>*@
+                                                            <ul class="dropdown-menu">
+                                                                @*<li class="dropdown-item"><a href="#" class="btn btn-link" ng-click="ExportClinicToPDF()">Pdf</a></li>*@
+                                                                <li class="dropdown-item"><a href="#" class="btn btn-link" ng-click="PrintingSumaryTest(txtDTFrm,txtDTTo,txtSitefrm,txtSiteTo)">Pdf</a></li>
+                                                                @*<li class="dropdown-divider"></li>
+                                            <li class="dropdown-item"><a href="#" class="btn btn-link" ng-click="ExportSummaryToExcell()">Excell</a></li>*@
+                                                            </ul>
+                                                        </div>
+                                                        <!-- /btn-group -->
+                                                        @*<input type="text" class="form-control" ng-model="TxtSummaryFileName" placeholder="Enter Export File Name Here..">*@
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Row -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row -->
+</div>
+@section scripts {
+
+    <script>
+
+        var RegistrationForm = angular.module("RegistrationForm", []);
+        RegistrationForm.controller("Home", function ($scope, $http, $window) {
+            $scope.Notification = function (Type, Heading, Test) {
+                //info, warning, success, error
+                $.toast({
+                    heading: Heading,
+                    text: Test,
+                    position: 'top-right',
+                    loaderBg: '#ff6849',
+                    icon: Type,
+                    hideAfter: 3500,
+                    stack: 6
+                });
+            };
+            //=============Export to PDF First Aid==============
+            $scope.ExportToPDF = function () {
+                var FileName = $scope.TxtFileName;
+                if (FileName == null) {
+                    FileName = 'Export1';
+                }
+                else {
+                    FileName = $scope.TxtFileName;
+                }
+                html2canvas(document.getElementById('FirstAid'), {
+                    onrendered: function (canvas) {
+                        var data = canvas.toDataURL();
+                        var docDefinition = {
+                            content: [{
+                                image: data,
+                                width: 500
+                            }]
+                        };
+                        pdfMake.createPdf(docDefinition).download(FileName + ".pdf");
+                    }
+                });
+            };
+            //=============Export to Excell First Aid==============
+            $scope.ExportToExcell = function () {
+                var FileName = $scope.TxtFileName;
+                if (FileName == null) {
+                    FileName = 'Export1';
+                }
+                else {
+                    FileName = $scope.TxtFileName;
+                }
+                $("#FirstAid").table2excel({
+                    filename: FileName + ".xls"
+                });
+            };
+            //Display Doctor from lookup
+            $scope.GetDocall = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatHist/Get_Docdata",
+                    data: {}
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.dtGetDoctorAll = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //Doctor Data FROM Get By ID
+            $scope.GetDocByID = function (Doc) {
+                $scope.txtDoctor = Doc;
+            };
+              //=============Export to PDF Clinic==============
+            $scope.ExportClinicToPDF = function () {
+                var FileName = $scope.TxtClinicFileName;
+                if (FileName == null) {
+                    FileName = 'Export1';
+                }
+                else {
+                    FileName = $scope.TxtClinicFileName;
+                }
+               // $scope.PrintingTest();
+                var displayReq = {
+                method: "POST",
+                url: "/Reports/Print_Slip_Test",
+                    data: {
+                        DateFrom : $scope.txtDTFrm,
+                        DateTo : $scope.txtDTTo,
+                        SiteFrom : $scope.txtSitefrm,
+                        SiteTo: $scope.txtSiteTo,
+                        DoctorNam:$scope.txtDoctor
+                    //DocDate: new Date($scope.DT_Doc)
+                }
+            }
+                $http(displayReq).then(function (Return)
+                {
+                    //$scope.dtGetDocHistory = angular.fromJson(Return.data);
+                }, function myError(Return)
+                    {
+                        //$scope.Clear();
+                        //alert(Return.data);
+                $scope.Notification('error', Return.data);
+            });
+            };
+            $scope.PrintingTest = function (datefrom, dateto, sitefrom, siteto,doctorNam)
+            {
+                //alert(id + ' ' + new Date(datefrom) + ' ' + dateto + ' ' + sitefrom + ' ' + siteto);
+                if (datefrom == 'undefined') {
+                    $scope.Notification('error', 'please select Date from..');
+                }
+                else if (dateto == 'undefined') {
+                    $scope.Notification('error', 'please select Date to..');
+                }
+                else if (sitefrom == 'undefined') {
+                    $scope.Notification('error', 'please select Site from..');
+                }
+                else if (siteto == 'undefined') {
+                    $scope.Notification('error', 'please select Site to..');
+                }
+                else if (doctorNam == 'undefined') {
+                    $scope.Notification('error', 'please select Doctor..');
+                }
+                else {
+                    if (doctorNam == undefined) {
+                        doctorNam = '';
+                    }
+                    $window.open("/Reports/Print_Clinic_Rpt?DateFrom=" + new Date(datefrom).toDateString() + "&DateTo=" + new Date(dateto).toDateString() + "&SiteFrom=" + sitefrom + "&SiteTo=" + siteto + "&DoctorNam=" + doctorNam, "_blank");
+                    //alert(new Date(datefrom).toDateString() + '-' + new Date(dateto).toDateString() + '-' + sitefrom + '-' + siteto);
+                }
+            }; 
+            $scope.PrintingSessionTest = function (datefrom, dateto, sitefrom, siteto,doctorNam)
+            {
+                //alert(id + ' ' + new Date(datefrom) + ' ' + dateto + ' ' + sitefrom + ' ' + siteto);
+                if (datefrom == 'undefined') {
+                    $scope.Notification('error', 'please select Date from..');
+                }
+                else if (dateto == 'undefined') {
+                    $scope.Notification('error', 'please select Date to..');
+                }
+                else if (sitefrom == 'undefined') {
+                    $scope.Notification('error', 'please select Site from..');
+                }
+                else if (siteto == 'undefined') {
+                    $scope.Notification('error', 'please select Site to..');
+                }
+                else if (doctorNam == 'undefined') {
+                    $scope.Notification('error', 'please select Doctor..');
+                }
+                else {
+                    if (doctorNam == undefined) {
+                        doctorNam = '';
+                    }
+                    $window.open("/Reports/Print_Session_Rpt?DateFrom=" + new Date(datefrom).toDateString() + "&DateTo=" + new Date(dateto).toDateString() + "&SiteFrom=" + sitefrom + "&SiteTo=" + siteto + "&DoctorNam=" + doctorNam, "_blank");
+                    //alert(new Date(datefrom).toDateString() + '-' + new Date(dateto).toDateString() + '-' + sitefrom + '-' + siteto);
+                }
+            }; 
+            $scope.PrintFirstAid = function (datefrom, dateto, sitefrom, siteto,doctorNam)
+            {
+                //alert(id + ' ' + new Date(datefrom) + ' ' + dateto + ' ' + sitefrom + ' ' + siteto);
+                if (datefrom == 'undefined') {
+                    $scope.Notification('error', 'please select Date from..');
+                }
+                else if (dateto == 'undefined') {
+                    $scope.Notification('error', 'please select Date to..');
+                }
+                else if (sitefrom == 'undefined') {
+                    $scope.Notification('error', 'please select Site from..');
+                }
+                else if (siteto == 'undefined') {
+                    $scope.Notification('error', 'please select Site to..');
+                }
+                else if (doctorNam == 'undefined') {
+                    $scope.Notification('error', 'please select Doctor..');
+                }
+                else {
+                    if (doctorNam == undefined) {
+                        doctorNam = '';
+                    }
+                    $window.open("/Reports/Print_FirstAid_Rpt?DateFrom=" + new Date(datefrom).toDateString() + "&DateTo=" + new Date(dateto).toDateString() + "&SiteFrom=" + sitefrom + "&SiteTo=" + siteto + "&DoctorNam=" + doctorNam, "_blank");
+                    //alert(new Date(datefrom).toDateString() + '-' + new Date(dateto).toDateString() + '-' + sitefrom + '-' + siteto);
+                }
+            }; 
+            $scope.PrintingSumaryTest = function (datefrom, dateto, sitefrom, siteto/*,doctorNam*/)
+            {
+                //alert(id + ' ' + new Date(datefrom) + ' ' + dateto + ' ' + sitefrom + ' ' + siteto);
+                if (datefrom == 'undefined') {
+                    $scope.Notification('error', 'please select Date from..');
+                }
+                else if (dateto == 'undefined') {
+                    $scope.Notification('error', 'please select Date to..');
+                }
+                else if (sitefrom == 'undefined') {
+                    $scope.Notification('error', 'please select Site from..');
+                }
+                else if (siteto == 'undefined') {
+                    $scope.Notification('error', 'please select Site to..');
+                }
+                //else if (doctorNam == 'undefined') {
+                //    $scope.Notification('error', 'please select Doctor..');
+                //}
+                else {
+                    $window.open("/Reports/Print_Summary_Test?DateFrom=" + new Date(datefrom).toDateString() + "&DateTo=" + new Date(dateto).toDateString() + "&SiteFrom=" + sitefrom + "&SiteTo=" + siteto /*+ "&DoctorNam=" + doctorNam*/, "_blank");
+                    //alert(new Date(datefrom).toDateString() + '-' + new Date(dateto).toDateString() + '-' + sitefrom + '-' + siteto);
+                }
+            }; 
+            //=============Export to Excell Clinic==============
+            $scope.ExportClinicToExcell = function () {
+                var FileName = $scope.TxtClinicFileName;
+                if (FileName == null) {
+                    FileName = 'Export1';
+                }
+                else {
+                    FileName = $scope.TxtClinicFileName;
+                }
+                $("#ClinicRpt").table2excel({
+                    filename: FileName + ".xls"
+                });
+            };
+            //=============Export to Excell Session==============
+            $scope.ExportSessionToExcell = function () {
+                var FileName = $scope.TxtClinicFileName;
+                if (FileName == null) {
+                    FileName = 'Export1';
+                }
+                else {
+                    FileName = $scope.TxtClinicFileName;
+                }
+                $("#SessionRpt").table2excel({
+                    filename: FileName + ".xls"
+                });
+            };
+             //=============Export to Excell For Summary==============
+            $scope.ExportSummaryToExcell = function () {
+                var FileName = $scope.TxtClinicFileName;
+                if (FileName == null) {
+                    FileName = 'Export1';
+                }
+                else {
+                    FileName = $scope.TxtClinicFileName;
+                }
+                $("#SummaryRpt").table2excel({
+                    filename: FileName + ".xls"
+                });
+            };
+            //==================Get Total Charges by ID For Clinic=======================
+            $scope.GetClinicTotal = function () {
+                var DF = $scope.txtDTFrm;
+                //alert("Date " + DF);
+                if (DF == null) {
+                    DF = '01/01/1900';
+                }
+                else {
+                    DF = new Date($scope.txtDTFrm);
+                    //alert("Date " + DF);
+                }
+
+                var TF = $scope.txtDTTo;
+
+                if (TF == null) {
+                    TF = '01/01/1900';
+                }
+                else {
+                    TF = new Date($scope.txtDTTo);
+                    //alert("Date " + TF);
+                }
+                var displayReq = {
+                    method: 'POST',
+                    url: '/Reports/Get_Clinic_Total',
+                    data:
+                    {
+                        SiteFrom: $scope.txtSitefrm,
+                        SiteTo: $scope.txtSiteTo,
+                        DateFrom: DF,
+                        DateTo: TF,
+                        DoctorNam:$scope.txtDoctor
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    $scope.dtGetSumClinic = angular.fromJson(Return.data);
+                }, function myError(Return) {
+                        //$scope.On_Clear();
+                        $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                    });
+            };
+            //==================Get Total Charges by ID For Session=======================
+            $scope.GetSessionTotal = function () {
+                var DF = $scope.txtDTFrm;
+                //alert("Date " + DF);
+                if (DF == null) {
+                    DF = '01/01/1900';
+                }
+                else {
+                    DF = new Date($scope.txtDTFrm);
+                    //alert("Date " + DF);
+                }
+
+                var TF = $scope.txtDTTo;
+
+                if (TF == null) {
+                    TF = '01/01/1900';
+                }
+                else {
+                    TF = new Date($scope.txtDTTo);
+                    //alert("Date " + TF);
+                }
+                var displayReq = {
+                    method: 'POST',
+                    url: '/Reports/Get_Session_Total',
+                    data:
+                    {
+                        SiteFrom: $scope.txtSitefrm,
+                        SiteTo: $scope.txtSiteTo,
+                        DateFrom: DF,
+                        DateTo: TF,
+                        DoctorNam:$scope.txtDoctor
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    $scope.dtGetSumSession = angular.fromJson(Return.data);
+                }, function myError(Return) {
+                        //$scope.On_Clear();
+                        $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                    });
+            };
+            //Display Token Data
+            $scope.GetTokenViewData = function (Token) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Reports/Get_Tokendata",
+                    data: {
+                        TokenNo: Token
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    $scope.dtGetTokenAll = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //==================Get Total Charges by ID For First Aid=======================
+            $scope.GetFirstAidTotal = function () {
+                var DF = $scope.txtDTFrm;
+                //alert("Date " + DF);
+                if (DF == null) {
+                    DF = '01/01/1900';
+                }
+                else {
+                    DF = new Date($scope.txtDTFrm);
+                    //alert("Date " + DF);
+                }
+
+                var TF = $scope.txtDTTo;
+
+                if (TF == null) {
+                    TF = '01/01/1900';
+                }
+                else {
+                    TF = new Date($scope.txtDTTo);
+                    //alert("Date " + TF);
+                }
+                var displayReq = {
+                    method: 'POST',
+                    url: '/Reports/Get_FirstAid_Total',
+                    data:
+                    {
+                        SiteFrom: $scope.txtSitefrm,
+                        SiteTo: $scope.txtSiteTo,
+                        DateFrom: DF,
+                        DateTo: TF,
+                        DoctorNam:$scope.txtDoctor
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    $scope.dtGetSumFirstAid = angular.fromJson(Return.data);
+                }, function myError(Return) {
+                        //$scope.On_Clear();
+                        $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                    });
+            };
+            //Display Token Data
+            $scope.GetTokenViewData = function (Token) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatHist/Get_Tokendata",
+                    data: {
+                        TokenNo: Token
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    $scope.dtGetTokenAll = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //================View All Data For Clinic=========================
+            $scope.GetClinicViewAllData = function () {
+                var DF = $scope.txtDTFrm;
+                //alert("Date " + DF);
+                if (DF == null) {
+                    DF = '01/01/1900';
+                }
+                else {
+                    DF = new Date($scope.txtDTFrm);
+                    //alert("Date " + DF);
+                }
+
+                var TF = $scope.txtDTTo;
+
+                if (TF == null) {
+                    TF = '01/01/1900';
+                }
+                else {
+                    TF = new Date($scope.txtDTTo);
+                    //alert("Date " + TF);
+                }
+                var displayReq = {
+                    method: 'POST',
+                    url: '/Reports/Get_ClinicViewdata',
+                    data:
+                    {
+                        SiteFrom: $scope.txtSitefrm,
+                        SiteTo: $scope.txtSiteTo,
+                        DateFrom: DF,
+                        DateTo: TF,
+                        DoctorNam:$scope.txtDoctor
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    $scope.dtClinicGetAll = angular.fromJson(Return.data);
+                    $scope.GetClinicTotal();
+                }, function myError(Return) {
+                        //$scope.On_Clear();
+                        $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                    });
+            };
+            //================View All Data For Session=========================
+            $scope.GetSessionViewAllData = function () {
+                var DF = $scope.txtDTFrm;
+                //alert("Date " + DF);
+                if (DF == null) {
+                    DF = '01/01/1900';
+                }
+                else {
+                    DF = new Date($scope.txtDTFrm);
+                    //alert("Date " + DF);
+                }
+
+                var TF = $scope.txtDTTo;
+
+                if (TF == null) {
+                    TF = '01/01/1900';
+                }
+                else {
+                    TF = new Date($scope.txtDTTo);
+                    //alert("Date " + TF);
+                }
+                var displayReq = {
+                    method: 'POST',
+                    url: '/Reports/Get_SessionViewdata',
+                    data:
+                    {
+                        SiteFrom: $scope.txtSitefrm,
+                        SiteTo: $scope.txtSiteTo,
+                        DateFrom: DF,
+                        DateTo: TF,
+                        DoctorNam:$scope.txtDoctor
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    $scope.dtSessionGetAll = angular.fromJson(Return.data);
+                    $scope.GetSessionTotal();
+                }, function myError(Return) {
+                        //$scope.On_Clear();
+                        $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                    });
+            };
+            //================View All Data For First Aid=========================
+            $scope.GetFirstAidViewAllData = function () {
+                var DF = $scope.txtDTFrm;
+                //alert("Date " + DF);
+                if (DF == null) {
+                    DF = '01/01/1900';
+                }
+                else {
+                    DF = new Date($scope.txtDTFrm);
+                    //alert("Date " + DF);
+                }
+
+                var TF = $scope.txtDTTo;
+
+                if (TF == null) {
+                    TF = '01/01/1900';
+                }
+                else {
+                    TF = new Date($scope.txtDTTo);
+                    //alert("Date " + TF);
+                }
+                var displayReq = {
+                    method: 'POST',
+                    url: '/Reports/Get_FirstAidViewdata',
+                    data:
+                    {
+                        SiteFrom: $scope.txtSitefrm,
+                        SiteTo: $scope.txtSiteTo,
+                        DateFrom: DF,
+                        DateTo: TF,
+                        DoctorNam:$scope.txtDoctor
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    $scope.dtFirstAidGetAll = angular.fromJson(Return.data);
+                    $scope.GetFirstAidTotal();
+                }, function myError(Return) {
+                        //$scope.On_Clear();
+                        $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                    });
+            };
+            //Display Site FROM and To Lookup
+            $scope.GetSiteFTall = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatHist/Get_SiteFTdata",
+                    data: {}
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.dtGetSFTAll = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //Data Site FROM Get By ID
+            $scope.GetSFByID = function (SiteCode) {
+                $scope.txtSitefrm = SiteCode;
+            };
+            //Data Site TO Get By ID
+            $scope.GetSTByID = function (SiteCode) {
+                $scope.txtSiteTo = SiteCode;
+            };
+
+            //Get Token
+            $scope.GetToknData = function (Token) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatHist/Get_TKndata",
+                    data: {
+                        TokenNo: Token
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    $scope.dtTknDDataAll = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            $scope.On_Clear = function () {
+                $scope.txtSitefrm = '';
+                $scope.txtSiteTo = '';
+                $scope.txtDoctor = '';
+                $scope.txtDTFrm = '';
+                $scope.txtDTTo = '';
+                $scope.dtClinicGetAll = null;
+                $scope.dtSessionGetAll = null;
+                $scope.dtFirstAidGetAll = null;
+                $scope.dtGetSumClinic = null;
+                $scope.dtGetSumFirstAid = null;
+                $scope.dtGetSumSession = null;
+                //$scope.GetViewAllData();
+
+            };
+            //$scope.On_Clear();
+            //$scope.GetTest();
+        });
+    </script>
+
+    <script src="~/Scripts/Export/html2canvas.min.js"></script>
+    <script src="~/Scripts/Export/pdfmake.min.js"></script>
+    <script src="~/Scripts/Export/table2excel.js"></script>
+
+}

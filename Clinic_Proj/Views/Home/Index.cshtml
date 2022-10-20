@@ -1,0 +1,161 @@
+﻿
+@{
+    ViewBag.Title = "BusinessGraph";
+}
+
+    <div ng-app="RegistrationForm" ng-controller="Home">
+
+        <div class="row page-titles">
+            <div class="col-md-5 align-self-center">
+                <h2 class="text-themecolor border" style="color:red"><b>Corner Clinic Business Graph</b></h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="NetClinicSiteWise"></div>
+            </div>
+        </div>
+
+    </div>
+        @*<style>
+
+            #myVideo {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                width: 100%;
+                height: 700px;
+            }
+
+        </style>
+            <video controls loop autoplay muted id="myVideo">
+                <source src="~/Scripts/Custom/Clinic.mp4" type="video/mp4">
+                Your browser does not support HTML5 video.
+            </video>*@
+
+        @section scripts{
+            <script>
+                var RegistrationForm = angular.module("RegistrationForm", []);
+                RegistrationForm.controller("Home", function ($scope, $http) {
+                    $scope.Notification = function (Type, Heading, Test) {
+                        //info, warning, success, error
+                        $.toast({
+                            heading: Heading,
+                            text: Test,
+                            position: 'top-right',
+                            loaderBg: '#ff6849',
+                            icon: Type,
+                            hideAfter: 3500,
+                            stack: 6
+                        });
+                    };
+                    //===================Display Graph==========================
+                    $scope.GetViewDataByID = function () {
+                        var displayReq = {
+                            method: "POST",
+                            url: "/Graph/Get_GraphData",
+                            data: {
+                            }
+                        }
+                        $http(displayReq).then(function (Return) {
+
+                            var dtReturn = angular.fromJson(Return.data);
+                            var NetClinic = new Array();
+                            var NetFirstAid = new Array();
+                            var NetSession = new Array();
+                            var Date = new Array();
+
+                            for (var i = 0; i < dtReturn.length; i++) {
+                                Date[i] = dtReturn[i].Mnth;
+                                NetClinic[i] = dtReturn[i].ClinicTotal;
+                                NetFirstAid[i] = dtReturn[i].FATotal;
+                                NetSession[i] = dtReturn[i].SessionTotal;
+                            }
+
+                            var line = new Highcharts.chart('NetClinicSiteWise', {
+                                chart: {
+                                    type: 'line',
+                                    zoomType: 'x'
+                                },
+                                title: {
+                                    text: 'Clinic Session & First Aid Revenue (PKR)'
+                                },
+                                subtitle: {
+                                    text: 'Monthly Sale'
+                                },
+                                xAxis: {
+                                    categories: Date,
+                                    labels: {
+                                        rotation: 30,
+                                        style: {
+                                            fontFamily: 'Verdana, sans-serif'
+                                        }
+                                    }
+                                },
+                                yAxis: {
+                                    title: {
+                                        text: 'Net Amount'
+                                    }
+                                },
+                                credits: {
+                                    enabled: false
+                                },
+                                plotOptions: {
+                                    line: {
+                                        dataLabels: {
+                                            enabled: true
+                                        },
+                                        enableMouseTracking: true
+                                    }
+                                },
+                                series: [{
+                                    name: 'Clinic',
+                                    data: NetClinic
+                                },
+                                {
+                                    name: 'First Aid',
+                                    data: NetFirstAid
+                                    },
+                                {
+                                    name: 'Session',
+                                    data: NetSession
+                                }
+                                ]
+                            });
+                        }, function myError(Return) {
+                            $scope.Notification('error', 'Error Code LC0001', Return.data);
+                        });
+                    };
+            //=============Closed All Tokens=================
+            //$scope.GetDiscClassData = function () {
+            //    var displayReq = {
+            //        method: "POST",
+            //        url: "/Graph/Get_Closeddata",
+            //        data: {}
+            //    }
+            //    $http(displayReq).then(function (Return) {
+            //    if (Return.data == "Done") {
+            //    $scope.Notification('success', 'Operation Completed', 'All Pending Token Closed');
+            //           }
+            //    else {
+            //    $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+            //       }
+            //    }, function myError(Return) {
+            //        $scope.Notification('error', 'Error Code LC0001', Return.data);
+            //    });
+            //};
+                    $scope.GetViewDataByID();
+                    //$scope.GetDiscClassData();
+                });
+
+
+
+            </script>
+            <script src="~/Content/HighCharts/Content/Highcharts-7.2.1/code/highcharts.js"></script>
+            <script src="~/Content/HighCharts/Content/Highcharts-7.2.1/code/modules/exporting.js"></script>
+            <script src="~/Content/HighCharts/Content/Highcharts-7.2.1/code/modules/export-data.js"></script>
+        }
+
+
+

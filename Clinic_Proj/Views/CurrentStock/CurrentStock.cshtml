@@ -1,0 +1,282 @@
+﻿
+@{
+    ViewBag.Title = "CurrentStock";
+}
+
+<div ng-app="RegistrationForm" ng-controller="Home">
+
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Current Stock</h4>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Current Stock</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!--row-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div id="SiteFrom" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Site</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="SiteFTSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Site ID</th>
+                                                <th>Site Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtGetSFTAll | filter:SiteFTSearch">
+                                                <td><button ng-click="GetSFByID(item.SiteCode)" class="btn btn-link" data-dismiss="modal">{{item.SiteCode}}</button></td>
+                                                <td>{{item.SiteName}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Current Stock</h4>
+                </div>
+                <div class="card-body">
+                    <form name="CurrentStock">
+                        <div class="form-body form-group">
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="SiteFrm">Site ID:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Sitefrm" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtSitefrm" readonly />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#SiteFrom" href="javascript:void(0)" ng-click="GetSiteFTall()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <button ng-click="GetViewAllData()" ng-disabled="CurrentStock.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-filter"></i> Filter</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <button type="button" class="btn btn-warning dropdown-toggle" ng-model="BtnExport" data-toggle="dropdown">
+                                                Export
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li class="dropdown-item"><a href="#" class="btn btn-link" ng-click="ExportToPDF()">Pdf</a></li>
+                                                <li class="dropdown-divider"></li>
+                                                <li class="dropdown-item"><a href="#" class="btn btn-link" ng-click="ExportToExcell()">Excell</a></li>
+                                            </ul>
+                                        </div>
+                                        <!-- /btn-group -->
+                                        <input type="text" class="form-control" ng-model="TxtFileName" placeholder="Enter Export File Name Here..">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row p-t-20">
+                                <div class="col-md-12">
+                                    <table id="CurrentRpt" class="table-sm table-hover table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th><b>Sr #</b></th>
+                                                <th><b>Item Code</b></th>
+                                                <th><b>Item Name</b></th>
+                                                <th><b>Pack Qty</b></th>
+                                                <th><b>Units In Pack</b></th>
+                                                <th><b>Unit Qty</b></th>
+                                                <th><b>Expiry Date</b></th>
+                                                <th><b>Batch #</b></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtCurrentGetAll">
+                                                <td>{{$index + 1}}</td>
+                                                <td>{{item.ItemCode}}</td>
+                                                <td>{{item.ItemName}}</td>
+                                                <td>{{item.PackQty | number:2}}</td>
+                                                <td>{{item.UnitsInPack | number:2}}</td>
+                                                <td>{{item.UnitQty | number:2}}</td>
+                                                <td>{{item.ExpiryDate | date:dd-MMM-yyyy}}</td>
+                                                <td>{{item.BatchNo}}</td>
+                                            </tr>
+                                        </tbody>
+                                        
+                                    </table>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row p-t-20">
+                            <label class="col-md-1">Count(s)</label>
+                            <div class="col-md-1">
+                                <input type="text" class="form-control font-weight-bold text-center" ng-model="TxtCount | number:0" readonly />
+                            </div>
+                        </div>
+                    </form>
+                            
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row -->
+</div>
+@section scripts {
+
+    <script>
+
+        var RegistrationForm = angular.module("RegistrationForm", []);
+        RegistrationForm.controller("Home", function ($scope, $http) {
+            $scope.Notification = function (Type, Heading, Test) {
+                //info, warning, success, error
+                $.toast({
+                    heading: Heading,
+                    text: Test,
+                    position: 'top-right',
+                    loaderBg: '#ff6849',
+                    icon: Type,
+                    hideAfter: 3500,
+                    stack: 6
+                });
+            };
+            //=============Export to PDF=============
+            $scope.ExportToPDF = function () {
+                var FileName = $scope.TxtFileName;
+                if (FileName == null) {
+                    FileName = 'Export1';
+                }
+                else {
+                    FileName = $scope.TxtFileName;
+                }
+                html2canvas(document.getElementById('CurrentRpt'), {
+                    onrendered: function (canvas) {
+                        var data = canvas.toDataURL();
+                        var docDefinition = {
+                            content: [{
+                                image: data,
+                                width: 500
+                            }]
+                        };
+                        pdfMake.createPdf(docDefinition).download(FileName + ".pdf");
+                    }
+                });
+            };
+            //=============Export to Excell==============
+            $scope.ExportToExcell = function () {
+                var FileName = $scope.TxtFileName;
+                if (FileName == null) {
+                    FileName = 'Export1';
+                }
+                else {
+                    FileName = $scope.TxtFileName;
+                }
+                $("#CurrentRpt").table2excel({
+                    filename: FileName + ".xls"
+                });
+            };
+            //Data Site FROM Get By ID
+            $scope.GetSFByID = function (SiteCode) {
+                $scope.txtSitefrm = SiteCode;
+            };
+            //Display Site FROM and To Lookup
+            $scope.GetSiteFTall = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatHist/Get_SiteFTdata",
+                    data: {}
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.dtGetSFTAll = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //==================Get Total For Current Stock=======================
+            $scope.GetTotal = function () {
+                var displayReq = {
+                    method: 'POST',
+                    url: '/CurrentStock/Get_Current_Total',
+                    data:
+                    {
+                        SiteFrom: $scope.txtSitefrm
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    $scope.dtGetCurrentTotal = angular.fromJson(Return.data);
+                }, function myError(Return) {
+                        //$scope.On_Clear();
+                        $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                    });
+            };
+            //================View All Data For Current Stock=========================
+            $scope.GetViewAllData = function () {
+                //$scope.LoadingCircle = true;
+                var displayReq = {
+                    method: 'POST',
+                    url: '/CurrentStock/Get_Viewdata',
+                    data:
+                    {
+                        SiteFrom: $scope.txtSitefrm
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    $scope.TxtCount = dt.length;
+                    $scope.dtCurrentGetAll = angular.fromJson(Return.data);
+                    $scope.GetTotal();
+                }, function myError(Return) {
+                        //$scope.On_Clear();
+                        $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                    });
+            };
+            $scope.On_Clear = function () {
+                $scope.txtSitefrm = '';
+                $scope.dtCurrentGetAll = null;
+            };
+            $scope.TxtCount = '0';
+        });
+    </script>
+
+    <script src="~/Scripts/Export/html2canvas.min.js"></script>
+    <script src="~/Scripts/Export/pdfmake.min.js"></script>
+    <script src="~/Scripts/Export/table2excel.js"></script>
+
+}
+

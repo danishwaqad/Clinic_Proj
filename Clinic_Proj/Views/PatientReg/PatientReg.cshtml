@@ -1,0 +1,809 @@
+﻿
+@{
+    ViewBag.Title = "PatientReg";
+}
+
+<div ng-app="RegistrationForm" ng-controller="Home">
+
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+        </div>
+        <div class="col-md-7 align-self-center">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Patient Registration</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!--row-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Patient Registration</h4>
+                </div>
+                <div class="card-body">
+                    <hr />
+                    <div id="DocName" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Doctor Name</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="TxtDocSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Doctor Name</th>
+                                                    <th>Fee</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtGetDocName | filter: TxtDocSearch">
+                                                    <td><button ng-click="GetDoctorName(item.DrID)" class="btn btn-link" data-dismiss="modal">{{item.DrName}}</button></td>
+                                                    <td>{{item.Charges}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <div id="Banks" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Bank Name</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="TxtBnkSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Banks Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtBankName | filter: TxtBnkSearch">
+                                                    <td><button ng-click="GetBankName(item.BankName)" class="btn btn-link" data-dismiss="modal">{{item.BankName}}</button></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <div id="PayMeth" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Payment Method</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="TxtPaySearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Payment Methods</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtPayMeth | filter: TxtPaySearch">
+                                                    <td><button ng-click="GetPayByid(item.MethodName)" class="btn btn-link" data-dismiss="modal">{{item.MethodName}}</button></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <div id="Relation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Relation Name</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="TxtRelationSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Relation Name</th>
+                                                    <th>In Active</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtGetRelationAll | filter: TxtRelationSearch">
+                                                    <td><button ng-click="GetPatAvail_ByRelation(txtCNIC,item.RelationName)" class="btn btn-link" data-dismiss="modal">{{item.RelationName}}</button></td>
+                                                    <td>{{item.InActive}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <div id="PatientName" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Patient Name</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="TxtTokenSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>M.R #</th>
+                                                    <th>Token Date</th>
+                                                    <th>Reg #</th>
+                                                    <th>Patient Name</th>
+                                                    <th>Doctor Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtGetAll | filter:TxtTokenSearch">
+                                                    <td><button ng-click="GetDataByID(item.TokenNo)" class="btn btn-link" data-dismiss="modal">{{item.TokenNo}}</button></td>
+                                                    <td>{{item.TokenDate}}</td>
+                                                    <td>{{item.RegNo}}</td>
+                                                    <td>{{item.FirstName}} {{item.MidName}} {{item.LastName}}</td>
+                                                    <td>{{item.DrName}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!--Dr Type Search-->
+                    <div id="DrTypeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Patient Type</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="PatTypeSearch" ng-model="TxtTypeSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Type</th>
+                                                    <th>In Active</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtGetTypeAll | filter:TxtTypeSearch">
+                                                    <td><button ng-click="GetPatByType(item.PatientType)" class="btn btn-link" data-dismiss="modal">{{item.PatientType}}</button></td>
+                                                    <td>{{item.InActive}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                    </div>
+                    <!--Patient Already Availabe-->
+                    <div id="PatientAvai" class="modal fade show" ng-if="ShowPatient == true" role="dialog" aria-labelledby="myLargeModalLabel" style="display: block; padding-right: 17px;" aria-modal="true">
+                        <div class="modal-dialog-scrollable">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="myLargeModalLabel">Select Patient</h4>
+                                        <button type="button" ng-click="ClosePatientModal()" class="btn btn-danger" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-7">
+
+                                            </div>
+                                            <div class="col-md-1">
+                                                <label for="CompSearch">Search:</label>
+                                            </div>
+                                            <div class="col-md-4 form-material">
+                                                <input type="text" class="form-control" id="PatTypeSearch" ng-model="TxtAvailSearch" />
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive-sm">
+                                            <table class="table-sm table-hover table-bordered text-dark">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Patient Name</th>
+                                                        <th>Last Visit</th>
+                                                        <th>CNIC</th>
+                                                        <th>Patient Type</th>
+                                                        <th>Doctor</th>
+                                                        <th>Age</th>
+                                                        <th>Relation</th>
+                                                        <th>Site</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in dtGetPatAvail | filter:TxtAvailSearch">
+                                                        <td><button ng-click="GeExistdataid(item.CNIC,item.Relation,item.CCPL_ROW_ID)" class="btn btn-link" data-dismiss="modal">{{item.FullName}}</button></td>
+                                                        <td>{{item.TokenDate | date:dd-MMM-yyyy}}</td>
+                                                        <td>{{item.CNIC}}</td>
+                                                        <td>{{item.PatType}}</td>
+                                                        <td>{{item.DrName}}</td>
+                                                        <td>{{item.DOB | date:dd-MMM-yyyy}} [ {{item.Age}} ]</td>
+                                                        <td>{{item.Relation}}</td>
+                                                        <td>{{item.SiteID}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button ng-click="ClosePatientModal()" class="btn btn-danger">Close</button>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                        </div>
+                    </div>
+
+                    @*======================================*@
+                    <!--Patient Are Not Availabe-->
+                    @*<div id="PatientAvai" class="modal fade show" ng-if="ShowCNICReg == true" role="dialog" aria-labelledby="myLargeModalLabel" style="display: block; padding-right: 17px;" aria-modal="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">CNIC Registeration</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p>CNIC is not registered yet..</p>
+                                <p>Do You Want To Register..?</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button ng-click="OpenCNICRegForm()" class="btn btn-success">Proceed</button>
+                        <button ng-click="CloseCNICRegModal()" class="btn btn-danger">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+                    @*=====================================*@
+                    <!-- /.Dr Type Search End -->
+                    @*=========================================== Form ============================================*@
+                    <form name="CreatePatient">
+                        <div class="form-body form-group">
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="CNIC">CNIC/Cell #:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="txtCNIC" data-target="#PatientAvai" class="form-control form-input-grey" ng-model="txtCNIC" @*ng-blur="GetPatAvail(txtCNIC)"*@ required readonly />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Relation">Relation:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Relation" class="form-control form-input-grey" ng-model="txtRelation" readonly required />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" ng-disabled="Relationbtn" data-target="#Relation" href="javascript:void(0)" ng-click="GetPatRelation()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="TokenNo">M.R #:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="TokenNo" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtTokenNo" maxlength="100" required readonly />
+                                        @*<input type="number" id="TokenNo" class="col-md-2 form-control form-input-grey text-center font-weight-bold" ng-change="GetSecound_InOne()" ng-model="txtRelationNm" maxlength="100"/>*@
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="CNIC">Reg. Date:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="date" ng-model="txtTokenDate" class="form-control text-center font-weight-bold" readonly />
+                                    </div>
+                                </div>
+                                @*<div class="col-md-1"></div>
+                    <div class="col-sm-1">
+                        <label class="control-label text-dark" for="CNIC">CNIC:</label>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <input type="text" id="txtCNIC" class="form-control form-input-grey" ng-model="txtCNIC" maxlength="15" ng-blur="NewToken(txtCNIC,'Self')"/>
+                        </div>
+                    </div>*@
+                            </div>
+                            <h4 class="card-title"></h4>
+                            <hr />
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="PatientName">Patient Name:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <select class="form-control form-input-grey col-md-2" ng-model="DDLTitle" ng-change="GenderSelction()">
+                                            <option value="Mr">Mr.</option>
+                                            <option value="Master">Master.</option>
+                                            <option value="Mrs">Mrs.</option>
+                                            <option value="MS">Ms.</option>
+                                            <option value="Baby">Baby.</option>
+                                        </select>
+                                        <input type="text" id="PatientFName" class="form-control form-input-grey" placeholder="First Name" ng-model="txtFPatientName" ng-change="Testing()" required />
+                                        <input type="text" id="PatientMName" class="form-control form-input-grey" placeholder="Middle Name" ng-model="txtMPatientName" />
+                                        <input type="text" id="PatientLName" class="form-control form-input-grey" placeholder="Last Name" ng-model="txtLPatientName" />
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="row p-t-20">
+
+                                <div class="col-md-1"></div>
+                                <div class="col-md-1">
+                                    <label class="control-label text-dark" for="DOB">DOB:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="date" id="DOB" ng-model="txtDOB" class="form-control form-input-grey" title="Date Of Birth" required />
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-1">
+                                    <label class="control-label text-dark" for="Gender">Gender:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <select id="Gender" ng-model="txtGender" class="btn btn-outline-secondary dropdown-toggle form-control form-input-grey" required>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 input-group">
+                                    <input type="text" id="PatientYear" class="form-control form-input-grey" value="0" placeholder="Y" ng-blur="GetMonthCalc()" ng-model="txtYear" />
+                                    <input type="text" id="PatientMonth" class="form-control form-input-grey" placeholder="M" ng-blur="GetMonthCalc()" ng-model="txtMonth" />
+                                    <input type="text" id="PatientDay" class="form-control form-input-grey" placeholder="D" ng-blur="GetMonthCalc()" ng-model="txtDay" />
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="GuardianName">Guardian:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="GuardianName" class="form-control form-input-grey" ng-model="txtGuardianName" maxlength="200" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="TokenNo">Reg. #:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control text-center font-weight-bold" ng-model="txtRegistrationNo" style="color:red;" readonly />
+                                    </div>
+                                </div>
+                                @*<div class="col-md-1"></div>
+                    <div class="col-sm-1">
+                        <label class="control-label text-dark" for="Relation">Relation:</label>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <input type="text" id="Relation" class="form-control form-input-grey" ng-model="txtRelation" readonly />
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#Relation"  href="javascript:void(0)" ng-click="GetPatRelation()"><i class="ti-search"></i></button>
+                            </div>
+                        </div>
+                    </div>*@
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Address">Address:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Address" class="form-control form-input-grey" ng-model="txtAddress" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="City">City:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="City" class="form-control form-input-grey" ng-model="txtCity"/>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Country">Country:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Country" class="form-control form-input-grey" ng-model="txtCountry"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="EmailID">Email:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="EmailID" class="form-control form-input-grey" ng-model="txtEmailID"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Tel1">Cell Ph# 1:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" maxlength="12" id="Tel1" placeholder="923001234567" class="form-control form-input-grey" ng-model="txtTel1"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Tel2">Cell Ph# 2:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" maxlength="12" id="Tel2" placeholder="923001234567" class="form-control form-input-grey" ng-model="txtTel2"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="ReferBy">Refer By:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="ReferBy" class="form-control form-input-grey" ng-model="txtReferBy" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="PatType">Patient Type:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input disabled type="text" id="PatType" class="form-control form-input-grey" ng-model="txtPatType" required/>
+
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" ng-disabled="pattypbtnDisabl" data-target="#DrTypeModal" href="javascript:void(0)" ng-click="GetPatType()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Remarks">Remarks<br />If Any:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <input type="text" id="Remarks" class="form-control form-input-grey" ng-model="txtRemarks" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+                @*=================================== Doctor Setup==========================*@
+                <div>
+                    <div class="tab-pane" id="DoctorFeeSetup" role="tabpanel">
+                        <!--row-->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Doctor Information</h4>
+                                        <hr />
+                                        <form name="frmPersonalInfo">
+
+                                            <div class="form-body form-group">
+
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-sm-1">
+                                                        <label class="control-label text-dark" for="DoctorName">Doctor Name:</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <input disabled type="text" id="DoctorID" class="form-control col-md-2 form-input-grey text-center" ng-model="txtDoctID" ng-disabled="DocIDDisable" required readonly />
+                                                            <input disabled type="text" id="DoctorName" class="form-control form-input-grey" ng-model="txtDoctName" ng-disabled="DocNamDisable" required readonly />
+                                                            <div class="input-group-append">
+                                                                <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#DocName" ng-disabled="DocNamSelDisable" href="javascript:void(0)" ng-click="GetDoctorname()"><i class="ti-search"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-sm-1">
+                                                        <label class="control-label text-dark" for="Charges">Fee Charges:</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <input disabled type="text" id="Charges" class="form-control form-input-grey text-center font-weight-bold" ng-disabled="DocFeeDisable" ng-model="txtCharges" readonly />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row p-t-20">
+
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-sm-1">
+                                                        <label class="control-label text-dark" for="Discount">Discount:</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <select class="form-control form-input-grey" ng-model="DDLDisType" ng-disabled="DocDiscDisable">
+                                                                <option value="0">-Select-</option>
+                                                                <option value="%">%</option>
+                                                                <option value="Rs">Rs.</option>
+                                                            </select>
+                                                            <input type="number" id="Discount" class="form-control form-input-grey text-center font-weight-bold" ng-disabled="DocApprDisable" value="0" ng-model="txtDiscount" ng-change="CalculateDiscount()" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-sm-1">
+                                                        <label class="control-label text-dark" for="DisAprov">Approved By:</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <input type="text" id="DisAprov" class="form-control form-input-grey" ng-disabled="DocApprDisable" ng-model="txtDisAprov" maxlength="50" />
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-sm-1">
+                                                        <label class="control-label text-dark" for="PaidFee">Paid Amount:</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <input type="number" id="PaidFee" class="form-control form-input-grey text-center font-weight-bold" ng-disabled="DocPaidDisable" ng-model="txtPaidFee" value="0" ng-change="CalculateDiscount()" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-sm-1">
+                                                        <label class="control-label text-dark" for="Balance">Balance Amount:</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <input type="number" id="Balance" class="form-control form-input-grey text-center font-weight-bold" ng-disabled="DocBalDisable" ng-model="txtBalance" readonly />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-sm-1">
+                                                        <label class="control-label text-dark" for="Bank">Payment Method:</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <input type="text" id="PayMethod" class="form-control form-input-grey text-center font-weight-bold" ng-disabled="DocPayInpDisable" ng-model="txtPayMethod" readonly />
+                                                            <div class="input-group-append">
+                                                                <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#PayMeth" ng-disabled="DocPayBtnDisable" href="javascript:void(0)" ng-click="GetPayMeth()"><i class="ti-search"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-sm-1">
+                                                        <label class="control-label text-dark" for="Bank">Bank:</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <input type="text" id="Bank" class="form-control form-input-grey text-center font-weight-bold" ng-disabled="DocBankInpDisable" ng-model="txtBank" readonly />
+                                                            <div class="input-group-append">
+                                                                <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#Banks" ng-disabled="DocBankBtnDisable" href="javascript:void(0)" ng-click="GetBank()"><i class="ti-search"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-sm-1">
+                                                        <label class="control-label text-dark" for="CompID">Company ID:</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <input type="text" id="CompID" class="form-control form-input-grey text-center font-weight-bold" ng-disabled="CompIDDis" ng-model="txtCompID" readonly />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-sm-1">
+                                                        <label class="control-label text-dark" for="CompName">Company Name:</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <input type="text" id="CompName" class="form-control form-input-grey text-center font-weight-bold" ng-disabled="CompNameDis" ng-model="txtCompName" readonly />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-3"></div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3"></div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            @*<button ng-click="savedata(); saveFeedata()" ng-hide="CUSaveBtn" ng-disabled="CreatePatient.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>*@
+                                                            @*<button ng-click="TypeWiseUpdate()" ng-hide="CUUpdateBtn" ng-disabled="CreatePatient.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Update</button>*@
+                                                            <button ng-click="TypeWiseInsert()" ng-hide="CUSaveBtn" ng-disabled="CreatePatient.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3"></div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <hr />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Row -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+
+
+    <script src="~/Scripts/Custom/Patient_JS.js"></script>
+    @*<script type="text/javascript">
+        //=============CNIC Pattern================
+        function addHyphen(elem) {
+            if (elem.value.length <= 15) {
+                if (elem.value.length === 5) {
+                    elem.value = `${elem.value}-`;
+                }
+                if (elem.value.length === 13) {
+                    elem.value = `${elem.value}-`;
+                }
+                if (elem.value.length === 15) {
+                    elem.value = `${elem.value}`;
+                }
+            } else {
+                elem.value = elem.value.slice(0, -1)
+            }
+        };
+    </script>*@
+
+}
+
+

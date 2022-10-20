@@ -1,0 +1,1006 @@
+﻿
+@{
+    ViewBag.Title = "DoctorReg";
+}
+
+<div ng-app="RegistrationForm" ng-controller="Home">
+
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Doctor Registration</h4>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Doctor Registration</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!--row-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Doctor Registration</h4>
+                </div>
+                <div class="card-body">
+                    <div id="DrName" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Doctor Name</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="TxtDocSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Dr Name</th>
+                                                    <th>Active</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtGetAll | filter:TxtDocSearch">
+                                                    <td><button ng-click="GetDataByID(item.DoctorID,item.SiteID)" class="btn btn-link" data-dismiss="modal">{{item.DoctorName}}</button></td>
+                                                    <td>{{item.Status}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <div id="DrShareType" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Doctor Share Type</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="TxtShareSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Share Type</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtGetShareAll | filter:TxtShareSearch">
+                                                    <td><button ng-click="GetdrByShare(item.ShareType)" class="btn btn-link" data-dismiss="modal">{{item.ShareType}}</button></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <div id="DrShift" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Doctor Shift</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="TxtShiftSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Shift</th>
+                                                    <th>Description</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtGetShiftAll | filter:TxtShiftSearch">
+                                                    <td><button ng-click="GetdrByShift(item.ShiftID)" class="btn btn-link" data-dismiss="modal">{{item.ShiftID}}</button></td>
+                                                    <td>{{item.Description}}</td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!--Dr Type Search-->
+                    <div id="DrTypeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Dr Type</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="DrTypeSearch" ng-model="TxtTypeSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Type</th>
+                                                    <th>In Active</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtGetTypeAll | filter:TxtTypeSearch">
+                                                    <td><button ng-click="GetdrByType(item.DoctorType)" class="btn btn-link" data-dismiss="modal">{{item.DoctorType}}</button></td>
+                                                    <td>{{item.InActive}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                    </div>
+                    <div id="UserModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Site</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="TxtSiteSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Code</th>
+                                                    <th>Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtGetSiteAll | filter:TxtSiteSearch">
+                                                    <td><button ng-click="GetSiteDataByID(item.SiteCode)" class="btn btn-link" data-dismiss="modal">{{item.SiteCode}}</button></td>
+                                                    <td>{{item.SiteName}}</td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!-- /.Dr Type Search End -->
+                    <form name="CreateDr">
+                        <div class="form-body form-group">
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="DoctorID">DoctorID:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="DoctorID" class="form-control form-input-grey" ng-model="txtDoctorID" readonly />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#DrName" href="javascript:void(0)" ng-click="GetAllData()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-1">
+                                    <label class="control-label text-dark" for="txtStatus">Status:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <select id="Status" ng-model="txtStatus" class="btn btn-outline-secondary dropdown-toggle form-control form-input-grey">
+                                        <option value="Active">Active</option>
+                                        <option value="InActive">InActive</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="DrName">Dr Name:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <input type="text" id="DrName" class="form-control form-input-grey" ng-model="txtDrName" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="PatientName">S/D/W:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <input type="text" id="DrFName" class="form-control form-input-grey" placeholder="S/D/W" ng-model="txtDrFName" />
+                                        <input type="text" id="PatientMName" class="form-control form-input-grey" placeholder="Shift" ng-model="txtDrShift" readonly />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#DrShift" href="javascript:void(0)" ng-click="GetDrShift()"><i class="ti-search"></i></button>
+                                        </div>
+                                        <input type="text" id="DrShift" class="form-control form-input-grey" placeholder="Type" ng-model="txtDoctorType" readonly />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#DrTypeModal" href="javascript:void(0)" ng-click="GetDrType()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <!--/span-->
+                                <div class="col-md-1"></div>
+                                <div class="col-md-1">
+                                    <label class="control-label text-dark" for="Gender">Gender:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <select id="Gender" ng-model="txtGender" class="btn btn-outline-secondary dropdown-toggle form-control form-input-grey">
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-1">
+                                    <label class="control-label text-dark" for="DOB">DOB:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="date" id="DOB" ng-model="txtDOB" class="form-control form-input-grey" title="Date Of Birth" />
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="CNIC">CNIC:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        @*<input type="text" id="CNIC" class="form-control form-input-grey" ng-model="txtCNIC" maxlength="100" onkeypress="addHyphen(this)" />*@
+                                        <input type="text" id="CNIC" class="form-control form-input-grey" ng-model="txtCNIC" maxlength="100" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="EmailID">Email:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="email" id="EmailID" class="form-control form-input-grey" ng-model="txtEmailID" maxlength="100" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Address">Address:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <input type="text" id="Address" class="form-control form-input-grey" ng-model="txtAddress" maxlength="100" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--/span-->
+
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="City">City:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="City" class="form-control form-input-grey" ng-model="txtCity" maxlength="70" />
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Country">Country:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Country" class="form-control form-input-grey" ng-model="txtCountry" maxlength="70" />
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <!--/span-->
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Tel1">Cell # 1:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Tel1" class="form-control form-input-grey" ng-model="txtTel1" maxlength="30" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Tel2">Cell # 2:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Tel2" class="form-control form-input-grey" ng-model="txtTel2" maxlength="30" />
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Description">Reg #:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Description" class="form-control form-input-grey" ng-model="txtDescription" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Remarks">PMDC #:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Remarks" class="form-control form-input-grey" ng-model="txtRemarks" />
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="ReferBy">Designation:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="ReferBy" class="form-control form-input-grey" ng-model="txtReferBy" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Charges">Charges:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="number" id="Charges" class="form-control form-input-grey" ng-model="txtCharges" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="SiteID">Site ID:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="SiteCode" class="form-control text-center font-weight-bold" ng-model="txtSiteCode" readonly required />
+
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#UserModal" href="javascript:void(0)" ng-click="GetSiteAllData()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-1"></div>
+                                <div class="col-md-1">
+                                    <label class="control-label text-dark" for="txtHomeStatus">Home Session:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <select id="HomeStatus" ng-model="txtHomeStatus" class="btn btn-outline-secondary dropdown-toggle form-control form-input-grey">
+                                        <option value="Yes">YES</option>
+                                        <option value="No">NO</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Username">Username:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Username" class="form-control form-input-grey" ng-model="TxtUsername" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Password">Password:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="password" id="Password" class="form-control form-input-grey" ng-model="TxtPassword" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="ShareDetail">Share Detail:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="ShareType" class="form-control form-input-grey" ng-model="txtShareType" required readonly />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#DrShareType" href="javascript:void(0)" ng-click="GetDrShare()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="SharePercent">Share Percent:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="number" id="Share" class="form-control form-input-grey text-right" ng-model="txtSharePercnt" required />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-success" alt="default" data-toggle="modal" ng-click="SaveSharedata()"><i class="fa fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-click="savedata()" ng-hide="CUSaveBtn" ng-disabled="CreateDr.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
+                                        <button ng-click="On_Update()" ng-hide="CUUpdateBtn" ng-disabled="CreateDr.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Update</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-disabled="Delbtn" ng-click="OnDelete()" class="btn btn-outline-danger form-control"><i class="icon-trash"></i>Delete</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row -->
+</div>
+@section scripts {
+    <script type="text/javascript">
+        //CNIC Pattern
+        function addHyphen(elem) {
+            if (elem.value.length <= 14) {
+                if (elem.value.length === 5) {
+                    elem.value = `${elem.value}-`;
+                }
+                if (elem.value.length === 13) {
+                    elem.value = `${elem.value}-`;
+                }
+                if (elem.value.length === 15) {
+                    elem.value = `${elem.value}`;
+                }
+            } else {
+                elem.value = elem.value.slice(0, -1)
+            }
+        };
+    </script>
+    <script>
+
+        var RegistrationForm = angular.module("RegistrationForm", []);
+        RegistrationForm.controller("Home", function ($scope, $http) {
+            $scope.Notification = function (Type, Heading, Test) {
+                //info, warning, success, error
+                $.toast({
+                    heading: Heading,
+                    text: Test,
+                    position: 'top-right',
+                    loaderBg: '#ff6849',
+                    icon: Type,
+                    hideAfter: 3500,
+                    stack: 6
+                });
+            };
+            //================Display DTall site data=====================
+            $scope.GetSiteAllData = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Site/Get_data",
+                    data: {}
+                }
+                $http(displayReq).then(function (Return) {
+
+                    $scope.dtGetSiteAll = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //==================Site Data Get By ID=======================
+            $scope.GetSiteDataByID = function (ID) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Site/Get_databyid",
+                    data: {
+                        SiteCode: ID
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    if (dt.length > 0) {
+                        $scope.txtSiteCode = dt[0].SiteCode;
+                    }
+                    else {
+                        $scope.txtSiteCode = '';
+                    }
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //=============Display Doctor Data By LookUp=================
+            $scope.GetAllData = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/DoctorReg/Get_data",
+                    data: {}
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.On_Clear();
+                    $scope.dtGetAll = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+
+            //==============Doctor Data Get By ID=========================
+            $scope.GetDataByID = function (Doctor,Site) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/DoctorReg/Get_databyid",
+                    data: {
+                        DoctorID: Doctor,
+                        SiteID: Site
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    var dt = angular.fromJson(Return.data);
+
+                    if (dt.length > 0) {
+                        $scope.txtDoctorID = dt[0].DoctorID;
+                        $scope.txtDoctorType = dt[0].DoctorType;
+                        $scope.txtDrName = dt[0].DoctorName;
+                        $scope.txtDrFName = dt[0].DrFName;
+                        $scope.txtCNIC = dt[0].CNIC;
+                        $scope.txtTel1 = dt[0].Tel1;
+                        $scope.txtTel2 = dt[0].Tel2;
+                        $scope.txtEmailID = dt[0].EmailID;
+                        $scope.txtAddress = dt[0].Address;
+                        $scope.txtCity = dt[0].City;
+                        $scope.txtCountry = dt[0].Country;
+                        $scope.txtGender = dt[0].Gender;
+                        $scope.txtDOB = new Date(dt[0].DOB);
+                        $scope.txtDescription = dt[0].Description;
+                        $scope.txtRemarks = dt[0].Remarks;
+                        $scope.txtReferBy = dt[0].Designation;
+                        $scope.txtDivisionCode = dt[0].DivisionID;
+                        $scope.txtSiteCode = dt[0].SiteID;
+                        $scope.txtLoginID = dt[0].LoginID;
+                        $scope.txtStatus = dt[0].Status;
+                        if (dt[0].HomeStatus == 1) {
+                            $scope.txtHomeStatus = 'Yes';
+                        }
+                        else {
+                            $scope.txtHomeStatus = 'No';
+                        }
+                        $scope.txtDrShift = dt[0].DrShift;
+                        $scope.txtCharges = dt[0].Charges;
+                        $scope.TxtUsername = dt[0].UserName;
+                        $scope.TxtPassword = dt[0].Pass;
+                        $scope.CUSaveBtn = true;
+                        $scope.CUUpdateBtn = false;
+                        $scope.Delbtn = false;
+                    }
+                    else {
+                        $scope.CUSaveBtn = false;
+                        $scope.CUUpdateBtn = true;
+                        $scope.Delbtn = true;
+
+                        $scope.txtDoctorType = '';
+                        $scope.txtDrName = '';
+                        $scope.ShareTxt = true;
+                        $scope.txtSharePercnt = 0;
+                        $scope.txtDrFName = '';
+                        $scope.txtCNIC = '';
+                        $scope.txtTel1 = '';
+                        $scope.txtTel2 = '';
+                        $scope.txtEmailID = '';
+                        $scope.txtAddress = '';
+                        $scope.txtCity = '';
+                        $scope.txtCountry = '';
+                        $scope.txtGender = '1';
+                        $scope.txtDOB = '';
+                        $scope.txtDescription = '';
+                        $scope.txtRemarks = '';
+                        $scope.txtReferBy = '';
+                        $scope.txtDivisionCode = '';
+                        $scope.txtSiteCode = '';
+                        $scope.txtLoginID = '';
+                        $scope.txtStatus = 'Active';
+                        $scope.txtHomeStatus = 'No'
+
+                        $scope.txtDrShift = '';
+                        $scope.txtCharges = '';
+                        $scope.TxtUsername = '';
+                        $scope.TxtPassword = '';
+                    }
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //================Delete Doctor=============================
+            $scope.OnDelete = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/DoctorReg/OnDelete",
+                    data: {
+                        DoctorID: $scope.txtDoctorID,
+                        SiteID: $scope.txtSiteCode
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.On_Clear();
+                    if (Return.data == "Delete") {
+                        $scope.Notification('success', 'Operation Completed', 'Delete Doctor');
+                    }
+                    else {
+                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    $scope.On_Clear();
+                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                });
+
+            };
+            //===============Dr Shift Select By ID===================
+            $scope.GetdrByShift = function (ShiftID) {
+                $scope.txtDrShift = ShiftID;
+            };
+            //===============Dr Share Select By ID===================
+            $scope.GetdrByShare = function (ShareID) {
+                $scope.txtShareType = ShareID;
+            };
+            //===============Get Dr shift LookUp Data===================
+            $scope.GetDrShift = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/DoctorReg/Get_DrdataShift",
+                    data: {
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    $scope.dtGetShiftAll = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //===============Get Dr Share LookUp Data===================
+            $scope.GetDrShare = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/DoctorReg/Get_DrdataShare",
+                    data: {
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    $scope.dtGetShareAll = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //======================Get Dr Type By ID=========================
+            $scope.GetdrByType = function (DoctorType) {
+                //if (DoctorType == 'Sharing - Monthly' || DoctorType == 'Sharing - Daily' || DoctorType == 'Salary + Sharing' || DoctorType == 'Visiting') {
+                //    $scope.ShareTxt = false;
+                    $scope.txtDoctorType = DoctorType;
+                //}
+                //else {
+                //    $scope.ShareTxt = true;
+                //    $scope.txtDoctorType = DoctorType;
+                //}
+            };
+            //==================Display Dr Type Data By lookup============================
+            $scope.GetDrType = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/DoctorReg/Get_DrdataType",
+                    data: {
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.dtGetTypeAll = angular.fromJson(Return.data);
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //==================Insert Doctor Share===================
+            $scope.SaveSharedata = function () {
+                var displayReq = {
+                    method: 'POST',
+                    url: '/DoctorReg/Add_Sharerecord',
+                    data: {
+                        DoctorID: $scope.txtDoctorID,
+                        DoctorType: $scope.txtDoctorType,
+                        DoctorName: $scope.txtDrName,
+                        SiteID: $scope.txtSiteCode,
+                        InActive: 'False',
+                        ShareType: $scope.txtShareType,
+                        SharePercent: $scope.txtSharePercnt
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    if (Return.data == "Inserted") {
+                        $scope.Notification('success', 'Operation Completed', 'Insert Doctor Share');
+                    }
+                    else {
+                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                    $scope.On_Clear();
+                });
+            };
+            //================Insert Dr Data===================================
+            $scope.savedata = function () {
+                var displayReq = {
+                    method: 'POST',
+                    url: '/DoctorReg/Add_record',
+                    data: {
+                        DoctorID: $scope.txtDoctorID,
+                        DoctorType: $scope.txtDoctorType,
+                        DoctorName: $scope.txtDrName,
+                        DrFName: $scope.txtDrFName,
+                        CNIC: $scope.txtCNIC,
+                        Tel1: $scope.txtTel1,
+                        Tel2: $scope.txtTel2,
+                        EmailID: $scope.txtEmailID,
+                        Address: $scope.txtAddress,
+                        City: $scope.txtCity,
+                        Country: $scope.txtCountry,
+                        Gender: $scope.txtGender,
+                        DOB: $scope.txtDOB,
+                        Description: $scope.txtDescription,
+                        Remarks: $scope.txtRemarks,
+                        ReferBy: $scope.txtReferBy,
+                        DivisionID: $scope.txtDivisionCode,
+                        SiteID: $scope.txtSiteCode,
+                        LoginID: $scope.txtLoginID,
+                        Status: $scope.txtStatus,
+                        HomeStatus: $scope.txtHomeStatus,
+                        DrShift: $scope.txtDrShift,
+                        Charges: $scope.txtCharges,
+                        UserName: $scope.TxtUsername,
+                        Pass: $scope.TxtPassword,
+                        SharePercent: $scope.txtSharePercnt
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    if (Return.data == "Inserted") {
+                        $scope.Notification('success', 'Operation Completed', 'Insert Doctor');
+                        $scope.On_Clear();
+                    }
+                    else {
+                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                    $scope.On_Clear();
+                });
+            };
+            //================Update Dr Data==============================
+            $scope.On_Update = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/DoctorReg/update_record",
+                    data: {
+                        DoctorID: $scope.txtDoctorID,
+                        DoctorType: $scope.txtDoctorType,
+                        DoctorName: $scope.txtDrName,
+                        DrFName: $scope.txtDrFName,
+                        CNIC: $scope.txtCNIC,
+                        Tel1: $scope.txtTel1,
+                        Tel2: $scope.txtTel2,
+                        EmailID: $scope.txtEmailID,
+                        Address: $scope.txtAddress,
+                        City: $scope.txtCity,
+                        Country: $scope.txtCountry,
+                        Gender: $scope.txtGender,
+                        DOB: $scope.txtDOB,
+                        Description: $scope.txtDescription,
+                        Remarks: $scope.txtRemarks,
+                        ReferBy: $scope.txtReferBy,
+                        DivisionID: $scope.txtDivisionCode,
+                        SiteID: $scope.txtSiteCode,
+                        LoginID: $scope.txtLoginID,
+                        Status: $scope.txtStatus,
+                        HomeStatus: $scope.txtHomeStatus,
+                        DrShift: $scope.txtDrShift,
+                        Charges: $scope.txtCharges,
+                        UserName: $scope.TxtUsername,
+                        Pass: $scope.TxtPassword,
+                        SharePercent: $scope.txtSharePercnt
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    if (Return.data == "Updated") {
+                        $scope.Notification('success', 'Operation Completed', 'Update Doctor');
+                        $scope.On_Clear();
+                    }
+                    else {
+                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    $scope.On_Clear();
+                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                });
+            };
+            //===================Auto Get Dr ID===============================
+            $scope.GetDrID = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/DoctorReg/Get_DrID",
+                    data: {
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    if (dt.length > 0) {
+                        $scope.txtDoctorID = dt[0].ID;
+                    }
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //=============================Clear Function==============================
+            $scope.On_Clear = function () {
+                $scope.txtDoctorType = '';
+                $scope.txtDrName = '';
+                $scope.txtDrFName = '';
+                $scope.txtCNIC = '';
+                $scope.txtShareType = '';
+                $scope.txtTel1 = '';
+                $scope.txtTel2 = '';
+                $scope.txtEmailID = '';
+                $scope.txtAddress = '';
+                $scope.txtCity = '';
+                $scope.txtCountry = '';
+                $scope.txtDescription = '';
+                $scope.txtRemarks = '';
+                $scope.txtReferBy = '';
+                $scope.txtDivisionCode = '';
+                $scope.txtSiteCode = '';
+                $scope.txtLoginID = '';
+                $scope.txtDrShift = '';
+                $scope.TxtUsername = '';
+                $scope.TxtPassword = '';
+                $scope.txtGender = 'Male';
+                $scope.txtStatus = 'Active';
+                $scope.txtHomeStatus = 'No'
+                $scope.txtDOB = new Date('01/01/1900');
+                $scope.txtCharges = 0;
+                $scope.ShareTxt = true;
+                $scope.txtSharePercnt = 0;
+                $scope.CUSaveBtn = false;
+                $scope.CUUpdateBtn = true;
+                $scope.Delbtn = true;
+
+                $scope.GetDrID();
+            };
+            $scope.OnLoad = function () {
+                $scope.CUSaveBtn = false;
+                $scope.CUUpdateBtn = true;
+                $scope.Delbtn = true;
+                $scope.txtGender = 'Male';
+                $scope.txtStatus = 'Active';
+                $scope.txtHomeStatus = 'No'
+                $scope.txtDOB = new Date('01/01/1900');
+                $scope.txtCharges = 0;
+                $scope.ShareTxt = true;
+                $scope.txtSharePercnt = 0;
+            };
+            $scope.OnLoad();
+            $scope.GetDrID();
+        });
+
+
+    </script>
+
+}

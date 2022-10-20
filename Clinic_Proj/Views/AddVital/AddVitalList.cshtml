@@ -1,0 +1,341 @@
+﻿
+@{
+    ViewBag.Title = "AddVitalList";
+}
+<div ng-app="RegistrationForm" ng-controller="Home">
+
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Create Vital</h4>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Create Vital</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!--row-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div id="VitalModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Vital</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtVitalSearch"/>
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                @*<th>Code</th>*@
+                                                <th>Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtGetAll | filter:TxtVitalSearch">
+                                                <td><button ng-click="GetDataByID(item.CCPL_ROW_ID)" class="btn btn-link" data-dismiss="modal">{{item.VitalName}}</button></td>
+                                                @*<td>{{item.VitalName}}</td>*@
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Create Vital</h4>
+                </div>
+                <div class="card-body">
+                    <form name="CreateVital">
+                        <div class="form-body form-group">
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="VitalName">Vital Name:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="VitalName" class="form-control form-input-grey" ng-model="txtVitalName" maxlength="100" required />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#VitalModal" href="javascript:void(0)" ng-click="GetAllData()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="CCPL_ROW_ID">Vital ID:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="CCPL_ROW_ID" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtVitalId" required readonly />
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+
+                                <!--/span-->
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="MinValue">Min Value:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="MinValue" class="form-control form-input-grey" ng-model="txtMinValue" maxlength="100" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="MaxValue">Max Value:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="MaxValue" class="form-control form-input-grey" ng-model="txtMaxValue" maxlength="100" />
+                                    </div>
+                                </div>
+
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-click="savedata()" ng-hide="CUSaveBtn" ng-disabled="CreateVital.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
+                                        <button ng-click="On_Update()" ng-hide="CUUpdateBtn" ng-disabled="CreateVital.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Update</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-disabled="CreateVital.$invalid" ng-click="OnDelete()" class="btn btn-outline-danger form-control"><i class="icon-trash"></i>Delete</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row -->
+</div>
+@section scripts {
+
+    <script>
+
+        var RegistrationForm = angular.module("RegistrationForm", []);
+        RegistrationForm.controller("Home", function ($scope, $http) {
+            $scope.Notification = function (Type, Heading, Test) {
+                //info, warning, success, error
+                $.toast({
+                    heading: Heading,
+                    text: Test,
+                    position: 'top-right',
+                    loaderBg: '#ff6849',
+                    icon: Type,
+                    hideAfter: 3500,
+                    stack: 6
+                });
+            };
+            //===========Display All patient Data by lookup=============
+            $scope.GetAllData = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/AddVital/Get_data",
+                    data: {}
+                }
+                $http(displayReq).then(function (Return) {
+
+                    $scope.dtGetAll = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //============Delete Vitals===============
+            $scope.OnDelete = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/AddVital/OnDelete",
+                    data: {
+                        id: $scope.txtVitalId
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.On_Clear();
+                    if (Return.data == "Delete") {
+                        $scope.Notification('success', 'Operation Completed', 'Delete Vital');
+                    }
+                    else {
+                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    $scope.On_Clear();
+                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                });
+
+            };
+            //=============Patient Get Data By ID=================
+            $scope.GetDataByID = function (ID) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/AddVital/Get_databyid",
+                    data: {
+                        id: ID
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    var dt = angular.fromJson(Return.data);
+
+                    if (dt.length > 0) {
+                        $scope.txtVitalId = dt[0].CCPL_ROW_ID;
+                        $scope.txtVitalName = dt[0].VitalName;
+                        $scope.txtMinValue = dt[0].MinValue;
+                        $scope.txtMaxValue = dt[0].MaxValue;
+
+                        $scope.CUSaveBtn = true;
+                        $scope.CUUpdateBtn = false;
+                    }
+                    else {
+                        $scope.CUSaveBtn = false;
+                        $scope.CUUpdateBtn = true;
+
+                        $scope.txtVitalId = '';
+                        $scope.txtVitalName = '';
+                        $scope.txtMinValue = '';
+                        $scope.txtMaxValue = '';
+                    }
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //==============Vital Data Insert==================
+            $scope.savedata = function () {
+                var displayReq = {
+                    method: 'POST',
+                    url: '/AddVital/Add_Vital',
+                    data: {
+                        VitalID: $scope.txtVitalId,
+                        VitalName:$scope.txtVitalName,
+                        MinValue:$scope.txtMinValue,
+                        MaxValue:$scope.txtMaxValue 
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                  $scope.On_Clear();
+              if (Return.data == "Inserted") {
+              $scope.Notification('success', 'Operation Completed', 'Insert Vital');
+                       }
+              else {
+                $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                   }
+                }, function myError(Return) {
+                        $scope.On_Clear();
+             $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+              });
+            };
+            //===============Vital Data Update=============
+            $scope.On_Update = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/AddVital/update_record",
+                    data: {
+                        VitalID:$scope.txtVitalId,
+                        VitalName:$scope.txtVitalName,
+                        MinValue:$scope.txtMinValue,
+                        MaxValue:$scope.txtMaxValue 
+                    }
+                }
+                $http(displayReq).then(function (Return)
+                {
+                 $scope.On_Clear();
+                 if (Return.data == "Updated") {
+                 $scope.Notification('success', 'Operation Completed', 'Update Vital');
+                       }
+              else {
+                $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                   }
+                }, function myError(Return)
+                    {
+                        $scope.On_Clear();
+             $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+              });
+            };
+            //===============Get Vital ID==============
+             $scope.GetVitalID = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/AddVital/Get_VitalID",
+                    data: {
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    $scope.txtVitalId = Return.data;
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //=================Clear Function======================
+            $scope.On_Clear = function () {
+            $scope.txtVitalId = '';
+            $scope.txtVitalName = '';
+            $scope.txtMinValue = 0;
+            $scope.txtMaxValue = 0;    
+
+            $scope.GetVitalID();
+
+
+            $scope.CUSaveBtn = false;
+            $scope.CUUpdateBtn = true;
+            };
+            $scope.OnLoad = function ()
+            {
+            $scope.CUSaveBtn = false;
+            $scope.CUUpdateBtn = true;
+            $scope.txtMinValue = 0;
+            $scope.txtMaxValue = 0;
+            };
+            $scope.OnLoad();
+            $scope.GetVitalID();
+        });
+
+
+    </script>
+
+}
+

@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewBag.Title = "DashBoard";
+
+}
+    <link href="~/Scripts/angular-csp.css" rel="stylesheet" />
+    <div ng-app="RegistrationForm" ng-controller="Home">
+        <br />
+        <br />
+        <div class="form-body form-group-lg">
+            <div class="row">
+                <div ng-repeat="item in dtViewGetAll">
+                    <div class="col-lg-12 col-lg-12 col-xlg-8">
+                        <h2 class="box-title m-b-0 text-danger">{{item.DrName}}</h2>
+                        <div class="col-lg-12 col-lg-12 col-xlg-8" ng-repeat="A in item.DrPatientDetails">
+                            <div class="card">
+                                <div class="box bg-purple text-center">
+                                    <h1 class="font-bold" style="color:white;">{{A.SerialNumber}}</h1>
+                                    <h3 class="text-white">{{A.PatientName}}</h3>
+                                    <h5 class="text-white">{{A.TokenNumber}}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert-danger col-md-3">
+                    <button type="button" onclick="this.parentNode.parentNode.removeChild(this.parentNode);" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h1><span class="blinking font-bold">Pending Tokens</span></h1>
+                    <marquee scrollamount="3" direction="up" height="350">
+                        <div ng-repeat="item in dtViewGetPending">
+                            <H1 style="font-family: Impact; font-size: 15pt;text-align:center">Token# {{item.SerialNo}}</H1>
+                            <H1 style="font-family: Impact; font-size: 15pt;text-align:center">{{item.DrName}}</H1>
+                            <H1 style="font-family: Impact; font-size: 15pt;text-align:center">{{item.PatName}}</H1>
+                            <hr />
+                            <br />
+                        </div>
+                    </marquee>
+                </div>
+                @*<div class="col-md-3">
+        <h1><span class="blinking font-bold">Pending Tokens</span></h1>
+        <div class="card">
+            <div class="box bg-danger text-center" ng-repeat="item in dtViewGetPending">
+                <marquee direction="up">
+                    <h1 style="color:white;">Token# {{item.SerialNo}}</h1>
+                    <h3 style="color:white;">{{item.PatName}}</h3>
+                </marquee>
+                @*<h5 class="text-white">{{item.TokenNumber}}</h5>*@
+                @*</div>
+            </div>
+        </div>*@
+
+            </div>
+            </div>
+            </div>
+        @section scripts {
+
+            <script>
+
+
+                var RegistrationForm = angular.module("RegistrationForm", []);
+                RegistrationForm.controller("Home", function ($scope, $http) {
+                    $scope.Notification = function (Type, Heading, Test) {
+                        //info, warning, success, error
+                        $.toast({
+                            heading: Heading,
+                            text: Test,
+                            position: 'top-right',
+                            loaderBg: '#ff6849',
+                            icon: Type,
+                            hideAfter: 3500,
+                            stack: 6
+                        });
+                    };
+                    //===============Display Token Related Data ==============
+                    $scope.GetViewAllData = function () {
+                        var displayReq = {
+                            method: "POST",
+                            url: "/Token/Get_Viewdata",
+                            data: {}
+                        }
+                        $http(displayReq).then(function (Return) {
+                            $scope.dtViewGetAll = angular.fromJson(Return.data);
+
+                        }, function myError(Return) {
+                            $scope.Notification('error', 'Error Code GEN0001', Return.data);
+                        });
+                    };
+                     //===============Display Token Pending Tokens ==============
+                $scope.GetViewPending = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Token/Get_ViewPend",
+                    data: {}
+                }
+                $http(displayReq).then(function (Return) {
+
+                    $scope.dtViewGetPending = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+                    //$scope.OnLoad = function () {
+                    //    $scope.CUSaveBtn = false;
+                    //    $scope.CUUpdateBtn = true;
+                    //    $scope.txtVitalValue = 0;
+                    //};
+                    $scope.GetViewAllData();
+                    $scope.GetViewPending();
+                });
+
+
+            </script>
+
+        }
+

@@ -1,0 +1,96 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/ThemeData/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/ThemeData/assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="~/ThemeData/assets/plugins/sticky/css/slick.css">
+    <link rel="stylesheet" href="~/ThemeData/assets/plugins/sticky/css/slick-theme.css">
+    <link rel="stylesheet" href="~/ThemeData/assets/plugins/testimonial/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/ThemeData/assets/plugins/testimonial/css/owl.theme.min.css">
+    <link rel="stylesheet" href="~/ThemeData/assets/css/style.css">
+
+    <!-- Toastr -->
+    <link rel="stylesheet" href="~/ThemeData/plugins/toastr/toastr.min.css">
+
+
+    <title>CCPL Site Selection</title>
+</head>
+<body>
+    <div ng-app="RegistrationForm" ng-controller="Home">
+        <div id="home" class="container-fluid">
+            <!--  ************************* Header Starts Here ************************** -->
+            <!-- ######## Header End ####### -->
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-sm-5 login-box">
+                        <div class="title-box" style="background-color:yellow;color:black;">
+                            <h4>Corner Clinic</h4>
+                            <p>Please Select your Site !</p>
+                        </div>
+                        <div class="input-group row">
+                            <label class="col-sm-3">Site ID</label>
+                            <div class="col-sm-8">
+                                <select class="form-control inpt-sm" ng-model="DDLSite" ng-change="GetSiteInfo()">
+                                    <option value="0" label="-Please Select-"></option>
+                                    <option ng-repeat="item in dtGetSiteList" value="{{item.SiteID}}">{{item.SiteName}}</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="input-group row">
+                            <label class="col-sm-3">Division ID</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" placeholder="Selected Division ID" ng-model="TxtDivisionID" readonly />
+                            </div>
+                        </div>
+
+                        <h6 class="text-danger">@ViewBag.Msg</h6>
+                        <div class=" submot-row">
+                            <button class="btn btn-sm btn-success" ng-click="Proceed()"><i class="fas fa-arrow-circle-right"></i> Proceed</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- <div class="coy-info"> -->
+            <!-- <p>Designed by <a href="https://www.smarteyeapps.com">Smarteyeapps.com</a></p> -->
+            <!-- </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    -->
+
+        </div>
+    </div>
+
+
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="~/ThemeData/assets/js/jquery-3.2.1.min.js"></script>
+    <script src="~/ThemeData/assets/js/popper.js"></script>
+    <script src="~/ThemeData/assets/js/bootstrap.min.js"></script>
+    <script src="~/ThemeData/assets/plugins/sticky/js/slick.min.js"></script>
+    <script src="~/ThemeData/assets/plugins/scroll-fixed/jquery-scrolltofixed-min.js"></script>
+    <script src="~/ThemeData/assets/plugins/testimonial/js/owl.carousel.min.js"></script>
+    <script src="~/ThemeData/assets/js/script.js"></script>
+
+    <!--AngularJS-->
+    <script src="~/Scripts/angular.min.js"></script>
+
+    <!-- Custom JS File -->
+    <script src="~/Scripts/Custom/SiteSelection.js"></script>
+
+    <script src="~/Scripts/toastr.js"></script>
+
+    <!-- Toastr -->
+    <script src="~/ThemeData/plugins/toastr/toastr.min.js"></script>
+</body>
+</html>

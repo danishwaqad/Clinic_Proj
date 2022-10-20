@@ -1,0 +1,138 @@
+﻿
+@{
+    ViewBag.Title = "CnicDetail";
+}
+<div ng-app="RegistrationForm" ng-controller="Home">
+
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">CNIC DETAIL</h4>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">CNIC DETAIL</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">CNIC DETAIL</h4>
+                </div>
+                <div class="card-body">
+                    <div class="tab-pane" id="" role="tabpanel">
+                        <!--row-->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-md-7">
+
+                                            </div>
+                                            <div class="col-md-1">
+                                                <label for="CompSearch">Search:</label>
+                                            </div>
+                                            <div class="col-md-4 form-material">
+                                                <input type="text" class="form-control" id="UserSearch" ng-model="SearchCNICUwant" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 scrollbar-secondary" style="overflow-x:auto;overflow-y:auto;height:600px; font-size:11px;">
+                                            <table class="table table-sm table-bordered table-head-fixed table-hover text-nowrap display">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sr #</th>
+                                                        <th>Reg No</th>
+                                                        <th>CNIC</th>
+                                                        <th>Reg Date</th>
+                                                        <th>Name</th>
+                                                        <th>Guardian</th>
+                                                        <th>DOB</th>
+                                                        <th>Gender</th>
+                                                        <th>Age</th>
+                                                        <th>Contact Type</th>
+                                                        <th>Site</th>
+                                                        <th>Login</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in dtGetCNICDetail | filter:SearchCNICUwant">
+                                                        <td>{{$index + 1}}</td>
+                                                        <td>{{item.RegNo}}</td>
+                                                        <td>{{item.CNIC}}</td>
+                                                        <td>{{item.RegDate | date:dd-MMM-yyyy}}</td>
+                                                        <td>{{item.FullName}}</td>
+                                                        <td>{{item.GuardianName}}</td>
+                                                        <td>{{item.DOB | date:dd-MMM-yyyy}}</td>
+                                                        <td>{{item.Gender}}</td>
+                                                        <td>{{item.AgeY}}Y {{item.AgeM}}M {{item.AgeD}}D</td>
+                                                        <td>{{item.ContactType}}</td>
+                                                        <td>{{item.SiteID}}</td>
+                                                        <td>{{item.LoginID}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <hr />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Row -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row -->
+</div>
+@section scripts {
+
+    <script>
+
+        var RegistrationForm = angular.module("RegistrationForm", []);
+        RegistrationForm.controller("Home", function ($scope, $http) {
+            $scope.Notification = function (Type, Heading, Test) {
+                //info, warning, success, error
+                $.toast({
+                    heading: Heading,
+                    text: Test,
+                    position: 'top-right',
+                    loaderBg: '#ff6849',
+                    icon: Type,
+                    hideAfter: 3500,
+                    stack: 6
+                });
+            };
+           //Display CNIC History
+            $scope.GetCnicHist = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/CnicDetail/Get_CNICdata",
+                    data: {
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.dtGetCNICDetail = angular.fromJson(Return.data);
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            $scope.Onload = function () {
+                $scope.GetCnicHist();
+            };
+            $scope.Onload();
+        });
+    </script>
+
+}
+
+
+
+

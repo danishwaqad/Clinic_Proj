@@ -1,0 +1,560 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    @*<link rel="stylesheet" href="~/Content/build/css/intlTelInput.css">*@
+    @*<link rel="stylesheet" href="~/Content/build/css/demo.css">*@
+    @*<script src="~/Content/build/js/intlTelInput.js"></script>*@
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/assets/images/favicon.png" />
+    <title>@ViewBag.Title</title>
+    <!-- This page CSS -->
+    <!-- chartist CSS -->
+    <link href="~/Content/assets/node-modules/morrisjs/morris.css" rel="stylesheet" />
+    <link href="~/Content/assets/node-modules/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!--Toaster Popup message CSS -->
+    <link href="~/Content/assets/node-modules/toast-master/css/jquery.toast.css" rel="stylesheet" />
+    <!--c3 plugins CSS -->
+    <link href="~/Content/assets/node-modules/c3-master/c3.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="~/Content/dist/css/style.min.css" rel="stylesheet" />
+    <!-- Dashboard 1 Page CSS -->
+    @*<link href="~/Content/dist/css/pages/dashboard1.css" rel="stylesheet" />*@
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+    <link href="~/Content/assets/icons/font-awesome/css/fontawesome-all.css" rel="stylesheet" />
+    <link href="~/Content/dist/css/pages/floating-label.css" rel="stylesheet" />
+
+    @*<link href="~/Content/assets/icons/font-awesome/css/fontawesome.css" rel="stylesheet" />*@
+    <link href="~/Content/assets/icons/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" />
+    <link href="~/Content/assets/icons/themify-icons/themify-icons.css" rel="stylesheet" />
+    @*<link href="~/Content/assets/icons/weather-icons/css/weather-icons.css" rel="stylesheet" />*@
+    <link href="~/Content/dist/css/Custom.css" rel="stylesheet" />
+</head>
+
+<body class="skin-default-light fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">Corner Clinic (IT) Department</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar">
+
+            <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+                <!-- ============================================================== -->
+                <!-- Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-header">
+
+                    <a class="navbar-brand">
+                        <!-- Logo icon --><b>
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                            <!-- Dark Logo icon -->
+                            <img src="~/Content/assets/images/logo-icon.png" style="height:55px;width:80px;" alt="homepage" class="dark-logo" />
+                            <!-- Light Logo icon -->
+                            <img src="~/Content/assets/images/logo-icon.png" style="height:55px;width:80px;margin-left:auto;" alt="homepage" class="light-logo" />
+                        </b>
+                        <!--End Logo icon -->
+                        <!-- Logo text --><span>
+                            <!-- dark Logo text -->
+                            <img src="~/Content/assets/images/logo-text.png" style="height:50px;width:250px;" alt="homepage" class="dark-logo" />
+                            <!-- Light Logo text -->
+                            <img src="~/Content/assets/images/logo-text.png" style="height:50px;width:250px;" class="light-logo" alt="homepage" />
+                        </span>
+                    </a>
+                </div>
+                <div class="col-md-5">
+                    <ul class="navbar-nav">
+                        @{
+                            <li>
+                                <a class="navbar-brand text-danger font-weight-bold" href="#">@Session["SiteName"].ToString() [ @Session["SiteID"].ToString() ]</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="navbar-collapse">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav mr-auto">
+                        <!-- This is  -->
+                        <li class="nav-item hidden-sm-up"> <a class="nav-link nav-toggler waves-effect waves-light" href="javascript:void(0)"><i class="ti-menu"></i></a></li>
+                        <!-- ============================================================== -->
+                    </ul>
+
+                    <ul class="navbar-nav my-lg-0">
+                        <!-- ============================================================== -->
+                        <!-- mega menu -->
+                        <!-- ============================================================== -->
+                        @*<li class="nav-item dropdown mega-dropdown">
+                                <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ti-layout-width-default"></i></a>
+                                <div class="dropdown-menu animated bounceInDown">
+                                    <ul class="mega-dropdown-menu row">
+                                        <li class="col-lg-4 col-xlg-2 m-b-3">
+                                            <h4 class="m-b-20">Clinic Project</h4>
+                                            <!-- CAROUSEL -->
+                                            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                                <div class="carousel-inner" role="listbox">
+                                                    <div class="carousel-item active">
+                                                        <div> <img class="img-fluid" src="~/Content/assets/images/big/img1.jpg" alt="First slide"></div>
+                                                    </div>
+                                                    <div class="carousel-item">
+                                                        <div class="container"><img class="d-block img-fluid" src="~/Content/assets/images/big/img2.jpg" alt="Second slide"></div>
+                                                    </div>
+                                                    <div class="carousel-item">
+                                                        <div class="container"><img class="d-block img-fluid" src="~/Content/assets/images/big/img3.jpg" alt="Third slide"></div>
+                                                    </div>
+                                                </div>
+                                                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a>
+                                                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a>
+                                            </div>
+                                            <!-- End CAROUSEL -->
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>*@
+                        <!-- ============================================================== -->
+                        <!-- End mega menu -->
+                        <!-- ============================================================== -->
+                        <!-- ============================================================== -->
+                        <!-- User profile and search -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i>@Session["Name"].ToString()</i></a>
+                            <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
+                                <span class="with-arrow"><span class="bg-primary"></span></span>
+                                <div class="d-flex no-block align-items-center p-15 bg-primary text-white m-b-10">
+                                    <div class=""><i class="fa fa-user-md"></i></div>
+                                    <div class="m-l-10">
+                                        @{
+                                            if (!string.IsNullOrEmpty(Session["Name"].ToString()))
+                                            {
+                                                <h4 class="m-b-0">@Session["Name"].ToString()</h4>
+                                            }
+                                            else
+                                            {
+                                                <h4 class="m-b-0">Hello Mr.</h4>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                <a class="dropdown-item" href="javascript:void(0)"><i class="ti-settings m-r-5 m-l-5"></i> Account Setting</a>
+                                <div class="dropdown-divider"></div>
+                                @Html.ActionLink(" Sign Out", "SignOut", "Account", null, new { @class = "dropdown-item fa fa-power-off" })
+
+                            </div>
+                        </li>
+                        <!-- ============================================================== -->
+                        <!-- User profile and search -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item right-side-toggle"> <a class="nav-link  waves-effect waves-light" href="javascript:void(0)"><i class="ti-settings"></i></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+
+        <aside class="left-sidebar">
+            <div class="d-flex no-block nav-text-box align-items-center">
+                <span><img src="~/Content/assets/images/logo-icon.png" style="height:50px;width:100px;" alt="CCPL-HR By CTML"></span>
+                <a class="nav-lock waves-effect waves-dark ml-auto hidden-md-down" href="javascript:void(0)"><i class="mdi mdi-toggle-switch"></i></a>
+                <a class="nav-toggler waves-effect waves-dark ml-auto hidden-sm-up" href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
+            </div>
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <li>
+                            @*@Html.ActionLink("New Division", "Function", "Controller")*@
+                            @*<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="icon-home"></i><span class="hide-menu">Home<span class="badge badge-pill badge-cyan"></span></span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li>
+                                        @Html.ActionLink("Home","Index", "Home")
+                                    </li>
+                                </ul>*@
+                            @if (HttpContext.Current.User.IsInRole("Mnu_Dashboard"))
+                            {
+                                <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="icon-home"></i><span class="hide-menu">Dashboard<span class="badge badge-pill badge-cyan"></span></span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    @*@if (HttpContext.Current.User.IsInRole("CompanySetup_CompanyInfo"))
+                                        {*@
+                                    <li>@Html.ActionLink("Dashboard", "DashBoard", "Token")</li>
+                                    <li>@Html.ActionLink("Business Graph", "Index", "Home")</li>
+                                    @* } *@
+                                </ul>
+                            }
+                            @if (HttpContext.Current.User.IsInRole("Mnu_Balance"))
+                            {
+                                <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-balance-scale" aria-hidden="true"></i><span class="hide-menu"> Balance <span class="badge badge-pill badge-cyan"></span></span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_OBBalance"))
+                                    {
+                                        <li>@Html.ActionLink("Closing Balance", "OBView", "OB")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_OB_Edit"))
+                                    {
+                                        <li>@Html.ActionLink("Edit Balance", "OBEditView", "OBEdit")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Calender"))
+                                    {
+                                        <li>@Html.ActionLink("Calender", "Calender", "Calender")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Doctor_Paym"))
+                                    {
+                                        <li>@Html.ActionLink("Doctor Payment", "DoctorPayment", "DoctorsPayment")</li>
+                                    }
+                                    @*@if (HttpContext.Current.User.IsInRole("Mnu_CBBalance"))
+                                        {
+                                            <li>@Html.ActionLink("Closing Balance", "CBView", "CB")</li>
+                                        }*@
+
+                                </ul>
+                            }
+                            @if (HttpContext.Current.User.IsInRole("Mnu_Division"))
+                            {
+                                <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-globe" aria-hidden="true"></i><span class="hide-menu">Division<span class="badge badge-pill badge-cyan"></span></span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    @*@if (HttpContext.Current.User.IsInRole("CompanySetup_CompanyInfo"))
+                                        {*@
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Add_Division"))
+                                    {
+                                        <li>@Html.ActionLink("Add Division", "Division", "Division")</li>
+                                        @* } *@
+                                    }
+                                </ul>
+                            }
+                            @if (HttpContext.Current.User.IsInRole("Mnu_Site"))
+                            {
+                                <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-sitemap" aria-hidden="true"></i><span class="hide-menu">Site<span class="badge badge-pill badge-cyan"></span></span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    @*@if (HttpContext.Current.User.IsInRole("CompanySetup_CompanyDetails"))*@
+                                    @* { *@
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Add_Site"))
+                                    {
+                                        <li>@Html.ActionLink("Add Site", "Site", "Site")</li>
+                                        @* } *@
+                                    }
+                                </ul>
+                            }
+                            @if (HttpContext.Current.User.IsInRole("Mnu_Doctor"))
+                            {
+                                <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-user-md" aria-hidden="true"></i><span class="hide-menu">Doctor<span class="badge badge-pill badge-cyan"></span></span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    @*@if (HttpContext.Current.User.IsInRole("CompanySetup_CompanyInfo"))
+                                        {*@
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_New_Doctor"))
+                                    {
+                                        <li>@Html.ActionLink("New Doctor", "DoctorReg", "DoctorReg")</li>
+                                        @* } *@
+                                    }
+                                </ul>
+                            }
+                            @if (HttpContext.Current.User.IsInRole("Mnu_Patient"))
+                            {
+                                <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-smile" aria-hidden="true"></i><span class="hide-menu">Patient<span class="badge badge-pill badge-cyan"></span></span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    @*@if (HttpContext.Current.User.IsInRole("CompanySetup_CompanyInfo"))
+        {*@
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Cnic_Registration"))
+                                    {
+                                        <li>@Html.ActionLink("CNIC Registration", "RegNew", "Registeration")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_CNIC_Detail"))
+                                    {
+                                        <li>@Html.ActionLink("CNIC Detail", "CnicDetail", "CnicDetail")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_New_Patient"))
+                                    {
+                                        <li>@Html.ActionLink("New Patient", "PatientReg", "PatientReg")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_TokenGenrate"))
+                                    {
+                                        <li>@Html.ActionLink("Token Generate", "TokenGenrate", "TokenGenrate")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Add_Patient_Vital"))
+                                    {
+                                        <li>@Html.ActionLink("Add Patient Vital", "PatientVital", "PatientVital")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Patient_First_Aid"))
+                                    {
+                                        <li>@Html.ActionLink("Patient First Aid", "FirstAdd", "FirstAdd")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Patient_First_Aid_Payment"))
+                                    {
+                                        <li>@Html.ActionLink("Patient First Aid Payment", "FAPay", "FirstAidPay")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Session"))
+                                    {
+                                        <li>@Html.ActionLink("Session", "PatientSession", "Session")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Refund"))
+                                    {
+                                        <li>@Html.ActionLink("Patient Refund", "PatiRefundFee", "PatRefundFee")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Consultancy"))
+                                    {
+                                        <li>@Html.ActionLink("Consultancy", "Consultancy", "Consult")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Token_Close"))
+                                    {
+                                        <li>@Html.ActionLink("Token Close", "TokenClose", "TokenClose")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Tkn_Unclose"))
+                                    {
+                                        <li>@Html.ActionLink("Token Un-Close", "TknPrintAndUnclose", "TknPrintNClose")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Patient_History"))
+                                    {
+                                        <li>@Html.ActionLink("Patient History", "patientHistView", "PatHist")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_FollowUp_Hist"))
+                                    {
+                                        <li>@Html.ActionLink("Follow Up History", "FollowUpHist", "FollowUp")</li>
+                                    }
+                                    @* } *@
+                                </ul>
+                            }
+                            @if (HttpContext.Current.User.IsInRole("Mnu_Setups"))
+                            {
+                                <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-wrench" aria-hidden="true"></i><span class="hide-menu">Setups<span class="badge badge-pill badge-cyan"></span></span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    @*@if (HttpContext.Current.User.IsInRole("CompanySetup_CompanyInfo"))
+                                        {*@
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_New_Vital"))
+                                    {
+                                        <li>@Html.ActionLink("New Vital", "AddVitalList", "AddVital")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_New_First_Aid"))
+                                    {
+                                        <li>@Html.ActionLink("New First Aid", "FirstAidSetup", "FirstAidSetup")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_New_Diagnose"))
+                                    {
+                                        <li>@Html.ActionLink("New Diagnose", "Diagnoses", "Diagnoses")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Disease_Level"))
+                                    {
+                                        <li>@Html.ActionLink("Disease Level", "DiagnoseLevel", "Diagnoses")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Diagnose_Category"))
+                                    {
+                                        <li>@Html.ActionLink("Diagnose Category", "DiagnoCategory", "DiagnoCategory")</li>
+                                    }
+                                    @* } *@
+                                </ul>
+                            }
+                            @if (HttpContext.Current.User.IsInRole("Mnu_Panel"))
+                            {
+                                <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-user-plus" aria-hidden="true"></i><span class="hide-menu">Panal Menu<span class="badge badge-pill badge-cyan"></span></span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    @*@if (HttpContext.Current.User.IsInRole("CompanySetup_CompanyInfo"))
+                                        {*@
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Company_Reg"))
+                                    {
+                                        <li>@Html.ActionLink("Register Company", "Company", "Company")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Comp_Disc"))
+                                    {
+                                        <li>@Html.ActionLink("Company Discount", "CompanyDisc", "CompDisc")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Emp_Reg"))
+                                    {
+                                        <li>@Html.ActionLink("Employee Register", "EmployeeReg", "EmployeeReg")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Emp_Depend"))
+                                    {
+                                        <li>@Html.ActionLink("Employee Dependant", "EmpDepend", "EmpDepend")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_CmpToEmp"))
+                                    {
+                                        <li>@Html.ActionLink("View Employee", "CompanyToEmp", "CmpToEmp")</li>
+                                    }
+                                </ul>
+                            }
+                            @if (HttpContext.Current.User.IsInRole("Mnu_Inventory"))
+                            {
+                                <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-indent" aria-hidden="true"></i><span class="hide-menu">Inventory Management<span class="badge badge-pill badge-cyan"></span></span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    @*@if (HttpContext.Current.User.IsInRole("CompanySetup_CompanyInfo"))
+                                        {*@
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Item"))
+                                    {
+                                        <li>@Html.ActionLink("Item", "Item", "Item")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_UOM"))
+                                    {
+                                        <li>@Html.ActionLink("UOM", "UOM", "UOM")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_New_ItemType"))
+                                    {
+                                        <li>@Html.ActionLink("New Item Type", "ItemType", "ItemType")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_New_ItemSubType"))
+                                    {
+                                        <li>@Html.ActionLink("New Item SubType", "ItemSubTyp", "ItemSubTyp")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Receiving"))
+                                    {
+                                        <li>@Html.ActionLink("Receiving", "Receiving", "Receiving")</li>
+                                    }
+                                    @* } *@
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_CurrentStock"))
+                                    {
+                                        <li>@Html.ActionLink("Current Stock", "CurrentStock", "CurrentStock")</li>
+                                    }
+                                </ul>
+                            }
+                            @if (HttpContext.Current.User.IsInRole("Mnu_User_Setup"))
+                            {
+                                <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-user-plus" aria-hidden="true"></i><span class="hide-menu">User Setup<span class="badge badge-pill badge-cyan"></span></span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    @*@if (HttpContext.Current.User.IsInRole("CompanySetup_CompanyInfo"))
+                                        {*@
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_User_Create"))
+                                    {
+                                        <li>@Html.ActionLink("New User Create", "SignUp", "Account")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_User_Rights"))
+                                    {
+                                        <li>@Html.ActionLink("User Rights", "UserRights", "Account")</li>
+                                        @* } *@
+                                    }
+                                </ul>
+                            }
+                            @if (HttpContext.Current.User.IsInRole("Mnu_Reports"))
+                            {
+                                <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-flag" aria-hidden="true"></i><span class="hide-menu">Reports<span class="badge badge-pill badge-cyan"></span></span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    @*@if (HttpContext.Current.User.IsInRole("CompanySetup_CompanyInfo"))
+                                        {*@
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Management_Repots"))
+                                    {
+                                        <li>@Html.ActionLink("Management Repots", "Reports", "Reports")</li>
+                                    }
+                                </ul>
+                            }
+
+                        </li>
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+
+
+
+
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+
+
+                <!-- Right sidebar -->
+                <!-- ============================================================== -->
+                <!-- .right-sidebar -->
+                <div class="right-sidebar">
+                    <div class="slimscrollright">
+                        <div class="rpanel-title"> Service Panel <span><i class="ti-close right-side-toggle"></i></span> </div>
+                        <div class="r-panel-body">
+                            <ul id="themecolors" class="m-t-20">
+                                <li><b>With Light sidebar</b></li>
+                                <li><a href="javascript:void(0)" data-skin="skin-default" class="default-theme">1</a></li>
+                                <li><a href="javascript:void(0)" data-skin="skin-green" class="green-theme">2</a></li>
+                                <li><a href="javascript:void(0)" data-skin="skin-red" class="red-theme">3</a></li>
+                                <li><a href="javascript:void(0)" data-skin="skin-blue" class="blue-theme">4</a></li>
+                                <li><a href="javascript:void(0)" data-skin="skin-purple" class="purple-theme">5</a></li>
+                                <li><a href="javascript:void(0)" data-skin="skin-megna" class="megna-theme">6</a></li>
+                                <li class="d-block m-t-30"><b>With Dark sidebar</b></li>
+                                <li><a href="javascript:void(0)" data-skin="skin-default-dark" class="default-dark-theme working">7</a></li>
+                                <li><a href="javascript:void(0)" data-skin="skin-green-dark" class="green-dark-theme">8</a></li>
+                                <li><a href="javascript:void(0)" data-skin="skin-red-dark" class="red-dark-theme">9</a></li>
+                                <li><a href="javascript:void(0)" data-skin="skin-blue-dark" class="blue-dark-theme">10</a></li>
+                                <li><a href="javascript:void(0)" data-skin="skin-purple-dark" class="purple-dark-theme">11</a></li>
+                                <li><a href="javascript:void(0)" data-skin="skin-megna-dark" class="megna-dark-theme ">12</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Right sidebar -->
+                <!-- ============================================================== -->
+                @RenderBody()
+            </div>
+
+        </div>
+        <footer class="footer">
+            @*© 2021 Corner Clinic WWW.CornerClinic.Net.*@
+            <strong>Copyright &copy; 2022 <a href="https://WWW.CornerClinic.Net">CCPL</a>.</strong> All rights reserved.&reg;
+        </footer>
+    </div>
+    <script src="~/content/assets/node-modules/jquery/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap popper Core JavaScript -->
+    <script src="~/Content/assets/node-modules/popper/popper.min.js"></script>
+    <script src="~/Content/assets/node-modules/bootstrap/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="~/Content/dist/js/perfect-scrollbar.jquery.min.js"></script>
+    @*<link href="~/Content/assets/icons/material-design-iconic-font/css/materialdesignicons.min.css" rel="stylesheet" />*@
+    <!--Wave Effects -->
+    <script src="~/Content/dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="~/Content/dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="~/Content/dist/js/custom.min.js"></script>
+    <link href="~/Scripts/angular-csp.css" rel="stylesheet" />
+    @*<script src="~/Content/dist/css/fonts/bootstrap.min.css"></script>*@
+
+    @*<script src="~/Content/assets/node-modules/bootstrap/css/bootstrap.min.css"></script>*@
+    <script src="~/Content/assets/node-modules/raphael/raphael-min.js"></script>
+    <script src="~/Content/assets/node-modules/morrisjs/morris.min.js"></script>
+    <script src="~/Content/assets/node-modules/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <script src="~/Content/assets/node-modules/d3/d3.min.js"></script>
+    <script src="~/Content/assets/node-modules/c3-master/c3.min.js"></script>
+    <script src="~/Content/assets/node-modules/moment/moment.js"></script>
+    <!-- Popup message jquery -->
+    <script src="~/Content/assets/node-modules/toast-master/js/jquery.toast.js"></script>
+    <!--AngularJS-->
+    <script src="~/Scripts/angular.min.js"></script>
+    <script>
+        function myFunction() {
+            alert("Required Fields");
+        }
+    </script>
+
+    @RenderSection("scripts", required: false)
+
+</body>
+
+</html>

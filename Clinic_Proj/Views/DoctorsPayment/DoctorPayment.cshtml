@@ -1,0 +1,395 @@
+﻿
+@{
+    ViewBag.Title = "DoctorPayment";
+}
+
+
+    <div ng-app="RegistrationForm" ng-controller="Home">
+
+        <div class="row page-titles">
+            <div class="col-md-5 align-self-center">
+                <h4 class="text-themecolor">Doctors Payment</h4>
+            </div>
+            <div class="col-md-7 align-self-center">
+                <div class="d-flex justify-content-end align-items-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                        <li class="breadcrumb-item active">Create Doctors Payment</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div id="DocNoLookup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">Select Doctor Name By Lookup</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-7">
+
+                            </div>
+                            <div class="col-md-1">
+                                <label for="CompSearch">Search:</label>
+                            </div>
+                            <div class="col-md-4 form-material">
+                                <input type="text" class="form-control" id="UserSearch" ng-model="TypeSearch" />
+                            </div>
+                        </div>
+                        <div class="table-responsive-sm">
+                            <table class="table-sm table-hover table-bordered text-dark">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in dtGetAll | filter:TypeSearch">
+                                        <td><button ng-click="GetDataByID(item.DoctorID)" class="btn btn-link" data-dismiss="modal">{{item.DoctorName}}</button></td>
+                                        <td>{{item.Status}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!--row-->
+        @*===========================Main Form============================*@
+        <!-- Main content -->
+    <form name="CreateDocPaymnt">
+        <div class="form-body form-group">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <!-- left column -->
+                        <div class="card-header bg-info">
+                            <h4 class="m-b-0 text-white">Create Doctors Payment</h4>
+                        </div>
+                        <div class="card card-info">
+                            <!-- form start -->
+                            <div class="form-horizontal">
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Doc No</label>
+                                        <div class="col-sm-3">
+                                            <div class="input-group input-group-md">
+                                                <input type="text" placeholder="Code!" class="form-control" ng-model="TxtDocNo" required readonly>
+                                                <span class="input-group-append">
+                                                    <button ng-click="GetNewDocNum()" class="btn btn-warning" title="If You Want To Generate New DocNo"><i class="fa fa-plus"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <label for="inputEmail3" class="col-sm-1 col-form-label">Doc Date</label>
+                                        <div class="col-sm-2">
+                                            <div class="input-group input-group-md">
+                                                <input type="date" placeholder="Code!" class="form-control" ng-model="DT_Doc" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Doctor</label>
+                                        <div class="col-md-6">
+                                            <div class="input-group input-group-md">
+                                                <input type="text" placeholder="Doctor ID" class="col-md-2 form-control" ng-model="TxtDocID" readonly>
+                                                <input type="text" placeholder="Doctor Name" class="form-control" ng-model="TxtDocName" readonly>
+                                                <span class="input-group-append">
+                                                    <button type="button" class="btn btn-success btn-flat" alt="default" data-toggle="modal" data-target="#DocNoLookup" href="javascript:void(0)" ng-click="GetAllData()"><i class="ti-search"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-12 table-responsive text-nowrap">
+                                            <table class="table table-sm table-fixed table-striped table-hover" id="example">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Reg No</th>
+                                                        <th>Token #</th>
+                                                        <th>Date</th>
+                                                        <th>Pat Name</th>
+                                                        <th>Total</th>
+                                                        <th>Paid</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in dtGetDoctorAll">
+                                                        <td>{{$index + 1}}</td>
+                                                        <td>{{item.TokenRegNo}}</td>
+                                                        <td>{{item.TokenNo}}</td>
+                                                        <td>{{item.TokenDate | date:dd-MMM-yyyy}}</td>
+                                                        <td>{{item.PatientName}}</td>
+                                                        <td>{{item.LineTotal}}</td>
+                                                        <td>{{item.LinePaidAmount}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-body -->
+                                    <hr />
+                                    <div class="form-group row">
+                                        <label for="Remarks" class="col-sm-1 col-form-label">Remarks</label>
+                                        <div class="col-sm-10">
+                                            <div class="input-group input-group-md">
+                                                <input type="text" placeholder="Remarks" class="form-control text-left" ng-model="TxtRemarksDoc">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="Total" class="col-sm-1 col-form-label">Total</label>
+                                        <div class="col-sm-5">
+                                            <div class="input-group input-group-md">
+                                                <input type="text" placeholder="Line Total" class="form-control font-weight-bold text-right" ng-model="TxtLineTotal" readonly>
+                                            </div>
+                                        </div>
+                                        <label for="Paid" class="col-sm-1 col-form-label">Paid</label>
+                                        <div class="col-sm-5">
+                                            <div class="input-group input-group-md">
+                                                <input type="text" placeholder="Paid" class="form-control font-weight-bold text-right" ng-model="TxtPaidAmount" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row p-t-30">
+                                        <div class="col-md-8"></div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <button ng-click="Add_DoctorPay()" ng-disabled="CreateDocPaymnt.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="fa fa-times"></i> Clear </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-footer -->
+                                    <!-- ./row -->
+                                </div>
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                        <!--/.col (left) -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+            </div>
+
+            @section scripts {
+
+                <script>
+
+                    var RegistrationForm = angular.module("RegistrationForm", []);
+                    RegistrationForm.controller("Home", function ($scope, $http, $window) {
+                        $scope.Notification = function (Type, Heading, Test) {
+                            //info, warning, success, error
+                            $.toast({
+                                heading: Heading,
+                                text: Test,
+                                position: 'top-right',
+                                loaderBg: '#ff6849',
+                                icon: Type,
+                                hideAfter: 3500,
+                                stack: 6
+                            });
+                        };
+                        //==================Get New Doc No=======================
+                        $scope.GetNewDocNum = function () {
+                            var displayReq = {
+                                method: "POST",
+                                url: "/DoctorsPayment/Generate_DocNum",
+                                data: {}
+                            }
+                            $http(displayReq).then(function (Return) {
+                                if (Return.data == "Inserted") {
+                                    $scope.Notification('success', 'Operation Completed', 'Insert Doc NO');
+                                    $scope.GetDocNumbr();
+                                }
+                                else {
+                                    $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                                }
+                            }, function myError(Return) {
+                                $scope.Notification('error', Return.data);
+                            });
+                        };
+                        //==============Display Doctor Dconumber===================
+                        $scope.GetDocNumbr = function () {
+                            var displayReq = {
+                                method: "POST",
+                                url: "/DoctorsPayment/Get_Docupdata",
+                                data: {
+                                }
+                            }
+                            $http(displayReq).then(function (Return) {
+                                var dt = angular.fromJson(Return.data);
+                                if (dt.length > 0) {
+                                    $scope.TxtDocNo = dt[0].DocNo;
+                                }
+                                else {
+                                    $scope.TxtDocNo = '';
+                                }
+                            }, function myError(Return) {
+                                $scope.Notification('error', 'Error Code LC0001', Return.data);
+                            });
+                        };
+                        //==================Insert Data Payment=======================
+                        $scope.Add_DoctorPay = function () {
+                                var displayReq = {
+                                    method: "POST",
+                                    url: "/DoctorsPayment/Add_Docrecord",
+                                    data: {
+                                        DocNo: $scope.TxtDocNo,
+                                        DocDate: new Date($scope.DT_Doc),
+                                        LineTotal: $scope.TxtLineTotal,
+                                        LinePaid: $scope.TxtPaidAmount,
+                                        DoctorID: $scope.TxtDocID,
+                                        Remarks: $scope.TxtRemarksDoc
+                                    }
+                                }
+                                $http(displayReq).then(function (Return) {
+                                    if (Return.data == "Inserted") {
+                                        $scope.Notification('success', 'Doctor Payment Data Insert');
+                                        $scope.Printing();
+                                        $scope.On_Clear();
+                                    }
+                                    else {
+                                        $scope.Notification('warning', 'Please Contact to Admin');
+                                    }
+                                }, function myError(Return) {
+                                    $scope.On_Clear();
+                                    $scope.Notification('error', Return.data);
+                                });
+                        };
+                        //==============Display Doctors Look up Data===================
+                        $scope.GetAllData = function () {
+                            var displayReq = {
+                                method: "POST",
+                                url: "/DoctorsPayment/Get_DoLokupdata",
+                                data: {
+                                }
+                            }
+                            $http(displayReq).then(function (Return) {
+                                $scope.dtGetAll = angular.fromJson(Return.data);
+                            }, function myError(Return) {
+                                $scope.Notification('error', 'Error Code LC0001', Return.data);
+                            });
+                        };
+                        //=============Display Doctor Data Get By ID================
+                        $scope.GetDataByID = function (ID) {
+                            $scope.GetDoct_DataByID(ID);
+                            var displayReq = {
+                                method: "POST",
+                                url: "/DoctorsPayment/Get_Doctrdataid",
+                                data: {
+                                    DocNo: $scope.TxtDocNo,
+                                    DocDate: $scope.DT_Doc,
+                                    DoctorID: ID
+                                }
+                            }
+                            $http(displayReq).then(function (Return) {
+                                var dt = angular.fromJson(Return.data);
+                                var LineTotal = 0;
+                                var PaidTotal = 0;
+                                if (dt.length > 0) {
+                                    $scope.dtGetDoctorAll = angular.fromJson(Return.data);
+                                    for (var i = 0; i < dt.length; i++) {
+                                        LineTotal = LineTotal + dt[i].LineTotal;
+                                        PaidTotal = PaidTotal + dt[i].LinePaidAmount;
+                                    }
+                                    $scope.TxtLineTotal = LineTotal;
+                                    $scope.TxtPaidAmount = PaidTotal;
+                                }
+                                else {
+                                    $scope.dtGetDoctorAll = null;
+                                    LineTotal = 0;
+                                    PaidTotal = 0;
+                                }
+                            }, function myError(Return) {
+                                $scope.Notification('error', 'Error Code LC0001', Return.data);
+                            });
+                        };
+                       //==================Print Report=======================
+                        $scope.Printing = function () {
+                        $scope.PrintingTest();
+                        var displayReq = {
+                        method: "POST",
+                        url: "/DoctorsPayment/Print_Doctors_Payment",
+                        data: {
+                            DocNumber : $scope.TxtDocNo
+                        }
+                      }
+                        $http(displayReq).then(function (Return)
+                        {
+                        }, function myError(Return)
+                            {
+                        $scope.Notification('error', Return.data);
+                            });
+                        }; 
+
+                        $scope.PrintingTest = function () {
+                            $window.open('/DoctorsPayment/Print_Doctors_Payment?DocNumber=' + $scope.TxtDocNo, '_blank');
+                        }; 
+                        //==============Doctor Data Get By ID=========================
+                        $scope.GetDoct_DataByID = function (Doctor) {
+                            var displayReq = {
+                                method: "POST",
+                                url: "/DoctorsPayment/Get_Paydatabyid",
+                                data: {
+                                    DoctorID: Doctor
+                                }
+                            }
+                            $http(displayReq).then(function (Return) {
+                                var dt = angular.fromJson(Return.data);
+                                if (dt.length > 0) {
+                                    $scope.TxtDocID = dt[0].DoctorID;
+                                    $scope.TxtDocName = dt[0].DoctorName;
+                                }
+                                else {
+                                    $scope.TxtDocID = '';
+                                    $scope.TxtDocName = '';
+                                }
+
+                            }, function myError(Return) {
+                                $scope.Notification('error', 'Error Code LC0001', Return.data);
+                            });
+                        };
+                        //=============Clear==========
+                        $scope.On_Clear = function () {
+                            $scope.TxtDocNo = '';
+                            $scope.DT_Doc = new Date();
+                            $scope.TxtDocID = '';
+                            $scope.TxtRemarksDoc = '';
+                            $scope.TxtLineTotal = '0';
+                            $scope.TxtPaidAmount = '0';
+                            $scope.TxtDocName = '';
+                            $scope.dtGetDoctorAll = '';
+                        };
+
+                        $scope.OnLoad = function () {
+                            $scope.TxtLineTotal = '0';
+                            $scope.TxtPaidAmount = '0';
+                            $scope.DT_Doc = new Date();
+                        };
+
+                        //==========The End==========
+                        $scope.OnLoad();
+
+                    });
+
+
+                </script>
+
+            }
+

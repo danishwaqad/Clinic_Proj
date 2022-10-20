@@ -1,0 +1,966 @@
+﻿
+@{
+    ViewBag.Title = "FirstAdd";
+}
+
+<div ng-app="RegistrationForm" ng-controller="Home">
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">First Aid</h4>
+    </div>
+    <div class="col-md-7 align-self-center">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">First Aid</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<!--row-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div id="FirstAidGet" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myLargeModalLabel">Select Patient Related to First Aid</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-7">
+
+                                </div>
+                                <div class="col-md-1">
+                                    <label for="CompSearch">Search:</label>
+                                </div>
+                                <div class="col-md-4 form-material">
+                                    <input type="text" class="form-control" id="UserSearch" ng-model="TxtFAidSearch" />
+                                </div>
+                            </div>
+                            <div class="table-responsive-sm">
+                                <table class="table-sm table-hover table-bordered text-dark">
+                                    <thead>
+                                        <tr>
+                                            <th>M.R #</th>
+                                            <th>Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in dtGetAll | filter:TxtFAidSearch">
+                                            <td><button ng-click="GetDataByID(item.TokenNo)" class="btn btn-link" data-dismiss="modal">{{item.TokenNo}}</button></td>
+                                            <td>{{item.FullName}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <div class="modal" id="OutModel" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Warning!</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>After OUT this command cannot Add New Service Or cannot Delete Any Service</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" ng-click="CheckSer_BefOut()" data-dismiss="modal" class="btn btn-primary">OUT</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" id="INModel" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Warning!</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>After and Before IN command you can Add Or Delete New Service</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" ng-click="CheckFaRecData()" data-dismiss="modal" class="btn btn-primary">IN</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="FirstServiceName" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myLargeModalLabel">Select All Data About Service</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-7">
+
+                                </div>
+                                <div class="col-md-1">
+                                    <label for="CompSearch">Search:</label>
+                                </div>
+                                <div class="col-md-4 form-material">
+                                    <input type="text" class="form-control" id="UserSearch" ng-model="TxtServSearch" />
+                                </div>
+                            </div>
+                            <div class="table-responsive-sm">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Charges</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in dtSerGetAll | filter:TxtServSearch">
+                                            <td><button ng-click="GetSerDataByID(item.CCPL_ROW_ID)" class="btn btn-link" data-dismiss="modal">{{item.ServiceName}}</button></td>
+                                            <td>{{item.Charges | number:2}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <div class="card-header bg-info">
+                <h4 class="m-b-0 text-white">First Aid</h4>
+            </div>
+            <div class="card-body">
+                @*<label class="control-label text-danger" ng-hide="txtBeforeIN"><b>Before You Add Service Check Mode And Recomendation</b></label>*@
+                @*<label class="control-label text-danger" ng-hide="txtAfterOut"><b>First You Out This Command Then Other Recoemndation Add As a Service</b></label>*@
+                <form name="FirstAid">
+                    <div class="form-body form-group">
+                        <div class="row p-t-20">
+                            <!--/span-->
+                            <div class="col-md-1"></div>
+                            <div class="col-sm-1">
+                                <label class="control-label text-dark" for="TokenNo">Token No:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" id="TokenNo" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtTokenNo" maxlength="100" readonly />
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#FirstAidGet" href="javascript:void(0)" ng-click="GetAllData()"><i class="ti-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-sm-1">
+                                <label class="control-label text-dark" for="RegNo">Reg No:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" id="RegNo" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtRegNo" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row p-t-20">
+                            <div class="col-md-1"></div>
+                            <div class="col-sm-1">
+                                <label class="control-label text-dark" for="PatName">Patient Name:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" id="PatName" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtPatName" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-sm-1">
+                                <label class="control-label text-dark" for="TokenDate">Token Date:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" id="TokenDate" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtTokenDate" readonly />
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <div class="row p-t-20">
+                            <div class="col-md-1"></div>
+                            <div class="col-sm-1">
+                                <label class="control-label text-dark" for="Age">Age:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" id="Age" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtPatAge" maxlength="100" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-sm-1">
+                                <label class="control-label text-dark" for="Gender">Gender:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" id="Gender" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtGender" maxlength="100" readonly />
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <div class="row p-t-20">
+                            <div class="col-md-1"></div>
+                            <div class="col-sm-1">
+                                <label class="control-label text-dark" for="DocName">Doctor Name:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" id="DocName" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtDocName" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-sm-1">
+                                <label class="control-label text-dark" for="Mode">Mode(In/Out):</label>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" id="Mode" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtMode" maxlength="100" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item"> <a class="nav-link" ng-click="" data-toggle="tab" href="#AddService" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Add Service</span></a> </li>
+                    <li class="nav-item"> <a class="nav-link" ng-click="" data-toggle="tab" href="#Recommendation" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Recommendation</span></a> </li>
+                </ul>
+                <div class="tab-content tabcontent-border">
+                    <div class="tab-pane" id="AddService" role="tabpanel">
+                        <!--row-->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Add Services</h4>
+                                        <hr />
+                                        <form name="frmPersonalInfo">
+
+                                            <div class="form-body form-group">
+
+                                                <div class="row p-t-20">
+                                                    <div class="col-sm-1">
+                                                        <label class="control-label text-dark" for="Servame">Service Name:</label>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="input-group">
+                                                            <input type="text" id="Servame" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtServame" maxlength="100" required readonly />
+                                                            <div class="input-group-append">
+                                                                <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#FirstServiceName" href="javascript:void(0)" ng-click="GetSerAllData()"><i class="ti-search"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">Rs.</span>
+                                                            </div>
+                                                            <input type="text" class="form-control text-center font-weight-bold" ng-model="txtCharges  | number:2">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">Qty.</span>
+                                                            </div>
+                                                            <input type="number" class="form-control text-center font-weight-bold" ng-model="TxtQty">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="input-group">
+                                                            <button ng-click="GetFaListData();Calculate()" ng-hide="CUSaveBtn" ng-disabled="FirstAid.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-plus"></i> Service</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                        <hr />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="float-left">
+                                            <h4 class="card-title">First Aid Services</h4>
+
+                                        </div>
+                                        <div class="table-responsive-sm">
+                                            <table class="table-sm table-hover table-bordered text-dark">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sr #</th>
+                                                        <th>Service Name</th>
+                                                        <th>Total Fee</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in dtViewGetAll">
+                                                        <td>{{$index + 1}}</td>
+                                                        <td>{{item.FAService}}</td>
+                                                        <td>{{item.FACharges}}</td>
+                                                        <td>
+                                                            <button ng-click="DelFaListData(item.CCPL_ROW_ID,item.TokenNo)" class="btn btn-link" alt="default" data-toggle="modal" data-target="#RefundModalFad" href="javascript:void(0)"> Delete </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <hr />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row p-t-20">
+                            <div class="col-md-1"></div>
+                            <label class="control-label text-dark" for="Count">Count:</label>
+
+                            <div class="col-md-1">
+                                <input type="text" id="Count" class="form-control form-input-grey" ng-model="txtCount" readonly />
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="control-label text-dark" for="FARemarks">First Aid Remarks:</label>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="input-group">
+                                    <input type="text" id="FARemarks" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtFARemarks" maxlength="100" />
+                                </div>
+                            </div>
+                            @*<div class="col-sm-1">
+                            <label class="control-label text-dark" for="Total">Total:</label>
+                        </div>*@
+                            <div class="col-md-2">
+                                <input type="hidden" id="Total" class="form-control form-input-grey" ng-model="txtTotal" readonly />
+                            </div>
+                        </div>
+                        <div class="row p-t-20">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-2 float-right">
+                                <button data-target="#OutModel" alt="default" data-toggle="modal"  href="javascript:void(0)" ng-click="OutBtnSave" ng-hide="ForOutBtn" class="btn btn-outline-success form-control"><i class="icon-refresh"></i> OUT </button>
+                                <button data-target="#INModel" alt="default" data-toggle="modal"  href="javascript:void(0)" ng-click="InBtnSave" ng-hide="ForInBtn" class="btn btn-outline-success form-control"><i class="icon-refresh"></i> IN </button>
+                            </div>
+                            <div class="col-md-2 float-right">
+                                <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+
+                            </div>
+                        </div>
+
+                        <div class="row p-t-20">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+
+                                    <button ng-click="On_Update()" ng-hide="CUUpdateBtn" ng-disabled="FirstAid.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Update</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <!-- Row -->
+                    </div>
+                    <div class="tab-pane" id="Recommendation" role="tabpanel">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table class=" table table-sm table-hover table-bordered text-dark">
+                                    <thead>
+                                        <tr>
+                                            <th>M.R #</th>
+                                            <th>Patient Name</th>
+                                            <th>Service Name</th>
+                                            <th>Recommended By</th>
+                                        </tr>
+                                    </thead>
+                                    <tr ng-repeat="item in dtRecViewGetAll">
+                                        <td>{{item.TokenNo}}</td>
+                                        <td>{{item.PatName}}</td>
+                                        <td>{{item.ServiceName}}</td>
+                                        <td>{{item.DrName}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="Refund" role="tabpanel">
+                    <!--row-->
+                    <!-- Row -->
+                </div>
+            </div>
+        </div>
+        </div>
+</div>
+</div>
+@section scripts {
+    <script>
+
+        var RegistrationForm = angular.module("RegistrationForm", []);
+        RegistrationForm.controller("Home", function ($scope, $http) {
+            $scope.Notification = function (Type, Heading, Test) {
+                //info, warning, success, error
+                $.toast({
+                    heading: Heading,
+                    text: Test,
+                    position: 'top-right',
+                    loaderBg: '#ff6849',
+                    icon: Type,
+                    hideAfter: 3500,
+                    stack: 6
+                });
+            };
+             //========Display Recomendation View All Data==============
+            $scope.GetRecViewAllData = function (Token) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/FirstAdd/GetRec_Viewdata",
+                    data: {
+                        TokenNo : Token
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    $scope.dtRecViewGetAll = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //==================Get First Aid Check List=======================
+            $scope.GetFaListData = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/FirstAdd/FA_CheckList",
+                    data: {
+                        TokenNo: $scope.txtTokenNo
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dtList = angular.fromJson(Return.data);
+                    if (dtList.length == 0) {
+                        $scope.savedata();
+                    }
+                    else {
+                        if (dtList[0].CheckMode == 'IN' && dtList.length==1) {
+                            $scope.savedata();
+                        }
+                        else {
+                        if (dtList[1].CheckMode == 'OUT') {
+                            $scope.Notification('error', 'System Alert', 'You Are OUT This Token So New Service Cannot Be Add (Contact To IT Or Admin)');
+                        }
+                        }
+                    }
+                    }, function myError(Return) {
+                        $scope.Notification('error', 'Error Code LC0001', Return.data);
+                    });
+            };
+            //==================Delete First Aid Check List=======================
+            $scope.DelFaListData = function (id,Token) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/FirstAdd/FA_CheckList",
+                    data: {
+                        TokenNo: Token
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dtList = angular.fromJson(Return.data);
+                    if (dtList.length == 0) {
+                        $scope.OnDelete(id,Token);
+                    }
+                    else {
+                        if (dtList[0].CheckMode == 'IN' && dtList.length == 1) {
+                            $scope.OnDelete(id,Token);
+                        }
+                        else {
+                        if (dtList[1].CheckMode == 'OUT') {
+                            //alert("You Are OUT This Token So Delete Button Cannot Work (Contact To IT Or Admin)");
+                            $scope.Notification('error', 'System Alert', 'You Are OUT This Token So Delete Button Cannot Work (Contact To IT Or Admin)');
+                        }
+                        }
+                    }
+                    }, function myError(Return) {
+                        $scope.Notification('error', 'Error Code LC0001', Return.data);
+                    });
+            };
+            //==================Check Record About IN and OUT=======================
+            $scope.CheckFaRecData = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/FirstAdd/FA_CheckList",
+                    data: {
+                        TokenNo: $scope.txtTokenNo
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dtList = angular.fromJson(Return.data);
+                    if (dtList.length == 0) {
+                        $scope.saveINOutdata();
+                        $scope.ForInBtn = false;
+                        $scope.ForOutBtn = true;
+                    }
+                    else {
+                        if (dtList[0].CheckMode == 'IN' && dtList.length == 1) {
+                            $scope.saveINOutdata();
+                            $scope.ForInBtn = true;
+                            $scope.ForOutBtn = false;
+                        }
+                        else {
+                        if (dtList[1].CheckMode == 'OUT') {
+                            //alert("You Already Out This Command");
+                            $scope.Notification('error', 'System Alert', 'You Already Out This Command');
+                            $scope.ForInBtn = true;
+                            $scope.ForOutBtn = true;
+                        }
+                        }
+                    }
+                    }, function myError(Return) {
+                        $scope.Notification('error', 'Error Code LC0001', Return.data);
+                    });
+            };
+            //==================Check Service Before Out Command=======================
+            $scope.CheckSer_BefOut = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/FirstAdd/FA_CheckServcBef",
+                    data: {
+                        TokenNo: $scope.txtTokenNo
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dtBefList = angular.fromJson(Return.data);
+                    if (dtBefList.length == 0) {
+                            $scope.Notification('error', 'System Alert', 'Please Add Service Before Out Command');
+                    }
+                    else {
+                        $scope.CheckFaRecData();
+                    }
+                    }, function myError(Return) {
+                        $scope.Notification('error', 'Error Code LC0001', Return.data);
+                    });
+            };
+            //============Recomendation Delete==========================
+            $scope.OnRecDelete = function (id) {
+
+                var displayReq = {
+                    method: "POST",
+                    url: "/FirstAdd/OnrecDelete",
+                    data: {
+                        id: id
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.txtServame = '';
+                    $scope.txtRemarks = '';
+                    $scope.GetRecViewAllData($scope.txtTokenNo);
+                    if (Return.data == "Delete") {
+                        $scope.Notification('success', 'Operation Completed', 'Delete Treatment');
+                    }
+                    else {
+                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                });
+
+            };
+            //==============Calculate Fee=============
+            $scope.CalculateFee = function () {
+                var Paid = $scope.txtPaid;
+                var totalcharges = $scope.txtCharges;
+                $scope.txtBalance = totalcharges-Paid;
+            };
+            //==============Display Patient Look up Data===================
+            $scope.GetAllData = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/FirstAdd/Get_data",
+                    data: {}
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.On_Clear();
+                    $scope.dtGetAll = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //===============Delete First Aid Services==============
+            $scope.OnDelete = function (id,Token) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/FirstAdd/OnDelete",
+                    data: {
+                        id: id,
+                        TokenNo:Token
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.GetViewAllData($scope.txtTokenNo);
+                    if (Return.data == "Delete") {
+                        $scope.Notification('success', 'Operation Completed', 'Delete First Aid');
+                    }
+                    else {
+                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    $scope.On_Clear();
+                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                });
+
+            };
+             //==============Get Service Name By ID============
+            $scope.GetSerDataByID = function (ID) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/FirstAdd/Get_Servdatabyid",
+                    data: {
+                        id: ID
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    if (dt.length > 0) {
+                        $scope.txtServame = dt[0].ServiceName;
+                        $scope.txtCharges = dt[0].Charges;
+                        $scope.CUSaveBtn = false;
+                        $scope.CUUpdateBtn = true;
+                    }
+                    else {
+                        $scope.CUSaveBtn = false;
+                        $scope.CUUpdateBtn = true;
+
+                        $scope.txtServiceName = '';
+                        $scope.txtCharges = '';
+                    }
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+             //===========Display All Services By lookup=============
+            $scope.GetSerAllData = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/FirstAdd/Get_Servicedata",
+                    data: {}
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.dtSerGetAll = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //==========View Service All Data==============
+            $scope.GetViewAllData = function (TokenNo) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/FirstAdd/Get_Viewdata",
+                    data: {
+                        TokenNo : TokenNo
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    var dt = angular.fromJson(Return.data);
+                    $scope.txtCount = dt.length;
+                    $scope.dtViewGetAll = angular.fromJson(Return.data);
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+         //==================Get Total Charges by ID=======================
+        $scope.GetTotal = function () {
+        var displayReq = {
+            method: "POST",
+            url: "/FirstAdd/Get_Charges_Total",
+            data: {
+                TokenNo: $scope.txtTokenNo
+            }
+        }
+        $http(displayReq).then(function (Return) {
+            var dt = angular.fromJson(Return.data);
+            if (dt.length > 0)
+            {
+                $scope.txtTotal = dt[0].FACharges;
+            }
+            else
+            {
+                $scope.txtTotal = 0;
+            }
+        }, function myError(Return) {
+                $scope.Notification('error', Return.data);
+        });
+    };
+            //=============Display Patient Data Get By ID================
+            $scope.GetDataByID = function (ID) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/FirstAdd/Get_databyid",
+                    data: {
+                        TokenNo: ID
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    if (dt.length > 0) {
+                        $scope.txtTokenNo = dt[0].TokenNo;
+                        $scope.txtTokenDate = dt[0].TokenDate;
+                        $scope.txtRegNo = dt[0].RegNo;
+                        $scope.txtGender = dt[0].Gender;
+                        $scope.txtPatAge = dt[0].Age;
+                        $scope.txtPatCNIC = dt[0].CNIC;
+                        $scope.txtPatName = dt[0].FullName;
+                        $scope.txtDocName = dt[0].DoctorName;
+                        //$scope.txtDoctID = dt[0].DrID;
+                        $scope.GetModeTxtByID(dt[0].TokenNo);
+                        $scope.GetTotal();
+                        $scope.GetViewAllData(dt[0].TokenNo);
+                        $scope.GetRecViewAllData(dt[0].TokenNo);
+
+                        $scope.CUSaveBtn = false;
+                        //$scope.CUUpdateBtn = True;
+                    }
+                    else {
+                        $scope.CUSaveBtn = false;
+                        //$scope.CUUpdateBtn = false;
+
+                        $scope.txtTokenNo = '';
+                        $scope.txtTokenDate = '';
+                        $scope.txtRegNo = '';
+                        $scope.txtGender = '';
+                        $scope.txtPatAge = '';
+                        $scope.txtPatCNIC = '';
+                        $scope.txtPatName = '';
+                        $scope.txtDocName = '';
+                    }
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //=============Insert Service Data=================
+            $scope.savedata = function () {
+                var displayReq = {
+                    method: 'POST',
+                    url: '/FirstAdd/Add_Recrd',
+                    data: {
+                        TokenNo: $scope.txtTokenNo,
+                        TokenDate: $scope.txtTokenDate,
+                        PatName: $scope.txtPatName,
+                        Remarks: $scope.txtRemarks,
+                        RegNo: $scope.txtRegNo,
+                        Mode: $scope.txtMode,
+                        ServiceName: $scope.txtServame,
+                        Fee: $scope.txtCharges * $scope.TxtQty,
+                        Paid: $scope.txtPaid,
+                        Balance: $scope.txtBalance
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    //$scope.On_Clear();
+                    $scope.txtServame = '';
+                    $scope.txtCharges = '';
+                    $scope.txtRemarks = '';
+                    $scope.txtPaid = '';
+                    $scope.txtBalance = '';
+                    $scope.GetViewAllData($scope.txtTokenNo);
+                    if (Return.data == "Inserted")
+                    {
+                        $scope.GetTotal();
+                        $scope.Notification('success', 'Operation Completed', 'Insert First Aid');
+                    }
+                    else {
+                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    //$scope.On_Clear();
+                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                });
+            };
+            //===========Insert Data For In And Out=================
+            $scope.saveINOutdata = function () {
+                var displayReq = {
+                    method: 'POST',
+                    url: '/FirstAdd/Add_InOutRecrd',
+                    data: {
+                        TokenNo: $scope.txtTokenNo,
+                        Remarks: $scope.txtFARemarks,
+                        Mode: $scope.txtMode
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    //$scope.GetRecViewAllData($scope.txtTokenNo);
+                    if (Return.data == "Inserted") {
+                        $scope.Notification('success', 'Operation Completed', 'Insert First Aid Complete');
+                        $scope.On_Clear();
+                    }
+                    else {
+                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    $scope.On_Clear();
+                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                });
+            };
+            //===========Insert Data For Service Header=================
+            //$scope.saveFAHeadedata = function () {
+            //    var displayReq = {
+            //        method: 'POST',
+            //        url: '/FirstAdd/Add_FAHeadRecord',
+            //        data: {
+            //            TokenNo: $scope.txtTokenNo,
+            //            Remarks: $scope.txtFARemarks,
+            //            TotalAmount: $scope.txtTotal
+            //        }
+            //    }
+            //    $http(displayReq).then(function (Return) {
+            //        if (Return.data == "Inserted") {
+            //            $scope.Notification('success', 'Operation Completed', 'Insert First Aid Header');
+            //        }
+            //        else {
+            //            $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+            //        }
+            //    }, function myError(Return) {
+            //        $scope.On_Clear();
+            //        $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+            //    });
+            //};
+            ////For Update
+            //$scope.On_Update = function () {
+            //    var displayReq = {
+            //        method: "POST",
+            //        url: "/FirstAddController/update_record",
+            //        data: {
+            //            TokenNo:$scope.txtTokenNo,
+            //            TokenDate: $scope.txtTokenDate,
+            //            PatName:$scope.txtPatName,
+            //            Balance:$scope.txtBalance,
+            //            TotalFee:$scope.txtTotalFee,
+            //            PaidFee:$scope.txtPaidFee,
+            //            RefundFee:$scope.txtFeeRefund,
+            //            Remarks:$scope.txtRemarks,
+            //            RefundApproval: $scope.txtRefundApproval,
+            //            RefundType: $scope.txtPatRefundType
+            //        }
+            //    }
+            //    $http(displayReq).then(function (Return) {
+            //        $scope.On_Clear();
+            //        if (Return.data == "Updated") {
+            //            $scope.Notification('success', 'Operation Completed', 'Update Patient Refund');
+            //        }
+            //        else {
+            //            $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+            //        }
+            //    }, function myError(Return) {
+            //            $scope.On_Clear();
+            //            $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+            //        });
+            //};
+            //=============Mode Data Get By ID==========
+            $scope.GetModeTxtByID = function (ID) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/FirstAdd/Get_Modebyid",
+                    data: {
+                        TokenNo: ID
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    if (dt.length > 0) {
+                        $scope.txtMode = dt[0].CheckMode;
+                        if ($scope.txtMode == 'IN') {
+                            //$scope.txtBeforeIN = false;
+                            $scope.Notification('warning', 'System Alert', 'Before You Add Service Check Mode And Recomendation');
+                            $scope.ForInBtn = false;
+                            $scope.ForOutBtn = true;
+                        }
+                        else if ($scope.txtMode == 'OUT') {
+                            //$scope.txtAfterOut = false; 
+                            $scope.Notification('warning', 'System Alert', 'First You Out This Command Then Other Recoemndation Add As a Service');
+                            $scope.ForInBtn = true;
+                            $scope.ForOutBtn = false;
+                        }
+                        $scope.CUSaveBtn = false;
+                    }
+                    else {
+                        $scope.CUSaveBtn = false;
+                        $scope.txtMode = '';
+                    }
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //================Clear Function====================
+            $scope.On_Clear = function () {
+                $scope.txtTokenNo = '';
+                $scope.txtGender = '';
+                $scope.txtPatAge = '';
+                $scope.txtTokenDate = '';
+                $scope.txtRegNo = '';
+                $scope.txtPatCNIC = '';
+                $scope.txtPatName = ''; 
+                $scope.txtDocName = '';
+                $scope.txtServame = '';
+                $scope.txtCharges = '';
+                $scope.txtMode = '';
+                $scope.txtRemarks = '';
+                $scope.txtPaid = '';
+                $scope.txtBalance = '';
+                $scope.dtViewGetAll = '';
+                $scope.dtRecViewGetAll = '';
+                $scope.txtFARemarks = '';
+                //$scope.txtBeforeIN = true;
+                //$scope.txtAfterOut = true;
+
+                $scope.OnLoad();
+                $scope.CUSaveBtn = false;
+                $scope.CUUpdateBtn = true;
+            };
+            $scope.OnLoad = function () {
+                $scope.CUSaveBtn = false;
+                //$scope.txtBeforeIN = true;
+                //$scope.txtAfterOut = true;
+                $scope.CUUpdateBtn = true;
+                $scope.TxtQty = 1;
+                $scope.ForInBtn = false;
+                $scope.ForOutBtn = true;
+            };
+            $scope.OnLoad();
+        });
+    </script>
+
+}
+

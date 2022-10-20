@@ -1,0 +1,131 @@
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header bg-info">
+                        <h4 class="m-b-0 text-white">History</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="panel-group" ng-repeat="s in dtViewHistGetAll">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h6 class="panel-title">
+                                        <a data-toggle="collapse" class="link-primary" href="#Token_{{$index+1}}">{{s.TokenNo}}</a>
+                                    </h6>
+
+                                </div>
+                                <div id="Token_{{$index+1}}" class="panel-collapse collapse">
+                                    <ul class="list-group">
+                                        @*<li class="nav-item"> <a class="nav-link" ng-click="" data-toggle="tab" href="#PatientVitals" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Patient Vitals</span></a> </li>*@
+                                        <li class="list-group-item"><a data-toggle="collapse" ng-click="GetHistViewAllData(s.TokenNo)" href="#PatientVitals1">Patient Vitals</a></li>
+                                        <div class="row">
+                                            <div class="col-md-12 panel-collapse collapse" id="PatientVitals1">
+                                                <table class="table-sm table-hover table-bordered" style="font-size:12px;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Vital Name</th>
+                                                            <th>Vital Value</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="item in dtHistViewGetAll">
+                                                            <td>{{$index+1}}</td>
+                                                            <td>{{item.VitalName}}</td>
+                                                            <td>{{item.VitalValue}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <li class="list-group-item"><a data-toggle="collapse" ng-click="GetHistDiagnoseViewData(s.TokenNo)" href="#Diagnosis1">Diagnosis</a></li>
+                                        <li class="list-group-item"><a data-toggle="collapse" ng-click="GetHistLabViewData(s.TokenNo)" href="#Lab1">Lab</a></li>
+                                        <li class="list-group-item"><a data-toggle="collapse" ng-click="GetHistTrtViewAllData(s.TokenNo)" href="#Treatment1">Treatment</a></li>
+                                        <li class="list-group-item"><a data-toggle="collapse" ng-click="GetHistMedViewAllData(s.TokenNo)" href="#Medication1">Medication</a></li>
+                                        <li class="list-group-item"><a data-toggle="collapse" ng-click="GetHistFolowViewData(s.TokenNo)" href="#Followup1">Follow Up</a></li>
+                                    </ul>
+
+                                    <div class="panel-collapse collapse" id="Diagnosis1">
+                                        <table class="table-sm table-hover table-bordered text-dark list-group-item">
+                                            <thead>
+                                                <tr>
+                                                    <th>Diagnose</th>
+                                                    <th>Remarks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtHistGetDiagnoseviewAll">
+                                                    <td>{{item.DisagnoseSName}}</td>
+                                                    <td>{{item.Remarks}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="panel-collapse collapse" id="Lab1">
+                                        <table class="table-sm table-hover table-bordered text-dark list-group-item">
+                                            <thead>
+                                                <tr>
+                                                    <th>Lab Test</th>
+                                                    <th>Remarks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtHistGetLabviewAll">
+                                                    <td>{{item.LabTest}}</td>
+                                                    <td>{{item.Remarks}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="panel-collapse collapse" id="Treatment1">
+                                        <table class="table-sm table-hover table-bordered text-dark list-group-item">
+                                            <thead>
+                                                <tr>
+                                                    <th>Patient Name</th>
+                                                    <th>Service Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtHistTrtViewGetAll">
+                                                    <td>{{item.PatName}}</td>
+                                                    <td>{{item.ServiceName}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="panel-collapse collapse" id="Medication1">
+                                        <table class="table-sm table-hover table-bordered text-dark list-group-item">
+                                            <thead>
+                                                <tr>
+                                                    <th>Generic Name</th>
+                                                    <th>Urdu Text</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtHistGetMediviewAll">
+                                                    <td>{{item.GenericName}}</td>
+                                                    <td>{{item.UrduText}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="panel-collapse collapse" id="Followup1">
+                                        <table class="table-sm table-hover table-bordered text-dark list-group-item">
+                                            <thead>
+                                                <tr>
+                                                    <th>Recommend Follow Up</th>
+                                                    <th>Remarks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtHistGetfolowviewAll">
+                                                    <td>{{item.FollowupDate | date:dd-MMM-yyyy}}</td>
+                                                    <td>{{item.Remarks}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>

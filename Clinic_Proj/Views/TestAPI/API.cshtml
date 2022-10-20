@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "API";
+}
+
+<h2>API</h2>
+
+<div ng-app="RegistrationForm" ng-controller="Home">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive-sm">
+                    <br />
+                    <table class="table-sm table-hover table-bordered text-dark">
+                            <thead>
+                                <tr>
+                                    <th>Medicines</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in dtPharmaGetAll">
+
+                                    <td>{{item.GenericName}}</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                </div>
+                </div>
+            </div>
+            </div>
+
+
+        @section scripts {
+
+
+
+            <script type="text/javascript">
+
+                var RegistrationForm = angular.module("RegistrationForm", []);
+                RegistrationForm.controller("Home", function ($scope, $http) {
+
+
+                    $scope.GetPharmaAllData = function () {
+                        //alert('OK');
+                        var displayReq = {
+                            method: "POST",
+                            url: "/TestAPI/GetAPI",
+                            data: {}
+                        }
+                        $http(displayReq).then(function (Return) {
+
+                            $scope.dtPharmaGetAll = angular.fromJson(Return.data);
+                            //alert(Return.data);
+
+                        }, function myError(Return) {
+                            alert('Error...');
+                            //$scope.Notification('error', Return.data);
+                        });
+                    };
+
+
+
+                    //=============END================
+
+                    $scope.GetPharmaAllData();
+
+
+                });
+
+
+
+            </script>
+        }

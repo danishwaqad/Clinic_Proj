@@ -1,0 +1,336 @@
+﻿@{
+    ViewBag.Title = "CompanyToEmp";
+}
+
+<div ng-app="RegistrationForm" ng-controller="Home">
+
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Employees List</h4>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Employees List</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Employee List</h4>
+                </div>
+                <div class="card-body">
+                    <div id="EmpDependentData" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-x">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Employee Dependent List</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="EmployeeDepSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 scrollbar-secondary" style="overflow-x:auto;overflow-y:auto;height:600px; font-size:11px;">
+                                        <table class="table table-sm table-bordered table-head-fixed table-hover text-nowrap display">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr #</th>
+                                                    <th>Name</th>
+                                                    <th>CNIC</th>
+                                                    <th>Gender</th>
+                                                    <th>Age</th>
+                                                    <th>DOB</th>
+                                                    <th>Tel1</th>
+                                                    <th>Tel2</th>
+                                                    <th>Relation</th>
+                                                    <th>City</th>
+                                                    <th>Country</th>
+                                                    <th>Address</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtGetEmpDepData | filter:EmployeeDepSearch">
+                                                    <td>{{$index + 1}}</td>
+                                                    <td>{{item.Name}}</td>
+                                                    <td>{{item.CNIC}}</td>
+                                                    <td>{{item.Gender}}</td>
+                                                    <td>{{item.Age}}</td>
+                                                    <td>{{item.DOB | date:dd-MMM-yyyy}}</td>
+                                                    <td>{{item.Tel1}}</td>
+                                                    <td>{{item.Tel2}}</td>
+                                                    <td>{{item.Relation}}</td>
+                                                    <td>{{item.City}}</td>
+                                                    <td>{{item.Country}}</td>
+                                                    <td>{{item.Address}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <div id="CompanyGet" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-x">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Company</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="CompanySearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <div class="col-md-12 scrollbar-secondary" style="overflow-x:auto;overflow-y:auto;height:600px; font-size:11px;">
+                                            <table class="table table-sm table-bordered table-head-fixed table-hover text-nowrap display">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sr #</th>
+                                                        <th>Company Name</th>
+                                                        <th>Contact Person</th>
+                                                        <th>Mobile1</th>
+                                                        <th>Mobile2</th>
+                                                        <th>Tel</th>
+                                                        <th>City</th>
+                                                        <th>Country</th>
+                                                        <th>Address</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in dtGetCompanies | filter:CompanySearch">
+                                                        <td>{{$index + 1}}</td>
+                                                        <td><button ng-click="GetEmpDataByID(item.CompanyID,item.CompanyName)" class="btn btn-link" data-dismiss="modal">{{item.CompanyName}}</button></td>
+                                                        <td>{{item.ContactPerson}}</td>
+                                                        <td>{{item.Mobile1}}</td>
+                                                        <td>{{item.Mobile2}}</td>
+                                                        <td>{{item.Tel}}</td>
+                                                        <td>{{item.City}}</td>
+                                                        <td>{{item.Country}}</td>
+                                                        <td>{{item.Address}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <div class="row p-t-20">
+                        <div class="col-md-1"></div>
+                        <div class="col-sm-1">
+                            <label class="control-label text-dark" for="SrCompany">Company:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" id="CompanyGet" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtCmpGet" readonly />
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#CompanyGet" href="javascript:void(0)" ng-click="GetallCompanies()"><i class="ti-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="CompanyData" role="tabpanel">
+                        <!--row-->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Employee List</h4>
+                                        <hr />
+                                        <div class="input-group input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <button type="button" class="btn btn-warning dropdown-toggle" ng-model="BtnExport" data-toggle="dropdown">
+                                                    Export
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li class="dropdown-item"><a href="#" class="btn btn-link" ng-click="ExportToExcell()">Excell</a></li>
+                                                </ul>
+                                            </div>
+                                            <input type="text" class="form-control" ng-model="TxtFileName" placeholder="Enter Export File Name Here..">
+                                        </div>
+                                            <div class="col-md-12 scrollbar-secondary" style="overflow-x:auto;overflow-y:auto;height:600px; font-size:11px;">
+                                                    <div class="col-md-1">
+                                                        <label for="CompSearch">Search:</label>
+                                                    </div>
+                                                    <div class="col-md-4 form-material">
+                                                        <input type="text" class="form-control" id="EmpSearch" ng-model="EmpSearch" />
+                                                    </div>
+                                                    <table class="table table-sm table-bordered table-head-fixed table-hover text-nowrap display">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Sr #</th>
+                                                                <th>Name</th>
+                                                                <th>CNIC</th>
+                                                                <th>Guardian</th>
+                                                                <th>Gender</th>
+                                                                <th>DOB</th>
+                                                                <th>Age</th>
+                                                                <th>City</th>
+                                                                <th>Country</th>
+                                                                <th>Address</th>
+                                                                <th>Tel 1</th>
+                                                                <th>Tel 2</th>
+                                                                <th>Company Name</th>
+                                                                <th>Enter by</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in dtGetEmpData | filter:EmpSearch">
+                                                                <td>{{$index + 1}}</td>
+                                                                <td>{{item.Name}}</td>
+                                                                <td>{{item.CNIC}}</td>
+                                                                <td>{{item.GuardianName}}</td>
+                                                                <td>{{item.Gender}}</td>
+                                                                <td>{{item.DOB | date:dd-MMM-yyyy}}</td>
+                                                                <td>{{item.Age}}</td>
+                                                                <td>{{item.City}}</td>
+                                                                <td>{{item.Country}}</td>
+                                                                <td>{{item.Address}}</td>
+                                                                <td>{{item.Tel1}}</td>
+                                                                <td>{{item.Tel2}}</td>
+                                                                <td>{{item.CompanyName}}</td>
+                                                                <td>{{item.loginID}}</td>
+                                                                <td>
+                                                                    <button type="button" ng-click="GetEmployeeDepnd(item.EmpID)" class="btn btn-xs btn-success" alt="default" data-toggle="modal" data-target="#EmpDependentData" href="javascript:void(0)"><span class="fas fa-eye"></span></button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                            </div>
+                                            <hr />
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Row -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row -->
+</div>
+@section scripts {
+
+    <script>
+
+        var RegistrationForm = angular.module("RegistrationForm", []);
+        RegistrationForm.controller("Home", function ($scope, $http) {
+            $scope.Notification = function (Type, Heading, Test) {
+                //info, warning, success, error
+                $.toast({
+                    heading: Heading,
+                    text: Test,
+                    position: 'top-right',
+                    loaderBg: '#ff6849',
+                    icon: Type,
+                    hideAfter: 3500,
+                    stack: 6
+                });
+            };
+            //Display Companies
+            $scope.GetallCompanies = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/CmpToEmp/Get_Companydata",
+                    data: {}
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.dtGetCompanies = angular.fromJson(Return.data);
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //=============Export to Excell==============
+            $scope.ExportToExcell = function () {
+                var FileName = $scope.TxtFileName;
+                if (FileName == null) {
+                    FileName = 'CompanyPanalData_InExcel';
+                }
+                else {
+                    FileName = $scope.TxtFileName;
+                }
+                $("#CompanyData").table2excel({
+                    filename: FileName + ".xls"
+                });
+            };
+            //Employee Data Get By ID
+            $scope.GetEmpDataByID = function (CompanyID, CompanyName) {
+                $scope.txtCmpGet = CompanyName;
+                $scope.GetEmployeeHist(CompanyID);
+            };
+            //Display Employees Data
+            $scope.GetEmployeeHist = function (CompID) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/CmpToEmp/Get_Empdata",
+                    data: {
+                        CompanyID: CompID
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.dtGetEmpData = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //Display Employees Dependent Data
+            $scope.GetEmployeeDepnd = function (EmpID) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/CmpToEmp/Get_EmpDepdata",
+                    data: {
+                        EmployeeID: EmpID
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.dtGetEmpDepData = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+        });
+    </script>
+    <script src="~/Scripts/Export/table2excel.js"></script>
+}
+
+
+
+

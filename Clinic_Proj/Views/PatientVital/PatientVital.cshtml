@@ -1,0 +1,680 @@
+﻿
+@{
+    ViewBag.Title = "PatientVital";
+}
+
+<div ng-app="RegistrationForm" ng-controller="Home">
+
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Create Patient Vital</h4>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Create Patient Vital</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!--row-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div id="PatientVitalModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Patient Info</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtinfoSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>M.R #</th>
+                                                <th>Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtGetAll | filter:TxtinfoSearch">
+                                                <td><button ng-click="GetDataByID(item.TokenNo)" class="btn btn-link" data-dismiss="modal">{{item.TokenNo}}</button></td>
+                                                <td>{{item.FullName}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <div id="VitalModl" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Patient Vital</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="PatTypeSearch" ng-model="TxtVitalSearch"/>
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Vital Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtGetPatVital | filter:TxtVitalSearch">
+                                                <td><button ng-click="GetpatVitalBy(item.VitalName)" class="btn btn-link" data-dismiss="modal">{{item.VitalName}}</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                </div>
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Create Patient Vital</h4>
+                </div>
+                <div class="card-body">
+                    <form name="CreatePatientVital">
+                        <div class="form-body form-group">
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="TokenNo">M.R #:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="TokenNo" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtTokenNo" maxlength="100" required readonly />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#PatientVitalModal" href="javascript:void(0)" ng-click="GetAllData()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="RegNo">Reg. #:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="RegNo" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtRegNo" required readonly />
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="PatName">Patient Name:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="PatName" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtPatName" required readonly />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="TokenDate">Reg. Date:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="TokenDate" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtTokenDate" required readonly />
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Age">Age:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Age" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtPatAge" maxlength="100" required readonly />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="Gender">Gender:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="Gender" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtGender" maxlength="100" required readonly />
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="VitalName">Vital Name:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="VitalName" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtVitalName" maxlength="100" required readonly />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#VitalModl" href="javascript:void(0)" ng-click="GetPatVital()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="DocName">Doctor Name:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="DocName" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtDocName" maxlength="100" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <!--/span-->
+                                <div class="col-md-1"></div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="VitalValue">Vital Value:</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" id="VitalValue" class="form-control form-input-grey" ng-model="txtVitalValue" maxlength="100" />
+                                    </div>
+                                </div>
+                                @*<div class="col-md-1"></div>*@
+                                <div class="col-md-7" ng-hide="BMICalculation">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Height</span>
+                                        </div>
+                                        <input type="number" class="form-control text-center font-weight-bold" placeholder="Feet" ng-model="TxtHeightFt" value="0">
+                                        <input type="number" class="form-control text-center font-weight-bold" placeholder="Inches" ng-model="TxtHeightInch" value="0" ng-blur="getHeight()">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Weight</span>
+                                        </div>
+                                        <input type="number" class="form-control text-center font-weight-bold" ng-model="TxtWeight" value="0" ng-blur="getWeight()">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Result</span>
+                                        </div>
+                                        <input type="Text" class="form-control text-center font-weight-bold" ng-model="TxtHeightResult" readonly>
+                                        <input type="Text" class="form-control text-center font-weight-bold" ng-model="TxtWeightResult | number : 2" readonly>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-click="savedata()" ng-hide="CUSaveBtn" ng-disabled="CreatePatientVital.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
+                                        <button ng-click="On_Update()" ng-hide="CUUpdateBtn" ng-disabled="CreatePatientVital.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Update</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button ng-disabled="CreatePatientVital.$invalid" ng-click="OnDelete()" class="btn btn-outline-danger form-control"><i class="icon-trash"></i>Delete</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                            <div class="tab-pane" id="Address" role="tabpanel">
+                                <!--row-->
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title">Patient Vitals</h4>
+                                                <hr />
+                                                <div class="table-responsive-sm">
+                                                    <table class="table-sm table-hover table-bordered text-dark">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>M.R #</th>
+                                                                <th>Patient Name</th>
+                                                                <th>Vital Name</th>
+                                                                <th>Vital Value</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in dtViewGetAll">
+                                                                <td>{{item.TokenNo}}</td>
+                                                                <td>{{item.FullName}}</td>
+                                                                <td>{{item.VitalName}}</td>
+                                                                <td>{{item.VitalValue}}</td>
+                                                                <td>
+                                                                    <button ng-click="GetViewDataByID(item.CCPL_ROW_ID)" class="btn btn-link" alt="default" data-toggle="modal" data-target="#EmpAddressModal" href="javascript:void(0)"> Edit </button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Row -->
+                            </div>
+                        </div>
+            </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row -->
+</div>
+@section scripts {
+
+    <script>
+
+        var RegistrationForm = angular.module("RegistrationForm", []);
+        RegistrationForm.controller("Home", function ($scope, $http) {
+            $scope.Notification = function (Type, Heading, Test) {
+                //info, warning, success, error
+                $.toast({
+                    heading: Heading,
+                    text: Test,
+                    position: 'top-right',
+                    loaderBg: '#ff6849',
+                    icon: Type,
+                    hideAfter: 3500,
+                    stack: 6
+                });
+            };
+            //===========Get Height=============
+            $scope.getHeight = function () {
+                var Height, Centimeter, CmtoInches;
+                Height = ($scope.TxtHeightFt * 12) + $scope.TxtHeightInch;
+                Centimeter = Height * 2.54;
+                CmtoInches = Centimeter / 2.54;
+                $scope.TxtHeightResult = CmtoInches;
+                //alert('CM to in' + CmtoInches);
+                //$scope.getWeight();
+            }
+            //===========Get Weight=============
+            $scope.getWeight = function () {
+                var WeightInPound, BMI, Weight;
+                Weight = $scope.TxtWeight;
+                WeightInPound = Weight / 0.45359237;
+                $scope.TxtWeightResult = WeightInPound;
+                //alert('Weight' + WeightInPound);
+                $scope.BMICalcu();
+            }
+            $scope.BMICalcu = function () {
+                //alert(' cm' + CmtoInches, ' we' + WeightInPound);
+                var W, H,HR,WR,BR;
+                W = $scope.TxtWeightResult;
+                H = $scope.TxtHeightResult;
+                HR = H * H;
+                WR = W / HR;
+                BR = WR * 703;
+                BMI = BR;
+                //Example for BMI
+                //BMI = Height 5 feet,10 inches=70inches,weight in LB 184
+                //BMI = (184/70*70) * 703
+                //BMI = (184/702) * 703
+                //BMI = (184/4900) * 703
+                //BMI = 0.3755 * 703
+                //BMI = 26.4
+                $scope.txtVitalValue = BMI.toFixed(2);
+            }
+            //===============Display All Data By Token Lookup=====================
+            $scope.GetAllData = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatientVital/Get_data",
+                    data: {}
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.On_Clear();
+                    $scope.dtGetAll = angular.fromJson(Return.data);
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //=================Display View All Vital Data===================
+            $scope.GetViewAllData = function (Token) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatientVital/Get_Viewdata",
+                    data: {
+                        TokenNo : Token
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    $scope.dtViewGetAll = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //==================Delete Vital Name And Value===============
+            $scope.OnDelete = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatientVital/OnDelete",
+                    data: {
+                        TokenNo: $scope.txtTokenNo,
+                        VitalName:$scope.txtVitalName
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.GetViewAllData($scope.txtTokenNo);
+                    $scope.txtVitalName = '';
+                    $scope.txtVitalValue = '';
+                    $scope.Clear_BMI();
+                    if (Return.data == "Delete") {
+                        $scope.Notification('success', 'Operation Completed', 'Delete Patient Vital');
+                    }
+                    else {
+                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    $scope.On_Clear();
+                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                });
+            };
+           //===================View Vital Data Get By ID==========================
+            $scope.GetViewDataByID = function (ID) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatientVital/Get_Viewdatabyid",
+                    data: {
+                        id: ID
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    var dt = angular.fromJson(Return.data);
+
+                    if (dt.length > 0) {
+                        $scope.txtTokenNo = dt[0].TokenNo;
+                        $scope.txtVitalName= dt[0].VitalName;
+                        $scope.txtTokenDate= dt[0].TokenDate;
+                        $scope.txtRegNo = dt[0].RegNo;
+                        $scope.txtPatCNIC = dt[0].PatCNIC;
+                        $scope.txtPatName = dt[0].PatName;
+                        $scope.txtVitalValue = dt[0].VitalValue;
+                        if ($scope.txtVitalName == "BMI") {
+                            $scope.BMICalculation = false;
+                        }
+
+                        $scope.CUSaveBtn = true;
+                        $scope.CUUpdateBtn = false;
+                    }
+                    else {
+                        $scope.CUSaveBtn = false;
+                        $scope.CUUpdateBtn = true;
+
+                        $scope.txtTokenNo= '';
+                        $scope.txtVitalName= '';
+                        $scope.txtTokenDate= '';
+                        $scope.txtRegNo= '';
+                        $scope.txtPatCNIC= '';
+                        $scope.txtPatName= '';
+                        $scope.txtVitalValue= '';
+                    }
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //=============Patient Data Get By ID==========================
+            $scope.GetDataByID = function (ID) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatientVital/Get_databyid",
+                    data: {
+                        TokenNo: ID
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    var dt = angular.fromJson(Return.data);
+
+                    if (dt.length > 0) {
+                        $scope.txtTokenNo= dt[0].TokenNo;
+                        $scope.txtTokenDate = dt[0].TokenDate;
+                        $scope.txtRegNo = dt[0].RegNo;
+                        $scope.txtGender = dt[0].Gender;
+                        $scope.txtPatAge = dt[0].Age;
+                        $scope.txtPatCNIC= dt[0].CNIC;
+                        $scope.txtPatName = dt[0].FullName;
+                        $scope.txtDocName = dt[0].DoctorName;
+
+                        $scope.GetViewAllData(dt[0].TokenNo);
+
+                        var savupd = $scope.txtVitalName;
+                        if (savupd == '')
+                        {
+                            $scope.CUSaveBtn = false;
+                            $scope.CUUpdateBtn = true;
+                        }
+                        else if (savupd == null)
+                        {
+                            $scope.CUSaveBtn = false;
+                            $scope.CUUpdateBtn = true;
+                        }
+                        else if (savupd == 0)
+                        {
+                            $scope.CUSaveBtn = false;
+                            $scope.CUUpdateBtn = true;
+                        }
+                        else {
+                        $scope.CUSaveBtn = true;
+                        $scope.CUUpdateBtn = false;
+                        }
+                    }
+                    else {
+                        $scope.CUSaveBtn = false;
+                        $scope.txtTokenNo = '';
+                        $scope.txtVitalName = '';
+                        $scope.txtTokenDate= '';
+                        $scope.txtRegNo = '';
+                        $scope.txtGender = '';
+                        $scope.txtPatAge ='';
+                        $scope.txtPatCNIC= '';
+                        $scope.txtPatName= '';
+                        $scope.txtDocName = '';
+                    }
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //=============Insert Vital Data=======================
+            $scope.savedata = function () {
+                var displayReq = {
+                    method: 'POST',
+                    url: '/PatientVital/Add_Vital',
+                    data: {
+                        TokenNo:$scope.txtTokenNo,
+                        VitalName:$scope.txtVitalName,
+                        TokenDate:$scope.txtTokenDate,
+                        PatCNIC:$scope.txtPatCNIC,
+                        PatName:$scope.txtPatName,
+                        VitalValue:$scope.txtVitalValue
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                $scope.txtVitalName = '';
+                    $scope.txtVitalValue = '';
+                    $scope.GetViewAllData($scope.txtTokenNo);
+                    $scope.Clear_BMI();
+              if (Return.data == "Inserted") {
+              $scope.Notification('success', 'Operation Completed', 'Insert Patient Vital');
+                       }
+              else {
+                $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                   }
+                }, function myError(Return) {
+                        $scope.On_Clear();
+             $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+              });
+            };
+            //===============Update Vital Data==========================
+            $scope.On_Update = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatientVital/update_record",
+                    data: {
+                        TokenNo:$scope.txtTokenNo,
+                        VitalName:$scope.txtVitalName,
+                        TokenDate:$scope.txtTokenDate,
+                        RegNo:$scope.txtRegNo,
+                        PatCNIC:$scope.txtPatCNIC,
+                        PatName:$scope.txtPatName,
+                        VitalValue:$scope.txtVitalValue
+                    }
+                }
+                $http(displayReq).then(function (Return)
+                {
+                 $scope.GetViewAllData($scope.txtTokenNo);
+                  $scope.txtVitalName = '';
+                    $scope.txtVitalValue = '';
+                    $scope.Clear_BMI();
+                 if (Return.data == "Updated") {
+                 $scope.Notification('success', 'Operation Completed', 'Update Patient Vital');
+                       }
+              else {
+                $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                   }
+                }, function myError(Return)
+                    {
+                        $scope.On_Clear();
+             $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+              });
+            };
+             $scope.GetVitalID = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatientVital/Get_VitalID",
+                    data: {
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    $scope.txtVitalId = Return.data;
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //=======================Get Vital List===============
+            $scope.GetPatVital = function () {
+            var displayReq = {
+            method: "POST",
+            url: "/PatientVital/Get_PatVitalNam",
+            data: {
+            }
+            }
+          $http(displayReq).then(function (Return) {
+            $scope.txtVitalName = '';
+              $scope.txtVitalValue = '';
+              $scope.Clear_BMI();
+            $scope.dtGetPatVital = angular.fromJson(Return.data);
+
+            }, function myError(Return) {
+            $scope.Notification('error', 'Error Code LC0001', Return.data);
+            });
+            };
+            $scope.Clear_BMI = function()
+            {
+              $scope.BMICalculation = true;
+              $scope.TxtHeightFt='';
+              $scope.TxtHeightInch='';
+              $scope.TxtWeight='';
+              $scope.TxtWeightResult='';
+              $scope.TxtHeightResult='';
+            }
+           //=============Get Vital By Name=====================
+            $scope.GetpatVitalBy = function (VitalName)
+            {
+
+                $scope.txtVitalName = VitalName;
+                if ($scope.txtVitalName == "BMI") {
+                    $scope.BMICalculation = false;
+                }
+                $scope.CUSaveBtn = false;
+                $scope.CUUpdateBtn = true;
+            };
+            //=================Clear Function=====================
+            $scope.On_Clear = function () {
+            $scope.txtTokenNo = '';
+            $scope.txtGender = '';
+            $scope.txtPatAge = '';
+            $scope.txtVitalName= '';
+            $scope.txtTokenDate= '';
+            $scope.txtRegNo= '';
+            $scope.txtPatCNIC= '';
+            $scope.txtPatName = '';
+            $scope.txtDocName = '';
+            $scope.txtVitalValue =0;
+            $scope.dtViewGetAll = '';
+            $scope.BMICalculation = true;
+            $scope.TxtHeightFt='';
+            $scope.TxtHeightInch='';
+            $scope.TxtWeight='';
+            $scope.TxtWeightResult='';
+            $scope.TxtHeightResult='';
+
+            $scope.CUSaveBtn = false;
+            $scope.CUUpdateBtn = true;
+            };
+            $scope.OnLoad = function ()
+            {
+                $scope.CUSaveBtn = false;
+                $scope.CUUpdateBtn = true;
+                $scope.txtVitalValue = 0;
+                $scope.BMICalculation = true;
+            };
+            $scope.OnLoad();
+        });
+
+
+    </script>
+
+    }
+
+

@@ -1,0 +1,1338 @@
+﻿@{
+    ViewBag.Title = "Consultancy";
+}
+<div ng-app="RegistrationForm" ng-controller="Home">
+    <style type="text/css">
+        body {
+            font-family: Arial;
+            font-size: 10pt;
+            padding: 10pt;
+        }
+    </style>
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Consultancy</h4>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Consultancy</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!--row-->
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div id="ConsultancyMode" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Patient Related to Consultancy</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtConsultSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>M.R #</th>
+                                                <th>Patient Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtGetAll | filter:TxtConsultSearch">
+                                                <td><button ng-click="GetDataByID(item.TokenNo)" class="btn btn-link" data-dismiss="modal">{{item.TokenNo}}</button></td>
+                                                <td>{{item.FullName}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!--------------------Pending Token---------------------------->
+                <div id="ConsultancyPending" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Pending Patient</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtPendinSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>M.R #</th>
+                                                <th>Patient Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtPendGetAll | filter:TxtPendinSearch">
+                                                <td><button ng-click="GetPenddDataByID(item.TokenNo)" class="btn btn-link" data-dismiss="modal">{{item.TokenNo}}</button></td>
+                                                <td>{{item.PatName}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!--------------------Type---------------------------->
+                <div id="Typeid" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Type About Medication</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtMediSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>Urdu Text</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dttypeGetAll | filter:TxtMediSearch">
+                                                <td><button ng-click="GetTypeByid(item.TypeID)" class="btn btn-link" data-dismiss="modal">{{item.TypeID}}</button></td>
+                                                <td>{{item.UrduText}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!----------------------------------------------->
+                <!--------------------Genric Data---------------------------->
+                <div id="GenricData" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl modal-x">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Type About Genric</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtGenricSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Sr #</th>
+                                                <th>Genric Name</th>
+                                                <th>Brand Name</th>
+                                                <th>Full Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtGenricGetAll | filter:TxtGenricSearch">
+                                                <td>{{$index + 1}}</td>
+                                                <td><button ng-click="GetGenricByid(item.GenericName,item.Potency,item.PotencyUOM,item.SubTypeID)" class="btn btn-link" data-dismiss="modal">{{item.GenericName}}</button></td>
+                                                <td>{{item.BrandName}}</td>
+                                                <td>{{item.FullItemName}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!--------------------Stock Data---------------------------->
+                <div id="StockData" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl modal-x">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Type About Stock</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtStockSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Sr #</th>
+                                                <th>Brand Name</th>
+                                                <th>Genric Name</th>
+                                                <th>Sub Type ID</th>
+                                                <th>Potency With UOM</th>
+                                                <th>Stock Qty</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtStockGetAll | filter:TxtStockSearch">
+                                                <td>{{$index + 1}}</td>
+                                                <td><button ng-click="GetStockByid(item.BrandName,item.PotencyWithUOM,item.SubTypeID)" class="btn btn-link" data-dismiss="modal">{{item.BrandName}}</button></td>
+                                                <td>{{item.GenericName}}</td>
+                                                <td>{{item.SubTypeID}}</td>
+                                                <td>{{item.PotencyWithUOM}}</td>
+                                                <td>{{item.StockUnitQty}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!----------------------------------------------->
+                <!--------------------Sub type---------------------------->
+                <div id="SubType" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Sub Type About Medication</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtSubtypeSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Sub Type</th>
+                                                <th>Type</th>
+                                                <th>Urdu Text</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtSbtypGetAll | filter:TxtSubtypeSearch">
+                                                <td><button ng-click="GetSbTypByid(item.SubTypeID,item.UrduText)" class="btn btn-link" data-dismiss="modal">{{item.SubTypeID}}</button></td>
+                                                <td>{{item.TypeID}}</td>
+                                                <td>{{item.UrduText}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!----------------------------------------------->
+                <div id="FirstServiceName" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select All Data About Service</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtServiceSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                @*<th>ID</th>*@
+                                                <th>Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtSerGetAll | filter:TxtServiceSearch">
+                                                <td><button ng-click="GetSerDataByID(item.CCPL_ROW_ID)" class="btn btn-link" data-dismiss="modal">{{item.ServiceName}}</button></td>
+                                                @*<td>{{item.ServiceName}}</td>*@
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <div id="LabtestMode" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Lab Test</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtLabSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Lab Test</th>
+                                                <th>Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtLbGetCNAll | filter:TxtLabSearch">
+                                                <td><button ng-click="GetLabByid(item.LabTest)" class="btn btn-link" data-dismiss="modal">{{item.LabTest}}</button></td>
+                                                <td>{{item.Remarks}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <div id="DiagConName" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Diagnose</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtDiagSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Short Name</th>
+                                                <th>Long Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtGetCNAll | filter:TxtDiagSearch">
+                                                <td><button ng-click="GetDiagByid(item.ShortName)" class="btn btn-link" data-dismiss="modal">{{item.ShortName}}</button></td>
+                                                <td>{{item.LongName}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Consultancy</h4>
+                </div>
+                <div class="card-body">
+                    <form name="Consultancy">
+                        <div class="form-body form-group">
+                            <div class="row p-t-20">
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="TokenNo">M.R #:</label>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="input-group">
+                                        <input type="text" id="TokenNo" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtTokenNo" maxlength="100" required readonly />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#ConsultancyMode" href="javascript:void(0)" ng-click="GetAllData()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <label class="control-label text-dark" for="TokenNo">Pending Token:</label>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="input-group">
+                                        <input type="text" id="PendTokenNo" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtTokenNo" maxlength="100" required readonly />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-danger" alt="default" data-toggle="modal" data-target="#ConsultancyPending" href="javascript:void(0)" ng-click="GetAllPendData()"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+                                <div class="table-responsive-sm col-md-12">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <tbody ng-repeat="item in dttblGetAll">
+                                            <tr>
+                                                <td class="font-weight-bold" style="font-size:14px">Patient Name</td>
+                                                <td>{{item.FullName}}</td>
+                                                <td class="font-weight-bold" style="font-size:14px">Reg #</td>
+                                                <td>{{item.RegNo}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-weight-bold" style="font-size:14px">Reg Date</td>
+                                                <td>{{item.TokenDate}}</td>
+                                                <td class="font-weight-bold" style="font-size:14px">Age</td>
+                                                <td>{{item.Age}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-weight-bold" style="font-size:14px">Gender</td>
+                                                <td>{{item.Gender}}</td>
+                                                <td class="font-weight-bold" style="font-size:14px">Doctor Name</td>
+                                                <td>{{item.DoctorName}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row p-t-20">
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <button ng-click="On_Update()" ng-hide="CUUpdateBtn" ng-disabled="Consultancy.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Update</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <button ng-click="Nxt_Token()" ng-hide="NextTkn" class="btn btn-outline-warning form-control"><i class="fa fa-plus-circle"></i> Next Token </button>
+                                        @*<button ng-click="ConsultacyRept()" ng-hide="NextTkn" class="btn btn-outline-warning form-control"><i class="fa fa-plus-circle"></i> Report Print </button>*@
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <button formtarget="_blank" ng-click="ConsultacyRept()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Report Print </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">History</h4>
+                </div>
+                <div style="overflow-x:auto;overflow-y:scroll;height:330px; font-size:11px;">
+                    <div class="card-body" ng-repeat="s in dtViewHistGetAll">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4 class="font-weight-bold">{{$index+1}} : {{s.TokenNo}} - {{s.TokenDate | date:'dd-MMM-yyyy'}} - {{s.SiteID}}</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                @*ng-init="GetHistViewAllData(s.TokenNo)"*@
+                                <table class="table-sm table-hover table-bordered" style="font-size:12px;">
+                                    <thead>
+                                        <tr class="text-center" style="font-size:14px">
+                                            <th colspan="2">Vitals</th>
+                                        </tr>
+                                        <tr class="text-center">
+                                            <th>Vital Name</th>
+                                            <th>Vital Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="V-{{s.TokenNo}}"></tbody>
+                                </table>
+                            </div>
+                            <div class="col-lg-6">
+                                @*ng-init="GetHistDiagnoseViewData(s.TokenNo)"*@
+                                <table class="table-sm table-hover table-bordered" style="font-size:12px;">
+                                    <thead>
+                                        <tr class="text-center" style="font-size:14px">
+                                            <th colspan="2">Diagnoses</th>
+                                        </tr>
+                                        <tr class="text-center">
+                                            <th>Diagnose Name</th>
+                                            <th>Diagnose Remarks</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="D-{{s.TokenNo}}"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-lg-6">
+                                @*ng-init="GetHistLabViewData(s.TokenNo)"*@
+                                <table class="table-sm table-hover table-bordered" style="font-size:12px;">
+                                    <thead>
+                                        <tr class="text-center" style="font-size:14px">
+                                            <th colspan="2">Lab</th>
+                                        </tr>
+                                        <tr class="text-center">
+                                            <th>Lab Test</th>
+                                            <th>Remarks</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="L-{{s.TokenNo}}"></tbody>
+                                </table>
+                            </div>
+                            <div class="col-lg-6">
+                                @*ng-init="GetHistMedViewAllData(s.TokenNo)"*@
+                                <table class="table-sm table-hover table-bordered" style="font-size:12px;">
+                                    <thead>
+                                        <tr class="text-center" style="font-size:14px">
+                                            <th colspan="2">Medication</th>
+                                        </tr>
+                                        <tr class="text-center">
+                                            <th>Generic Name</th>
+                                            <th>Urdu Text</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="M-{{s.TokenNo}}"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                @*ng-init="GetFAViewData(s.TokenNo)"*@
+                                <table class="table-sm table-hover table-bordered" style="font-size:12px;">
+                                    <thead>
+                                        <tr class="text-center" style="font-size:14px">
+                                            <th colspan="2">Treatment</th>
+                                        </tr>
+                                        <tr class="text-center">
+                                            <th>FA Service</th>
+                                            <th>FA Charges</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="FirstAid-{{s.TokenNo}}"></tbody>
+                                </table>
+                            </div>
+                            <div class="col-lg-6">
+                                @*ng-init="GetHistFolowViewData(s.TokenNo)"*@
+                                <table class="table-sm table-hover table-bordered" style="font-size:12px;">
+                                    <thead>
+                                        <tr class="text-center" style="font-size:14px">
+                                            <th colspan="2">Follow Up</th>
+                                        </tr>
+                                        <tr class="text-center">
+                                            <th>Follow Up Date</th>
+                                            <th>Instructions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="F-{{s.TokenNo}}"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                @*ng-init="GetSessionHistViewData(s.TokenNo)"*@
+                                <table class="table-sm table-hover table-bordered" style="font-size:12px;">
+                                    <thead>
+                                        <tr class="text-center" style="font-size:14px">
+                                            <th colspan="3">Session</th>
+                                        </tr>
+                                        <tr class="text-center">
+                                            <th>From Date</th>
+                                            <th>To Date</th>
+                                            <th>No Of Sessions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="Session-{{s.TokenNo}}"></tbody>
+                                </table>
+                            </div>
+                            <div class="col-lg-6">
+                                @*ng-init="GetHistActivityViewData(s.TokenNo)"*@
+                                <table class="table-sm table-hover table-bordered" style="font-size:12px;">
+                                    <thead>
+                                        <tr class="text-center" style="font-size:14px">
+                                            <th colspan="2">Session Activity</th>
+                                        </tr>
+                                        <tr class="text-center">
+                                            <th>Activity</th>
+                                            <th>Remarks</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="SessionAct-{{s.TokenNo}}"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                @*GetDiagnose2AllData()*@
+                <ul class="nav nav-tabs justify-content-center nav-pills nav-justified" style="font-size:14px;color:red;" role="tablist" ng-hide="CosulDiag">
+                    <li class="nav-item col-lg-2 text-center"> <a class="nav-link" ng-click="" data-toggle="tab" href="#PatientVitals" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="fa fa-medkit"></i></span> <span class="hidden-xs-down">Vitals</span></a> </li>
+                    <li class="nav-item col-lg-2 text-center"> <a class="nav-link" ng-click="GetDiagnose2AllData()" data-toggle="tab" href="#Diagnosis" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="fa fa-stethoscope"></i></span> <span class="hidden-xs-down">Diagnosis</span></a> </li>
+                    <li class="nav-item col-lg-2 text-center"> <a class="nav-link" ng-click="" data-toggle="tab" href="#Lab" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="fa fa-heartbeat"></i></span> <span class="hidden-xs-down">Lab Test</span></a> </li>
+                    <li class="nav-item col-lg-2 text-center"> <a class="nav-link" ng-click="" data-toggle="tab" href="#Session" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="fa fa-calendar"></i></span> <span class="hidden-xs-down">Session</span></a> </li>
+                    <li class="nav-item col-lg-2 text-center"> <a class="nav-link" ng-click="" data-toggle="tab" href="#SessionAct" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="fa fa-stethoscope"></i></span> <span class="hidden-xs-down">Session Activity</span></a> </li>
+                    <li class="nav-item col-lg-2 text-center"> <a class="nav-link" ng-click="" data-toggle="tab" href="#Treatment" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="fa fa-ambulance"></i></span> <span class="hidden-xs-down">Treatment</span></a> </li>
+                    <li class="nav-item col-lg-2 text-center"> <a class="nav-link" ng-click="" data-toggle="tab" href="#Medication" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="fa fa-user-md"></i></span> <span class="hidden-xs-down">Medication</span></a> </li>
+                    <li class="nav-item col-lg-2 text-center"> <a class="nav-link" ng-click="" data-toggle="tab" href="#Followup" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="fa fa-plus-square"></i></span> <span class="hidden-xs-down">Followup</span></a> </li>
+                </ul>
+                <div class="tab-content tabcontent-border" ng-hide="CosulDiag1">
+                    <div class="tab-pane" id="PatientVitals" role="tabpanel">
+                        <!--row-->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <br />
+                                <table class="table-sm table-hover table-bordered text-dark">
+                                    <thead>
+                                        <tr>
+                                            <th>Vital Name</th>
+                                            <th>Vital Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in dtViewGetAll">
+                                            <td>{{item.VitalName}}</td>
+                                            <td>{{item.VitalValue}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                        <!-- Row -->
+                    </div>
+
+                    <!-------------------------------------------------- Diagnosis ------------------------------>
+
+                    <div class="tab-pane" id="Diagnosis" role="tabpanel">
+                        <!--row-->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form name="DiagnoseFrm">
+                                            <div class="form-body form-group">
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-12">
+                                                        <div class="row p-t-20">
+                                                            <div class=" col-md-12">
+                                                                <label class="control-label text-dark" for="DiagnoseNam">Diagnose Name:</label>
+                                                                <div class="input-group">
+                                                                    <input type="text" id="DiagnoseNam" ng-model="txtDiagnoseNam" class="form-control form-input-grey" />
+                                                                    <div class="input-group-append">
+                                                                        <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#DiagConName" href="javascript:void(0)" ng-click="GetDiagCNAllData()"><i class="ti-search"></i></button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row p-t-20">
+                                                            <div class=" col-md-12">
+                                                                <label class="control-label text-dark" for="Remarks">Remarks:</label>
+                                                                <textarea rows="5" ng-model="txtRemarks" class="form-control form-input-grey"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row p-t-20">
+                                                            <div class="col-md-8"></div>
+                                                            <div class=" col-md-4">
+                                                                <div class="form-group">
+                                                                    <button ng-click="savedata()" ng-hide="CUSaveBtn" ng-disabled="DiagnoseFrm.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @*<div class="col-md-6">
+                                                <div class="card">
+                                                    <div class="row p-t-20">
+                                                        <div class="col-md-8">
+                                                            <div id="accordian">
+                                                                <div class="card m-b-0" ng-repeat="item in dtDiagnose2ViewGetAll">
+                                                                    <a class="card-header text-decoration-none" id="heading11">
+                                                                        <button class="btn btn-link" data-toggle="collapse" data-target="#G-{{item.HeaderID}}" ng-click="Get_DiagnoseViewdataByid(item.HeaderID)" aria-expanded="true" aria-controls="collapse1">
+                                                                            <h5 class="m-b-0">{{$index + 1}}-{{item.HeaderName}}</h5>
+                                                                        </button>
+                                                                    </a>
+                                                                    <div id="G-{{item.HeaderID}}" class="collapse show" aria-labelledby="heading11" data-parent="#accordian">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                     </div>
+                                                </div>
+                                             </div>*@
+                                            </div>
+                                            </div>
+                                        </form>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <table class=" table table-sm table-hover table-bordered text-dark">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Diagnose</th>
+                                                            <th>Remarks</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="item in dtGetDiagnoseviewAll">
+                                                            <td>{{item.DisagnoseSName}}</td>
+                                                            <td>{{item.Remarks}}</td>
+                                                            <td>
+                                                                <button ng-click="OnDelete(item.CCPL_ROW_ID)" class="btn btn-xs btn-danger" alt="default" data-toggle="modal" data-target="#" href="javascript:void(0)"><i class="fa fa-trash"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-------------------------------------------------- Lab ------------------------------>
+                    <div class="tab-pane" id="Lab" role="tabpanel">
+                        <!--row-->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form name="LabFrm">
+                                            <div class="form-body form-group">
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-4">
+                                                        <label class="control-label text-dark" for="DiagnoseNam">Lab Test:</label>
+                                                        <div class="input-group">
+                                                            <input type="text" id="DiagnoseNam" ng-model="txtLabTest" class="form-control form-input-grey" maxlength="100" required />
+                                                            <div class="input-group-append">
+                                                                <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#LabtestMode" href="javascript:void(0)" ng-click="GetLabCNAllData()"><i class="ti-search"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <label class="control-label text-dark" for="Remarks">Remarks:</label>
+                                                        <input type="text" id="Remarks" ng-model="txtLabRemarks" class="form-control form-input-grey" maxlength="100" />
+                                                    </div>
+                                                </div>
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-10"></div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <button ng-click="saveLabdata()" ng-hide="CUSaveBtn" ng-disabled="LabFrm.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
+                                                            @*<button ng-click="On_Update()" ng-hide="CUUpdateBtn" ng-disabled="CreatePatientVital.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Update</button>*@
+                                                        </div>
+                                                    </div>
+                                                    @*<div class="col-md-2">
+                                                <div class="form-group">
+                                                    <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+                                                </div>
+                                            </div>*@
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <table class=" table table-sm table-hover table-bordered text-dark">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Lab Test</th>
+                                                            <th>Remarks</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="item in dtGetLabviewAll">
+                                                            <td>{{item.LabTest}}</td>
+                                                            <td>{{item.Remarks}}</td>
+                                                            <td>
+                                                                <button ng-click="OnLabDelete(item.CCPL_ROW_ID)" class="btn btn-xs btn-danger" alt="default" data-toggle="modal" data-target="#" href="javascript:void(0)"><i class="fa fa-trash"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Row -->
+                    </div>
+                    <!--------------------------------------Session---------------------->
+                    <div class="tab-pane" id="Session" role="tabpanel">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form name="SessionFrm">
+                                            <div class="form-body form-group">
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-2">
+                                                        <label class="control-label text-dark" for="FromDate">From Date:</label>
+                                                        <input type="date" id="FromDate" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtFromDate" required />
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="control-label text-dark" for="ToDate">To Date:</label>
+                                                        <input type="date" id="ToDate" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtToDate" required />
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <label class="control-label text-dark" for="ToDate">No Of Session And Remarks:</label>
+                                                        <div class="input-group">
+                                                            <input type="number" placeholder="No Of Session" id="NoOfSession" ng-model="txtNoOfSession" class="form-control col-sm-2 form-input-grey" required />
+                                                            <input type="text" placeholder="Session Remarks" id="SessionRemarks" ng-model="txtSessionRemarks" class="form-control form-input-grey" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-10"></div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <button ng-click="saveSession()" ng-hide="CUSaveBtn" ng-disabled="SessionFrm.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <table class=" table table-sm table-hover table-bordered text-dark">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>From Date</th>
+                                                            <th>To Date</th>
+                                                            <th>No Of Session</th>
+                                                            <th>Remarks</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="item in dtGetSessionviewAll">
+                                                            <td>{{item.FromDate | date:dd-MMM-yyyy}}</td>
+                                                            <td>{{item.ToDate | date:dd-MMM-yyyy}}</td>
+                                                            <td>{{item.NoOfSession}}</td>
+                                                            <td>{{item.Remarks}}</td>
+                                                            <td>
+                                                                <button ng-click="OnSessionDelete(item.TokenNo)" class="btn btn-xs btn-danger" alt="default" data-toggle="modal" data-target="#" href="javascript:void(0)"><i class="fa fa-trash"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--------------------------------------Session Activity---------------------->
+                    <div class="tab-pane" id="SessionAct" role="tabpanel">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form name="SessionActFrm">
+                                            <div class="form-body form-group">
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-6">
+                                                        <label class="control-label text-dark" for="SessionActi">Session Activity:</label>
+                                                        <div class="input-group">
+                                                            <input type="text" placeholder="Session Activity Remarks" id="SessionActRemarks" ng-model="txtSessionAct" class="form-control form-input-grey" />
+                                                            <div class="input-group-append">
+                                                                <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#SessiontestMode" href="javascript:void(0)" ng-click="GetSessionActAllData()"><i class="ti-search"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="control-label text-dark" for="Remarks">Remarks:</label>
+                                                        <textarea type="text" rows="3" placeholder="Session Activity Remarks" id="SessionActRemarks" ng-model="txtSessionActRemarks" class="form-control form-input-grey"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-10"></div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <button ng-click="saveActSession()" ng-hide="CUSaveBtn" ng-disabled="SessionActFrm.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <table class=" table table-sm table-hover table-bordered text-dark">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Session Activity</th>
+                                                            <th>Session Remarks</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="item in dtGetSessionActAll">
+                                                            <td>{{item.SessionActivity}}</td>
+                                                            <td>{{item.SessionRemarks}}</td>
+                                                            <td>
+                                                                <button ng-click="OnSessionActDelete(item.TokenNo)" class="btn btn-xs btn-danger" alt="default" data-toggle="modal" data-target="#" href="javascript:void(0)"><i class="fa fa-trash"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--------------------------------------Session Mode---------------------->
+                    <div id="SessiontestMode" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Session Activities</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="TxtSessionSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Activity</th>
+                                                    <th>Remarks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtSAGetCNAll | filter:TxtSessionSearch">
+                                                    <td><button ng-click="GetSAByid(item.SessionActivity)" class="btn btn-link" data-dismiss="modal">{{item.SessionActivity}}</button></td>
+                                                    <td>{{item.SessionRemarks}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!----------------------------------------------Add Treatment Or Service Name------------------------- ------->
+                    <div class="tab-pane" id="Treatment" role="tabpanel">
+                        <!--row-->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Add Services</h4>
+                                        <hr />
+                                        <form name="FrmAddTreatmnt">
+
+                                            <div class="form-body form-group">
+
+                                                <div class="row p-t-20">
+                                                    <div class="col-sm-1">
+                                                        <label class="control-label text-dark" for="Servame">Service Name:</label>
+                                                    </div>
+                                                    <div class="col-sm-1"></div>
+                                                    <div class="col-md-4">
+                                                        <div class="input-group">
+                                                            <input type="text" id="Servame" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtServame" maxlength="100" required readonly />
+                                                            <div class="input-group-append">
+                                                                <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#FirstServiceName" href="javascript:void(0)" ng-click="GetSerAllData()"><i class="ti-search"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <label class="control-label text-dark" for="Remarks">Service Remarks:</label>
+                                                    </div>
+                                                    <div class="col-sm-1"></div>
+                                                    <div class="col-md-4">
+                                                        <div class="input-group">
+                                                            <input type="text" id="Remarks" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtRemarks" maxlength="100" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row p-t-20">
+
+                                                    <div class="col-md-10"></div>
+                                                    <div class="col-md-2">
+                                                        <div class="input-group">
+                                                            <button ng-click="saveTrtdata()" ng-hide="CUSaveBtn" ng-disabled="FrmAddTreatmnt.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-plus"></i> Service</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <table class=" table table-sm table-hover table-bordered text-dark">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>M.R #</th>
+                                                            <th>Patient Name</th>
+                                                            <th>Service Name</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tr ng-repeat="item in dtTrtViewGetAll">
+                                                        <td>{{item.TokenNo}}</td>
+                                                        <td>{{item.PatName}}</td>
+                                                        <td>{{item.ServiceName}}</td>
+                                                        <td>
+                                                            <button ng-click="OnTrtDelete(item.CCPL_ROW_ID)" class="btn btn-xs btn-danger" alt="default" data-toggle="modal" data-target="#RefundModalFad" href="javascript:void(0)"><i class="fa fa-trash"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Row -->
+                    </div>
+                    <!-------------------------------------------------- Follow up ------------------------------>
+
+                    <div class="tab-pane" id="Followup" role="tabpanel">
+                        <!--row-->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form name="FollowFrm">
+                                            <div class="form-body form-group">
+
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-10">
+                                                        <label class="control-label text-dark" for="DiagnoseNam">Instrunction:</label>
+                                                        <textarea rows="5" ng-model="txtFolowRemarks" class="form-control form-input-grey"></textarea>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="control-label text-dark" for="Remarks">Followup Date:</label>
+                                                        <input type="date" id="Remarks" ng-model="txtFolowDate" class="form-control form-input-grey" maxlength="100" required />
+                                                    </div>
+                                                </div>
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-8"></div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <button ng-click="savefollowdata()" ng-hide="CUSaveBtn" ng-disabled="FollowFrm.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
+                                                            @*<button ng-click="On_Update()" ng-hide="CUUpdateBtn" ng-disabled="CreatePatientVital.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Update</button>*@
+                                                        </div>
+                                                    </div>
+                                                    @*<div class="col-md-2">
+                                                <div class="form-group">
+                                                    <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+                                                </div>
+                                            </div>*@
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <table class=" table table-sm table-hover table-bordered text-dark">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Recommend Follow Up</th>
+                                                            <th>Remarks</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="item in dtGetfolowviewAll">
+                                                            <td>{{item.FollowupDate | date:dd-MMM-yyyy}}</td>
+                                                            <td>{{item.Remarks}}</td>
+                                                            <td>
+                                                                <button ng-click="OnFolowDelete(item.CCPL_ROW_ID)" class="btn btn-xs btn-danger" alt="default" data-toggle="modal" data-target="#" href="javascript:void(0)"><i class="fa fa-trash"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Row -->
+                    </div>
+
+                    <!-------------------------------------------------- Medication ------------------------------>
+                    <div class="tab-pane" id="Medication" role="tabpanel">
+                        <!--row-->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form name="MediFrm">
+                                            <div class="form-body form-group">
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-6">
+                                                        <label class="control-label text-dark" for="Genric">Generic Name:</label>
+                                                        &nbsp;
+                                                        <input type="checkbox" id="ChkCurrent" ng-true-value="true" ng-false-value="false" ng-model="ChkCurrent" ng-change="GenerateUrdu()" /><label>Current</label>
+                                                        &nbsp;
+                                                        <input type="checkbox" id="ChkContinuous" ng-true-value="true" ng-false-value="false" ng-model="ChkContinuous" ng-change="GenerateUrdu()" /><label>Continuous</label>
+                                                        <div class="input-group">
+                                                            <input type="text" id="Genric" ng-model="txtGenric" ng-disabled="StockList" placeholder="Select Generic" class="form-control form-input-grey" required />
+                                                            <input type="text" id="Potency" class="form-control form-input-grey text-left font-weight-bold col-md-3"  placeholder="Potency" ng-model="txtPotency" />
+                                                            <div class="input-group-append">
+                                                                <button type="button" class="btn btn-info" alt="default" data-toggle="modal" ng-hide="GenericList" data-target="#GenricData" href="javascript:void(0)" ng-click="GetGenricAllData()"><i class="ti-search"></i></button>
+                                                            </div>
+                                                            <div class="input-group-append">
+                                                                <button type="button" class="btn btn-success" alt="default" data-toggle="modal" ng-hide="StockList" data-target="#StockData" href="javascript:void(0)" ng-click="GetStockAllData()"><i class="ti-search"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="control-label text-dark" for="TypeID">Type ID:</label>
+                                                        <div class="input-group">
+                                                            <input type="text" id="TypeID" ng-model="txtTypeID" class="form-control form-input-grey" maxlength="100" required readonly />
+                                                            <div class="input-group-append">
+                                                                <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#Typeid" href="javascript:void(0)" ng-click="GetTypeAllData()"><i class="ti-search"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="control-label text-dark" for="SbTypeID">Sub Type ID:</label>
+                                                        <div class="input-group">
+                                                            <input type="text" id="SbTypeID" ng-model="txtSbTypeID" class="form-control form-input-grey" maxlength="100" required readonly />
+                                                            <div class="input-group-append">
+                                                                <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#SubType" href="javascript:void(0)" ng-click="GetSbTypAllData(txtTypeID)"><i class="ti-search"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row p-t-20">
+
+                                                    <div class="col-md-1">
+                                                        <label class="control-label text-dark" ng-hide="DosageLbl" for="Dosage">Dosage:</label>
+                                                        <input type="number" step="any" ng-hide="Dosage" id="Dosage" ng-blur="UrduCounting(TxtDosages)" ng-change="GenerateUrdu()" ng-model="TxtDosages" class="form-control form-input-grey" />
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <label class="control-label text-dark" ng-hide="DaysLbl" for="Days">Days:</label>
+                                                        <input type="number" id="Days" ng-hide="DaysInp" ng-blur="UrduDaysCounting(TxtDays)" ng-change="GenerateUrdu()" ng-model="TxtDays" class="form-control form-input-grey" />
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label class="control-label text-dark" for="Frequency" ng-hide="FrequencyH">Frequency</label>
+                                                        <div class="form-group">
+                                                            <input type="checkbox" id="ChkMorning" ng-true-value="true" ng-false-value="false" ng-hide="MorningH" ng-model="ChkMorning" ng-change="GenerateUrdu()" /><label ng-hide="MorningH">Morning</label>
+                                                            &nbsp;
+                                                            <input type="checkbox" id="ChkEvening" ng-true-value="true" ng-false-value="false" ng-hide="EveningH" ng-model="ChkEvening" ng-change="GenerateUrdu()" /><label ng-hide="EveningH">Mid Day</label>
+                                                            &nbsp;
+                                                            <input type="checkbox" id="ChkNight" ng-true-value="true" ng-false-value="false" ng-hide="NightH" ng-model="ChkNight" ng-change="GenerateUrdu()" /><label ng-hide="NightH">Evening</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <label class="control-label text-dark" for="Urdutxt">Urdu Text:</label>
+                                                        <input type="text" id="Urdutxt" ng-model="TxtUrdu" class="form-control form-input-grey text-center font-weight-bold" readonly />
+                                                    </div>
+                                                </div>
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-10">
+                                                        <input type="text" id="Remarks" ng-model="txtRemarks" class="form-control form-input-grey" placeholder="Remarks if any.." />
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <button ng-click="saveMedidata()" ng-hide="CUSaveBtn" ng-disabled="MediFrm.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
+                                                            @*<button ng-click="On_Update()" ng-hide="CUUpdateBtn" ng-disabled="CreatePatientVital.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Update</button>*@
+                                                        </div>
+                                                    </div>
+                                                    @*<div class="col-md-2">
+                                                <div class="form-group">
+                                                    <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+                                                </div>
+                                            </div>*@
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <table class=" table table-sm table-hover table-bordered text-dark">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Generic Name</th>
+                                                            <th>Urdu Text</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="item in dtGetMediviewAll">
+                                                            <td>{{item.GenericName}}</td>
+                                                            <td>{{item.UrduText}}</td>
+                                                            <td>
+                                                                <button ng-click="OnMediDelete(item.CCPL_ROW_ID)" class="btn btn-xs btn-danger" alt="default" data-toggle="modal" data-target="#" href="javascript:void(0)"><i class="fa fa-trash"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Row -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section scripts {
+
+    <script src="~/Scripts/Custom/MedicationJS.js"></script>
+    <script language="javascript">
+        var today = new Date();
+        var dd = String(today.getDate()+1).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+
+        today = yyyy + '-' + mm + '-' + dd;
+        $('#FromDate').attr('min', today);
+        $('#ToDate').attr('min', today);
+    </script>
+    <script src="~/Content/jquery-1.7.2.min.js"></script>
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <script src="~/Content/jquery-ui.js"></script>
+}
+
+
+
+

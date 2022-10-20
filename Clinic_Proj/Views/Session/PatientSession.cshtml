@@ -1,0 +1,1091 @@
+﻿@{
+    ViewBag.Title = "PatientSession";
+}
+<div ng-app="RegistrationForm" ng-controller="Home">
+
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Session Token</h4>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">Create Session Token</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!--row-->
+    @*===========================Main Form============================*@
+    <!-- Main content -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div id="PatientTknModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Patient Info</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtinfoSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>M.R #</th>
+                                                <th>Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtGetAll | filter:TxtinfoSearch">
+                                                <td><button ng-click="GetDataByID(item.TokenNo)" class="btn btn-link" data-dismiss="modal">{{item.TokenNo}}</button></td>
+                                                <td>{{item.PatName}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <div id="Banks" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Bank Name</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtBnkSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Banks Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtBankName | filter: TxtBnkSearch">
+                                                <td><button ng-click="GetBankName(item.BankName)" class="btn btn-link" data-dismiss="modal">{{item.BankName}}</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <div id="PayMeth" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Select Payment Method</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtPaySearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Payment Methods</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtPayMeth | filter: TxtPaySearch">
+                                                <td><button ng-click="GetPayByid(item.MethodName)" class="btn btn-link" data-dismiss="modal">{{item.MethodName}}</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <div class="modal fade" id="SessionExtend" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Session Extend Modal</h4>
+                            </div>
+                            <form name="PatientSessionExt">
+                                <div class="form-body form-group">
+                                    @*<div class="row p-t-20">
+                                            <div class="col-md-2">
+                                            <div class="input-group">
+                                                <input type="text" id="Todatediff" ng-model="txtToDateDiff" class="form-control text-center font-weight-bold" readonly />
+                                            </div>
+                                        </div>
+                                        </div>*@
+                                    <div class="row p-t-20">
+                                        <div class="col-md-1"></div>
+                                        @*<div class="col-md-1"></div>*@
+                                        <div class="col-sm-1">
+                                            <label class="control-label text-dark" for="MrNo">Mr #:</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" ng-model="txtMrNo" class="form-control text-center font-weight-bold" readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <label class="control-label text-dark" for="RegNo">Reg #:</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" ng-model="txtRegNo" class="form-control text-center font-weight-bold" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row p-t-20">
+                                        <div class="col-md-1"></div>
+                                        @*<div class="col-md-1"></div>*@
+                                        <div class="col-sm-1">
+                                            <label class="control-label text-dark" for="NumOfSession">No Of Session:</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="number" ng-model="txtNumOfSession" class="form-control text-center font-weight-bold" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <label class="control-label text-dark" for="SessionRemarks">Session Remarks:</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" ng-model="txtSessionRemarks" placeholder="Optional" class="form-control form-input-grey" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row p-t-20">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-sm-1">
+                                            <label class="control-label text-dark" for="FrmDate">From Date:</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="date" id="FrmDate" class="form-control form-input-grey" ng-model="txtFrmDate" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <label class="control-label text-dark" for="ToDate">To Date:</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="date" id="ToDate" class="form-control form-input-grey" ng-model="txtToDate" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row p-t-20">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-sm-1">
+                                            <label class="control-label text-dark" for="RemarksSesion">Remarks:</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="input-group">
+                                                <input type="text" id="RemarksSesion" placeholder="Tell Reason Why He/She Want To Extend Session!" class="form-control form-input-grey" ng-model="txtRemarksSession" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row p-t-20">
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <button ng-click="On_ExtSesionClear()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <button ng-click="SaveData()" ng-disabled="PatientSessionExt.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <button ng-click="FullExtraPackage()" ng-disabled="PatientSessionExt.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Paid Full Package</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="tab-pane" id="" role="tabpanel">
+                                <!--row-->
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title">Last Session Provides</h4>
+                                                <hr />
+                                                <div class="table-responsive-sm">
+                                                    <table class="table-sm table-hover table-bordered text-dark">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>No Of Session</th>
+                                                                <th>From Date</th>
+                                                                <th>To Date</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in dtGetSessionviewAll">
+                                                                <td>{{item.NoOfSession}}</td>
+                                                                <td>{{item.FromDate | date:dd-MMM-yyyy}}</td>
+                                                                <td>{{item.ToDate | date:dd-MMM-yyyy}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Row -->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" ng-click="On_ExtSesionClear()" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- left column -->
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Create Session Token</h4>
+                </div>
+                <div class="card card-info">
+                    <form name="CreateSesionFrm">
+                        <div class="form-horizontal">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <div class="col-sm-2">
+                                        <label class="control-label text-dark" for="TokenNo">M.R #:</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="input-group">
+                                            <input type="text" id="TokenNo" placeholder="MR #" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtTokenNo" maxlength="100" required readonly />
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#PatientTknModal" href="javascript:void(0)" ng-click="GetAllData()"><i class="ti-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Total Session</label>
+                                    <div class="col-sm-3">
+                                        <div class="input-group input-group-md">
+                                            <input type="number" placeholder="Total Session" class="form-control font-weight-bold" ng-model="TxtTotalSession" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputEmail3" class="col-sm-2 col-form-label">From Date</label>
+                                    <div class="col-sm-3">
+                                        <div class="input-group input-group-md">
+                                            <input type="date" placeholder="From Date" class="form-control text-center font-weight-bold" ng-model="DT_FromDate" readonly>
+                                        </div>
+                                    </div>
+                                    <label for="inputEmail3" class="col-sm-2 col-form-label">To Date</label>
+                                    <div class="col-sm-3">
+                                        <div class="input-group input-group-md">
+                                            <input type="date" placeholder="To Date" class="form-control text-center font-weight-bold" ng-model="DT_ToDate" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-2">
+                                        <label class="control-label text-dark" for="DocName">Doctor Name:</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="input-group">
+                                            <input type="text" id="DocName" placeholder="Doc Name" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtDrName" readonly />
+                                        </div>
+                                    </div>
+                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Patient Name:</label>
+                                    <div class="col-sm-3">
+                                        <div class="input-group input-group-md">
+                                            <input type="text" placeholder="Patient Name" class="form-control form-input-grey text-center font-weight-bold" ng-model="TxtPatname" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-12 table-responsive text-nowrap" style="font-size:12px;">
+                                        <table class="table table-sm table-fixed table-striped table-hover" id="example">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Session Tokens #</th>
+                                                    <th>Session Date</th>
+                                                    <th>Status</th>
+                                                    <th>Type</th>
+                                                    <th>Total Fee</th>
+                                                    <th>Discount</th>
+                                                    <th>Paid Fee</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtList">
+                                                    <td>{{$index + 1}}</td>
+                                                    <td>{{item.SessionToken}}</td>
+                                                    <td>{{item.SessionDate | date:'dd-MMM-yyyy'}}</td>
+                                                    <td>{{item.SessionStatus}}</td>
+                                                    <td>{{item.TokenType}}</td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm">
+                                                            <input type="text" class="form-control font-weight-bold text-right" ng-model="item.TotalFee" ng-blur="AddTotalFee($index,item.TotalFee)" readonly />
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm">
+                                                            <input type="text" class="form-control font-weight-bold text-right" ng-model="item.Discount" ng-blur="AddTotalDiscount($index,item.Discount)" readonly />
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm">
+                                                            <input type="number" class="form-control font-weight-bold text-right" ng-disabled="item.IsPaid == '1'" ng-model="item.PaidFee" ng-blur="AddTotal($index,item.PaidFee)" readonly />
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <button ng-click="SinglepkgSave(item.SessionToken,item.TotalFee)" ng-disabled="item.IsPaid == '1'" class="btn btn-sm btn-success">Paid</button>
+                                                        <button ng-click="GenerateSessionTkn(item.SessionToken)" ng-disabled="item.IsSession == '1'" class="btn btn-sm btn-danger">Avail</button>
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-9"></div>
+                                    <div class="col-md-1">
+                                        <button type="button" ng-click="GetSessionViewData(txtTokenNo)" class="btn btn-sm btn-danger" alt="default" data-toggle="modal" data-target="#SessionExtend" href="javascript:void(0)"><i class="fa fa-plus"></i>Extend</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button ng-click="SchedulePrintReport(txtTokenNo)" ng-disabled="" class="btn btn-sm btn-danger"><i class="fa fa-plus"></i>Chart Print</button>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+                                <hr />
+                                <div class="form-group row">
+                                    <div class="col-md-1"></div>
+                                    <label for="Total" class="col-form-label">Total</label>
+                                    <div class="col-sm-2">
+                                        <div class="input-group input-group-md">
+                                            <input type="number" placeholder="Total!" class="form-control font-weight-bold text-right" ng-model="TxtTotalAmount" readonly>
+                                        </div>
+                                    </div>
+                                    <label for="Paid" class="col-form-label">Paid Fee</label>
+                                    <div class="col-sm-2">
+                                        <div class="input-group input-group-md">
+                                            <input type="number" placeholder="Paid!" class="form-control font-weight-bold text-right" ng-model="TxtPaidFee" readonly>
+                                        </div>
+                                    </div>
+                                    <label for="Discount" class="col-form-label">Discount</label>
+                                    <div class="col-sm-2">
+                                        <div class="input-group input-group-md">
+                                            <input type="number" placeholder="Discount!" class="form-control font-weight-bold text-right" ng-model="TxtDiscountAmount" readonly>
+                                        </div>
+                                    </div>
+                                    <label for="Balance" class="col-form-label">Balance Fee</label>
+                                    <div class="col-sm-2">
+                                        <div class="input-group input-group-md">
+                                            <input type="number" placeholder="Balance!" class="form-control font-weight-bold text-right" ng-model="TxtBalanceAmount" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row p-t-30">
+                                    <div class="col-md-8"></div>
+                                    <div class="col-md-2">
+                                        <button formtarget="_blank" ng-click="FinalpkgSave()" ng-hide="CUSaveBtn" ng-disabled="FullPkgInsrtBtn" class="btn btn-outline-success form-control"><i class="fa fa-check"></i> Paid Full Package</button>
+                                        @*<a ng-click="Printing()" target="_blank" ng-hide="CUSaveBtn" ng-disabled="CreateDiv.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i> Print</a>*@
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <button ng-click="On_Clear()" class="btn btn-outline-warning form-control"><i class="fa fa-times"></i> Clear </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.card-footer -->
+                                <!-- ./row -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!--/.col (left) -->
+            </div>
+        </div>
+    </div>
+    <!-- /.content -->
+</div>
+
+@section scripts {
+    <script language="javascript">
+        var today = new Date();
+        var dd = String(today.getDate() + 1).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
+        $('#FrmDate').attr('min', today);
+        $('#ToDate').attr('min', today);
+    </script>
+    <script>
+        var RegistrationForm = angular.module("RegistrationForm", []);
+        RegistrationForm.controller("Home", function ($scope, $filter, $http, $window) {
+            var date = new Date();
+            var ddMMyyyy = $filter('date')(new Date(), 'dd/MM/yyyyhh:mm:ss a');
+            $scope.Notification = function (Type, Heading, Test) {
+                //info, warning, success, error
+                $.toast({
+                    heading: Heading,
+                    text: Test,
+                    position: 'top-right',
+                    loaderBg: '#ff6849',
+                    icon: Type,
+                    hideAfter: 3500,
+                    stack: 6
+                });
+            };
+            $scope.SchedulePrintReport = function (TokenNo) {
+                if (TokenNo == 'undefined') {
+                    $scope.Notification('error', 'please select Token No..');
+                }
+                $window.open("/Session/Print_Session_Rpt?TokenNo=" + TokenNo, "_blank");
+            };
+            //===================Display Session View All Data===================
+            $scope.GetSessionViewData = function (Token) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Session/Get_Sessiondata",
+                    data: {
+                        TokenNo: Token
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.dtGetSessionviewAll = angular.fromJson(Return.data);
+                    var dt = angular.fromJson(Return.data);
+                    if (dt.length > 0) {
+                        $scope.TransferToken(dt[0].TokenNo, dt[0].RegNo);
+                    }
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //===============Transfer Token No to New Session Model=================
+            $scope.TransferToken = function (TokenNo, RegNo) {
+                $scope.txtMrNo = TokenNo;
+                $scope.txtRegNo = RegNo;
+                //$scope.GetViewToDate($scope.txtMrNo);
+            };
+            //===================Display ToDate For Extend Session===================
+            //$scope.GetViewToDate = function (Token) {
+            //    var displayReq = {
+            //        method: "POST",
+            //        url: "/Session/Get_SessionVWTodate",
+            //        data: {
+            //            TokenNo: Token
+            //        }
+            //    }
+            //    $http(displayReq).then(function (Return) {
+            //        var dt = angular.fromJson(Return.data);
+            //        if (dt.length > 0) {
+            //            $scope.txtToDateDiff = dt[0].ToDate;
+            //        }
+            //    }, function myError(Return) {
+            //        $scope.Notification('error', 'Error Code LC0001', Return.data);
+            //    });
+            //};
+            //===============Display All Data By Token Lookup=====================
+            $scope.GetAllData = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Session/Get_data",
+                    data: {}
+                }
+                $http(displayReq).then(function (Return) {
+                    //$scope.On_Clear();
+                    $scope.dtGetAll = angular.fromJson(Return.data);
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //===============Display Session Feeses=====================
+            $scope.GetSessionFeeData = function (DocNam) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Session/Get_SessionFeedata",
+                    data: {
+                        DoctorName: DocNam
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    //$scope.On_Clear();
+                    $scope.dtSessionFeeGetAll = angular.fromJson(Return.data);
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //===============Generate Session Token=====================
+            $scope.GenerateSessionTkn = function (SessionTkn) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Session/TrsTknData",
+                    data: {
+                        TokenSession: SessionTkn,
+                        TokenNo: SessionTkn
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    if (Return.data == "Done") {
+                        $scope.Notification('success', 'Move To New Patient Form');
+                        $window.location.href = '/PatientReg/PatientReg';
+                        //$window.open("/PatientReg/PatientReg?DateFrom=" + SessionTkn);
+                    }
+                    else {
+                        $scope.Notification('warning', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    $scope.On_Clear();
+                    $scope.Notification('error', Return.data);
+                });
+            };
+            //===============Display All Data By Token Lookup=====================
+            //$scope.GetAllData = function () {
+            //    var displayReq = {
+            //        method: "POST",
+            //        url: "/Session/Get_data",
+            //        data: {}
+            //    }
+            //    $http(displayReq).then(function (Return) {
+            //        //$scope.On_Clear();
+            //        $scope.dtGetAll = angular.fromJson(Return.data);
+            //    }, function myError(Return) {
+            //        $scope.Notification('error', 'Error Code LC0001', Return.data);
+            //    });
+            //};
+            //=============Patient Data Get By ID==========================
+            $scope.GetDataByID = function (ID) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Session/Get_databyid",
+                    data: {
+                        TokenNo: ID
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    var dt = angular.fromJson(Return.data);
+
+                    if (dt.length > 0) {
+                        if (dt[0].PatType == 'Consultancy' && dt[0].PaymentStatus != 'Advance Paid') {
+                            $scope.FullPkgInsrtBtn = false;
+                        }
+                        else {
+                            $scope.FullPkgInsrtBtn = true;
+                        }
+                        $scope.txtTokenNo = dt[0].TokenNo;
+                        $scope.DT_FromDate = new Date(dt[0].FromDate);
+                        $scope.DT_ToDate = new Date(dt[0].ToDate);
+                        $scope.TxtTotalSession = dt[0].NoOfSession;
+                        //$scope.TxtBalanceAmount = dt[0].Balance;
+                        $scope.txtDrName = dt[0].DrName;
+                        $scope.TxtPatname = dt[0].PatName;
+                        $scope.GetData(dt[0].TokenNo);
+                        $scope.ExtraSesionGenrat(dt[0].TokenNo);
+                    }
+                    else {
+                        $scope.txtTokenNo = '';
+                        $scope.DT_FromDate = '';
+                        $scope.DT_ToDate = '';
+                        $scope.TxtTotalSession = '';
+                    }
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //==================Get Tokens List For Session Extend=======================
+            $scope.GetExtData = function (ID) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Session/SessionExtList",
+                    data: {
+                        TokenNo: ID
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    if (dt.length > 0) {
+                        $scope.dtSessionExtList = angular.fromJson(Return.data);
+                    }
+                }, function myError(Return) {
+                    $scope.Notification('error', Return.data);
+                });
+            };
+            //==================Get Active Tokens List For Session=======================
+            $scope.GetData = function (ID) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Session/SessiontknList",
+                    data: {
+                        TokenNo: ID
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    var dt = angular.fromJson(Return.data);
+
+                    if (dt.length > 0) {
+                        $scope.dtList = angular.fromJson(Return.data);
+                    }
+                    else {
+                        $scope.dtList = null;
+                    }
+                    $scope.CalculatePaidFee($scope.dtList);
+                    $scope.CalculateTotalFee($scope.dtList);
+                    $scope.CalculateTotalDiscount($scope.dtList);
+                    $scope.CalculateBalance();
+                }, function myError(Return) {
+                    $scope.Notification('error', Return.data);
+                });
+            };
+            $scope.AddTotal = function (row, NewValue) {
+                $scope.dtList[row].PaidFee = Math.round(NewValue);
+                $scope.CalculatePaidFee($scope.dtList);
+            };
+            $scope.AddTotalFee = function (row, NewValue) {
+                $scope.dtList[row].TotalFee = Math.round(NewValue);
+                $scope.CalculateTotalFee($scope.dtList);
+            };
+            $scope.AddTotalDiscount = function (row, NewValue) {
+                $scope.dtList[row].Discount = Math.round(NewValue);
+                $scope.CalculateTotalDiscount($scope.dtList);
+            };
+            $scope.CalculateBalance = function () {
+                $scope.TxtBalanceAmount = $scope.TxtTotalAmount - $scope.TxtPaidFee - $scope.TxtDiscountAmount;
+            };
+            //=================Calculate Paid Fee===============
+            $scope.CalculatePaidFee = function (dt) {
+                var Total = 0;
+                if (dt.length > 0) {
+                    for (var i = 0; i < dt.length; i++) {
+                        Total = Total + dt[i].PaidFee;
+                    }
+                }
+                else {
+                    Total = 0;
+                }
+                Total = Math.round(Total);
+                $scope.TxtPaidFee = Total
+                $scope.CalculateBalance();
+            };
+            //=================Calculate Total Fee===============
+            $scope.CalculateTotalFee = function (dt) {
+                var Total = 0;
+                if (dt.length > 0) {
+                    for (var i = 0; i < dt.length; i++) {
+                        Total = Total + dt[i].TotalFee;
+                    }
+                }
+                else {
+                    Total = 0;
+                }
+                //Total = Total - $scope.TxtPaidFee;
+                Total = Math.round(Total);
+                $scope.TxtTotalAmount = Total;
+            };
+            //=================Calculate Total Discount===============
+            $scope.CalculateTotalDiscount = function (dt) {
+                var Discount = 0;
+                if (dt.length > 0) {
+                    for (var i = 0; i < dt.length; i++) {
+                        Discount = Discount + dt[i].Discount;
+                    }
+                }
+                else {
+                    Discount = 0;
+                }
+                //Total = Total - $scope.TxtPaidFee;
+                Discount = Math.round(Discount);
+                $scope.TxtDiscountAmount = Discount;
+            };
+            ////==============Calculate Patient Discount=============
+            //$scope.CalculateDiscount = function () {
+            //    var DisType = $scope.DDLDisType;
+            //    var Dis = $scope.txtDiscount;
+            //    var Fee = $scope.TxtTotalAmount;
+            //    var Paid = $scope.TxtPaidFee;
+            //    var P = 0;
+            //    var Final = 0;
+            //    if (DisType == '%') {
+            //        var Final = ((Fee / 100) * Dis);
+            //        $scope.TxtBalanceAmount = Fee - Paid - Final;
+            //    }
+            //    else if (DisType == 'Rs') {
+            //        var Final = Fee - Dis - Paid;
+            //        $scope.TxtBalanceAmount = Final;
+
+            //    }
+            //    else if (DisType == '0') {
+            //        $scope.txtDiscount = 0;
+            //        var Final = Fee - Paid;
+            //        $scope.TxtBalanceAmount = Final;
+            //    }
+            //    if (Dis == '') {
+            //        $scope.txtDiscount = 0;
+            //        var Final = Fee - Paid;
+            //        $scope.TxtBalanceAmount = Final;
+            //    }
+            //    else if (Dis == null) {
+            //        $scope.txtDiscount = 0;
+            //        var Final = Fee - Paid;
+            //        $scope.TxtBalanceAmount = Final;
+            //    }
+            //};
+            //===============Divide Balance Amount To Total Fee======
+            $scope.DivideBalnce = function (value) {
+                var dt = $scope.dtList;
+                //var dtDoc = $scope.dtSessionFeeGetAll;
+                var len, Amount;
+                len = dt.length;
+                //if (dtDoc.length >= 1) {
+                ////TotalSesionfe = dtDoc[0].Charges;
+                //}
+                for (var j = 0; j < len; j++) {
+                    Amount = value / len;
+                    //Amount=Math.round(Amount*100)/100;
+                    dt[j].TotalFee = Math.round(Amount);
+                }
+            }
+            //=============Get Payment Method======================
+            $scope.GetPayMeth = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatientReg/Get_PayMethod",
+                    data: {
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    $scope.dtPayMeth = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //===================Get Bank Name By ID==================
+            $scope.GetBankName = function (BankName) {
+                $scope.txtBank = BankName;
+            };
+            //===================Get Payment Method By ID==================
+            $scope.GetPayByid = function (MethodName) {
+                $scope.txtPayMethod = MethodName;
+            };
+            //=============Get Bank Name======================
+            $scope.GetBank = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/PatientReg/Get_BankName",
+                    data: {
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+
+                    $scope.dtBankName = angular.fromJson(Return.data);
+
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //==================Final Package Insert=======================
+            $scope.FinalpkgSave = function () {
+                //alert("Final");
+                for (var i = 0; i < $scope.dtList.length; i++) {
+                    var displayReq = {
+                        method: "POST",
+                        url: "/Session/Add_PatSesrecord",
+                        data: {
+                            TokenNo: $scope.dtList[i].SessionToken,
+                            TotalFee: $scope.dtList[i].TotalFee,
+                            Status: 'Paid'
+                        }
+                    }
+                    // }
+                    $http(displayReq).then(function (Return) {
+                        $scope.GetData($scope.txtTokenNo);
+                        if (Return.data == "Inserted") {
+                            $scope.Notification('success', 'Full Session Package Paid');
+                        }
+                        else {
+                            $scope.Notification('warning', 'Please Contact to Admin');
+                        }
+                    }, function myError(Return) {
+                        $scope.On_Clear();
+                        $scope.Notification('error', Return.data);
+                    });
+                }
+            };
+            //==================Save Extended Session=======================
+            $scope.SaveData = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Session/Add_ExtSesrecord",
+                    data: {
+                        TokenNo: $scope.txtMrNo,
+                        NoOfSessions: $scope.txtNumOfSession,
+                        SessionRemarks: $scope.txtSessionRemarks,
+                        FromDate: $scope.txtFrmDate,
+                        ToDate: $scope.txtToDate,
+                        Remarks: $scope.txtRemarksSession
+                    }
+                }
+                // }
+                $http(displayReq).then(function (Return) {
+                    if (Return.data == "Inserted") {
+                        $scope.GetSessionViewData($scope.txtMrNo);
+                        $scope.GetExtData($scope.txtMrNo);
+                        $scope.Notification('success', 'Extra Session Insert');
+                    }
+                    else {
+                        $scope.Notification('warning', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    $scope.On_Clear();
+                    $scope.Notification('error', Return.data);
+                });
+            };
+            //==================Save FullPayment Extension Session=======================
+            $scope.SaveFullPayData = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Session/Add_FullPaySesrecord",
+                    data: {
+                        TokenNo: $scope.txtMrNo,
+                    }
+                }
+                // }
+                $http(displayReq).then(function (Return) {
+                    if (Return.data == "Inserted") {
+                        $scope.Notification('success', 'Extra Full Payment Save');
+                    }
+                    else {
+                        $scope.Notification('warning', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    $scope.Notification('error', Return.data);
+                });
+            };
+            //==================Save Extend Full Package Paid=======================
+            $scope.FullExtraPackage = function () {
+                for (var i = 0; i < $scope.dtSessionExtList.length; i++) {
+                    var displayReq = {
+                        method: "POST",
+                        url: "/Session/Add_ExtPackage",
+                        data: {
+                            TokenNo: $scope.dtSessionExtList[i].SessionToken,
+                        }
+                    }
+                    $http(displayReq).then(function (Return) {
+                        if (Return.data == "Inserted") {
+                            $scope.Notification('success', 'Extra Full Pacakge Save');
+                            $scope.On_ExtSesionClear();
+                        }
+                        else {
+                            $scope.Notification('warning', 'Please Contact to Admin');
+                        }
+                    }, function myError(Return) {
+                        $scope.On_Clear();
+                        $scope.Notification('error', Return.data);
+                    });
+                }
+                $scope.SaveFullPayData();
+            };
+            //==================Single Paid Amount Insert=======================
+            $scope.SinglepkgSave = function (TknSession, TotalFee) {
+                //if (PaidFee == 0 || PaidFee == '' || PaidFee == null) {
+                //    $scope.Notification('warning', 'Please Enter Paid Fee');
+                //}
+                //else {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Session/Single_PatSavrecord",
+                    data: {
+                        TokenNo: TknSession,
+                        TotalFee: TotalFee,
+                        Status: 'Paid'
+
+                    }
+                }
+                //}
+                $http(displayReq).then(function (Return) {
+                    $scope.GetData($scope.txtTokenNo);
+                    if (Return.data == "Inserted") {
+                        $scope.Notification('success', 'Single Paid Session Entry Insert');
+                    }
+                }, function myError(Return) {
+                    $scope.On_Clear();
+                    $scope.Notification('error', Return.data);
+                });
+            };
+            //==================Extra Session Inserted=======================
+            $scope.ExtraSesionGenrat = function (TknNo) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Session/Extra_SessionSav",
+                    data: {
+                        TokenNo: TknNo
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.GetData($scope.txtTokenNo);
+                    if (Return.data == "Inserted") {
+                        $scope.Notification('success', 'Extra Session Is Generated');
+                    }
+                }, function myError(Return) {
+                    $scope.On_Clear();
+                    $scope.Notification('error', Return.data);
+                });
+            };
+            //==================Print Report=======================
+            $scope.Printing = function () {
+                $scope.PrintingTest();
+                var displayReq = {
+                    method: "POST",
+                    url: "/OB/Print_Slip_Test",
+                    data: {
+                        DocNumber: $scope.TxtDocNo
+                        //DocDate: new Date($scope.DT_Doc)
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    //$scope.dtGetDocHistory = angular.fromJson(Return.data);
+                }, function myError(Return) {
+                    //$scope.Clear();
+                    //alert(Return.data);
+                    $scope.Notification('error', Return.data);
+                });
+            };
+
+            $scope.PrintingTest = function () {
+                $window.open('/OB/Print_Slip_Test?DocNumber=' + $scope.TxtDocNo, '_blank');
+            };
+            //===============Insert Detail Data=========================
+            $scope.saveDetaildata = function () {
+                var displayReq = {
+                    method: 'POST',
+                    url: '/OB/Add_Detail',
+                    data: {
+                        DocNo: $scope.txtDocumentNum,
+                        DocDate: $scope.txtDocumentDate,
+                        RsNote: $scope.txtRsNote,
+                        Quantity: $scope.txtQty,
+                        Total: $scope.txtTotal,
+                        Remarks: $scope.txtRemarks
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    $scope.GetAllVData($scope.txtDocumentNum);
+                    $scope.On_Clear_Ins();
+                    if (Return.data == "Inserted") {
+                        $scope.Notification('success', 'Operation Completed', 'Insert Detail');
+                    }
+                    else {
+                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                    }
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                });
+            };
+            $scope.GenerateDoc = function () {
+                //$scope.GetNewDocNum();
+                $scope.GetData();
+            };
+            //=============Clear==========
+            $scope.On_Clear = function () {
+                $scope.dtList = '';
+                $scope.txtTokenNo = '';
+                $scope.DT_FromDate = new Date();
+                $scope.DT_ToDate = new Date();
+                $scope.TxtTotalSession = 0;
+                $scope.TxtTotalAmount = 0;
+                $scope.TxtPaidFee = 0;
+                $scope.TxtDiscountAmount = 0;
+                $scope.TxtBalanceAmount = 0;
+                $scope.txtDrName = '';
+                $scope.TxtPatname = '';
+                $scope.OnLoad();
+            };
+            $scope.On_ExtSesionClear = function () {
+                $scope.txtNumOfSession = 0;
+                $scope.txtSessionRemarks = '';
+                $scope.txtFrmDate = new Date();
+                $scope.txtToDate = new Date();
+                $scope.txtRemarksSession = '';
+                $scope.dtGetSessionviewAll = '';
+            }
+            $scope.OnLoad = function () {
+                $scope.DT_FromDate = new Date();
+                $scope.DT_ToDate = new Date();
+                $scope.BtnDis = true;
+                $scope.TxtTotalSession = 0;
+                $scope.TxtTotalAmount = 0;
+                $scope.TxtPaidFee = 0;
+                $scope.TxtDiscountAmount = 0;
+                $scope.TxtBalanceAmount = 0;
+                $scope.FullPkgInsrtBtn = true;
+                //$scope.ExtraBtnPrint = true;
+            };
+            //==========The End==========
+            $scope.OnLoad();
+        });
+    </script>
+
+}
+
+
+

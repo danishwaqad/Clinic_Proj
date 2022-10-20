@@ -1,0 +1,80 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/assets/images/favicon.png" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/ThemeData/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/ThemeData/assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="~/ThemeData/assets/plugins/sticky/css/slick.css">
+    <link rel="stylesheet" href="~/ThemeData/assets/plugins/sticky/css/slick-theme.css">
+    <link rel="stylesheet" href="~/ThemeData/assets/plugins/testimonial/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/ThemeData/assets/plugins/testimonial/css/owl.theme.min.css">
+    <link rel="stylesheet" href="~/ThemeData/assets/css/style.css">
+
+
+    <title>CCPL Clinic Login</title>
+
+</head>
+<body>
+    <div id="home" class="container-fluid">
+
+        <!--  ************************* Header Starts Here ************************** -->
+        <!-- ######## Header End ####### -->
+        <div class="container">
+            <div class="row">
+
+                <div class="col-sm-4 login-box">
+                    @using (Html.BeginForm("SignIn", "Account", FormMethod.Post))
+                    {
+                        <div class="title-box">
+                            <h4>Corner Clinic</h4>
+                            <p>Please enter  your Login details !</p>
+                        </div>
+                        <div class="row">
+                            <input type="text" placeholder="Enter Username" name="Username" class="form-control inpt-sm" ng-model="Username" required="">
+                        </div>
+                        <div class="row">
+                            <input type="password" placeholder="Enter Password" name="Password" class="form-control inpt-sm" ng-model="Password" required="">
+                        </div>
+                        <div class="row chk-lab">
+                            <!-- <div class="col-sm-6"> -->
+                            <!-- <input type="checkbox"> <label>Remember me</label> -->
+                            <!-- </div> -->
+                            <!-- <div class="col-sm-6 colkd"> -->
+                            <!-- <a>Forget Password ?</a> -->
+                            <!-- </div> -->
+                            <h6 class="text-danger">@ViewBag.Msg</h6>
+                        </div>
+                        <div class=" submot-row">
+                            <button class="btn btn-sm btn-success"><i class="fas fa-paper-plane"></i> Sign In</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+
+        <!-- <div class="coy-info"> -->
+        <!-- <p>Designed by <a href="https://www.smarteyeapps.com">Smarteyeapps.com</a></p> -->
+        <!-- </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    -->
+
+    </div>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="~/ThemeData/assets/js/jquery-3.2.1.min.js"></script>
+    <script src="~/ThemeData/assets/js/popper.js"></script>
+    <script src="~/ThemeData/assets/js/bootstrap.min.js"></script>
+    <script src="~/ThemeData/assets/plugins/sticky/js/slick.min.js"></script>
+    <script src="~/ThemeData/assets/plugins/scroll-fixed/jquery-scrolltofixed-min.js"></script>
+    <script src="~/ThemeData/assets/plugins/testimonial/js/owl.carousel.min.js"></script>
+    <script src="~/ThemeData/assets/js/script.js"></script>
+</body>
+</html>
