@@ -346,16 +346,21 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
         }
         $http(displayReq).then(function (Return) {
             $scope.dtViewHistGetAll = angular.fromJson(Return.data);
-            var dt = angular.fromJson(Return.data);
-            if (dt.length > 0) {
-                for (var i = 0; i < dt.length; i++) {
-                    var Tkn = dt[i].TokenNo;
-                    //$scope.GetHistViewAllData(Tkn);
-                }
-            }
         }, function myError(Return) {
             $scope.Notification('error', 'Error Code LC0001', Return.data);
         });
+    };
+    //================Display Patient History On Cosultancy===============
+    $scope.GetHistOwnTknClk = function (Token) {
+        $scope.selectedtoken = Token;
+        $scope.GetHistViewAllData(Token);
+        $scope.GetHistDiagnoseViewData(Token);
+        $scope.GetHistLabViewData(Token);
+        $scope.GetHistMedViewAllData(Token);
+        $scope.GetFAViewData(Token);
+        $scope.GetHistFolowViewData(Token);
+        $scope.GetSessionHistViewData(Token);
+        $scope.GetHistActivityViewData(Token);
     };
     //================Diagnose Data Insert=========================
     $scope.savedata = function () {
@@ -708,6 +713,7 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
         }, function myError(Return) {
             $scope.Notification('error', 'Error Code GEN0001', Return.data);
         });
+
     };
     //===============Medication List Button Enable Or Disable Func=============
     $scope.GetEnabl_Disabl = function () {
