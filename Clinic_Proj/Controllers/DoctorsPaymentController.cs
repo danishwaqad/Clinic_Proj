@@ -16,6 +16,7 @@ using System.Drawing;
 
 namespace Clinic_Proj.Controllers
 {
+    [Authorize]
     public class DoctorsPaymentController : Controller
     {
         // GET: DoctorsPayment

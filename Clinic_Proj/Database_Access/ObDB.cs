@@ -97,7 +97,18 @@ namespace Clinic_Proj.Database_Access
         {
             try
             {
-                help.ExecuteParameterizedProcedure("UD_Add_OB_Close", "@DocNo,@DocDate,@RsNote,@Qty,@Total,@Consultancy,@FirstAid,@Session,@LoginID,@DivisionID,@SiteID,@Remarks", DM.DocNo, DM.DocDate, DM.RsNote, DM.Quantity, DM.Total, DM.Consultancy, DM.FirstAid,DM.Session,DM.LoginID,DM.DivisionID,DM.SiteID,DM.Remarks);
+                help.ExecuteParameterizedProcedure("UD_Add_New_OB_Close", "@DocNo,@DocDate,@TypeID,@TotalAmount,@StaffShift,@LoginID,@DivisionID,@SiteID", DM.DocNo, DM.DocDate, DM.TypeID, DM.TotalAmount, DM.StaffShift,DM.LoginID,DM.DivisionID,DM.SiteID);
+            }
+            catch (Exception EX)
+            {
+                throw EX;
+            }
+        }
+        public void AddEmpty_DCrecord(OB_Mode DM)
+        {
+            try
+            {
+                help.ExecuteParameterizedProcedure("UD_Add_EmptyConsult_OB_Close", "@DocNo,@DocDate,@StaffShift,@LoginID,@DivisionID,@SiteID", DM.DocNo, DM.DocDate,DM.StaffShift, DM.LoginID, DM.DivisionID, DM.SiteID);
             }
             catch (Exception EX)
             {

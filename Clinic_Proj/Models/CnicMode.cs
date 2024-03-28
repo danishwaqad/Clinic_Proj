@@ -11,9 +11,12 @@ namespace Clinic_Proj.Models
     {
         [Required]
         public string SiteID { get; set; }
+        [Required]
+        public string SearchCnic { get; set; }
         public CnicMode()
         {
             SiteID = SystemHelper.Get_SiteID_Session();
+            SearchCnic = string.Empty;
         }
     }
 }

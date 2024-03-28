@@ -18,6 +18,33 @@ namespace Clinic_Proj.Database_Access
         DataTable dt = new DataTable();
         string Query;
 
+
+        //===================Insert Group Medicines======
+        //==================Group Medicines Insert==================
+        public void Add_GroupMed_record(ConsultModel rs)
+        {
+            try
+            {
+                help.ExecuteParameterizedProcedure("UD_Add_Patient_Medication", "@TokenNo,@GenericName,@TypeID,@SubTypeID,@IsMorning,@IsEvening,@IsNight,@Days,@Dosage,@UrduText,@Remarks,@DivisionID,@SiteID,@LoginID", rs.TokenNo, rs.GenericName, rs.TypeID, rs.SubTypeID, rs.IsMorning, rs.IsEvening, rs.IsNight, rs.NoOfDays, rs.DosageQty, rs.UrduText, rs.MediRemarks, rs.DivisionID, rs.SiteID, rs.LoginID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //================Group Diagnose Data Insert=========================
+        public void Add_Grp_Diagrecord(ConsultModel rs)
+        {
+            try
+            {
+                help.ExecuteParameterizedProcedure("UD_Add_Patient_Diagnoses", "@TokenNo,@DiagnoseName,@Remarks,@LoginID,@DivisionID,@SiteID", rs.TokenNo, rs.DisagnoseSName, rs.DiagRemarks, rs.LoginID, rs.DivisionID, rs.SiteID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //===================End==========================
         //============Display Service Name By Lookup===============
         public string get_Servrecordbyid(ConsultModel rs)
         {
@@ -280,11 +307,11 @@ namespace Clinic_Proj.Database_Access
             }
         }
         //============Display Medicine Sub Type Related Data=============== 
-        public string get_MediSbTyprecord(string id)
+        public string get_MediSbTyprecord(ConsultModel rs)
         {
             try
             {
-                ds = help.ReturnParameterizedDataSetProcedure("Sp_Patient_MediSubTyp_get", "@TypeID", id);
+                ds = help.ReturnParameterizedDataSetProcedure("Sp_Patient_MediSubTyp_get", "@TypeID", rs.SubTypeID);
                 return (JsonConvert.SerializeObject(ds.Tables[0]));
             }
             catch (Exception ex)

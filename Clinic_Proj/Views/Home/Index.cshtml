@@ -3,159 +3,220 @@
     ViewBag.Title = "BusinessGraph";
 }
 
-    <div ng-app="RegistrationForm" ng-controller="Home">
+<div ng-app="RegistrationForm" ng-controller="Home">
 
-        <div class="row page-titles">
-            <div class="col-md-5 align-self-center">
-                <h2 class="text-themecolor border" style="color:red"><b>Corner Clinic Business Graph</b></h2>
-            </div>
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h2 class="text-themecolor border" style="color:red"><b>Corner Clinic Business Graph</b></h2>
         </div>
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div id="NetClinicSiteWise"></div>
-            </div>
-        </div>
-
     </div>
-        @*<style>
+    <div class="card-body">
+        <div class="form-body form-group">
+            <div class="row p-t-20">
+                <div class="col-md-9">
+                    <form name="CreateGraph">
+                        <div id="NetClinicSiteWise"></div>
+                    </form>
+                </div>
+                <br />
+                <div class="col-md-3">
+                    <form name="CreateGraph">
+                        <div id="ClinicTodaySale"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        var RegistrationForm = angular.module("RegistrationForm", []);
+        RegistrationForm.controller("Home", function ($scope, $http) {
+            $scope.Notification = function (Type, Heading, Test) {
+                //info, warning, success, error
+                $.toast({
+                    heading: Heading,
+                    text: Test,
+                    position: 'top-right',
+                    loaderBg: '#ff6849',
+                    icon: Type,
+                    hideAfter: 3500,
+                    stack: 6
+                });
+            };
+            //===================Display Graph==========================
+            $scope.GetViewDataByID = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Graph/Get_GraphData",
+                    data: {
+                    }
+                }
+                $http(displayReq).then(function (Return) {
 
-            #myVideo {
-                position: absolute;
-                right: 0;
-                bottom: 0;
-                width: 100%;
-                height: 700px;
-            }
+                    var dtReturn = angular.fromJson(Return.data);
+                    var NetClinic = new Array();
+                    var NetFirstAid = new Array();
+                    var NetSession = new Array();
+                    var Date = new Array();
 
-        </style>
-            <video controls loop autoplay muted id="myVideo">
-                <source src="~/Scripts/Custom/Clinic.mp4" type="video/mp4">
-                Your browser does not support HTML5 video.
-            </video>*@
+                    for (var i = 0; i < dtReturn.length; i++) {
+                        Date[i] = dtReturn[i].Mnth;
+                        NetClinic[i] = dtReturn[i].ClinicTotal;
+                        NetFirstAid[i] = dtReturn[i].FATotal;
+                        NetSession[i] = dtReturn[i].SessionTotal;
+                    }
 
-        @section scripts{
-            <script>
-                var RegistrationForm = angular.module("RegistrationForm", []);
-                RegistrationForm.controller("Home", function ($scope, $http) {
-                    $scope.Notification = function (Type, Heading, Test) {
-                        //info, warning, success, error
-                        $.toast({
-                            heading: Heading,
-                            text: Test,
-                            position: 'top-right',
-                            loaderBg: '#ff6849',
-                            icon: Type,
-                            hideAfter: 3500,
-                            stack: 6
-                        });
-                    };
-                    //===================Display Graph==========================
-                    $scope.GetViewDataByID = function () {
-                        var displayReq = {
-                            method: "POST",
-                            url: "/Graph/Get_GraphData",
-                            data: {
-                            }
-                        }
-                        $http(displayReq).then(function (Return) {
-
-                            var dtReturn = angular.fromJson(Return.data);
-                            var NetClinic = new Array();
-                            var NetFirstAid = new Array();
-                            var NetSession = new Array();
-                            var Date = new Array();
-
-                            for (var i = 0; i < dtReturn.length; i++) {
-                                Date[i] = dtReturn[i].Mnth;
-                                NetClinic[i] = dtReturn[i].ClinicTotal;
-                                NetFirstAid[i] = dtReturn[i].FATotal;
-                                NetSession[i] = dtReturn[i].SessionTotal;
-                            }
-
-                            var line = new Highcharts.chart('NetClinicSiteWise', {
-                                chart: {
-                                    type: 'line',
-                                    zoomType: 'x'
-                                },
-                                title: {
-                                    text: 'Clinic Session & First Aid Revenue (PKR)'
-                                },
-                                subtitle: {
-                                    text: 'Monthly Sale'
-                                },
-                                xAxis: {
-                                    categories: Date,
-                                    labels: {
-                                        rotation: 30,
-                                        style: {
-                                            fontFamily: 'Verdana, sans-serif'
-                                        }
-                                    }
-                                },
-                                yAxis: {
-                                    title: {
-                                        text: 'Net Amount'
-                                    }
-                                },
-                                credits: {
-                                    enabled: false
-                                },
-                                plotOptions: {
-                                    line: {
-                                        dataLabels: {
-                                            enabled: true
-                                        },
-                                        enableMouseTracking: true
-                                    }
-                                },
-                                series: [{
-                                    name: 'Clinic',
-                                    data: NetClinic
-                                },
-                                {
-                                    name: 'First Aid',
-                                    data: NetFirstAid
-                                    },
-                                {
-                                    name: 'Session',
-                                    data: NetSession
+                    var line = new Highcharts.chart('NetClinicSiteWise', {
+                        chart: {
+                            type: 'line',
+                            zoomType: 'x'
+                        },
+                        title: {
+                            text: 'Clinic Session & First Aid Revenue (PKR)'
+                        },
+                        subtitle: {
+                            text: 'Last 12 Month Sale'
+                        },
+                        xAxis: {
+                            categories: Date,
+                            labels: {
+                                //rotation: 30,
+                                style: {
+                                    fontFamily: 'Verdana, sans-serif'
                                 }
-                                ]
-                            });
-                        }, function myError(Return) {
-                            $scope.Notification('error', 'Error Code LC0001', Return.data);
-                        });
-                    };
-            //=============Closed All Tokens=================
-            //$scope.GetDiscClassData = function () {
-            //    var displayReq = {
-            //        method: "POST",
-            //        url: "/Graph/Get_Closeddata",
-            //        data: {}
-            //    }
-            //    $http(displayReq).then(function (Return) {
-            //    if (Return.data == "Done") {
-            //    $scope.Notification('success', 'Operation Completed', 'All Pending Token Closed');
-            //           }
-            //    else {
-            //    $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
-            //       }
-            //    }, function myError(Return) {
-            //        $scope.Notification('error', 'Error Code LC0001', Return.data);
-            //    });
-            //};
-                    $scope.GetViewDataByID();
-                    //$scope.GetDiscClassData();
+                            }
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Net Amount'
+                            }
+                        },
+                        credits: {
+                            enabled: false
+                        },
+                        plotOptions: {
+                            line: {
+                                dataLabels: {
+                                    enabled: true
+                                },
+                                enableMouseTracking: true
+                            }
+                        },
+                        series: [{
+                            name: 'Clinic',
+                            data: NetClinic
+                        },
+                        {
+                            name: 'First Aid',
+                            data: NetFirstAid
+                        },
+                        {
+                            name: 'Session',
+                            data: NetSession
+                        }
+                        ]
+                    });
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            //=============Graph==============
+            $scope.GetSaleGraph_Today_Clinic = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/Graph/Site_Sale_Graph_Today_Clinic",
+                    data: {}
+                }
+                $http(displayReq).then(function (sReturn) {
+
+                    var dt = sReturn.data;
+                    var objToday = new Date(),
+                        weekday = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'),
+                        dayOfWeek = weekday[objToday.getDay()],
+                        domEnder = function () { var a = objToday; if (/1/.test(parseInt((a + "").charAt(0)))) return "th"; a = parseInt((a + "").charAt(1)); return 1 == a ? "st" : 2 == a ? "nd" : 3 == a ? "rd" : "th" }(),
+                        dayOfMonth = today + (objToday.getDate() < 10) ? '0' + objToday.getDate() + domEnder : objToday.getDate() + domEnder,
+                        months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'),
+                        curMonth = months[objToday.getMonth()],
+                        curYear = objToday.getFullYear(),
+                        curHour = objToday.getHours() > 12 ? objToday.getHours() - 12 : (objToday.getHours() < 10 ? "0" + objToday.getHours() : objToday.getHours()),
+                        curMinute = objToday.getMinutes() < 10 ? "0" + objToday.getMinutes() : objToday.getMinutes(),
+                        curSeconds = objToday.getSeconds() < 10 ? "0" + objToday.getSeconds() : objToday.getSeconds(),
+                        curMeridiem = objToday.getHours() > 12 ? "PM" : "AM";
+
+                    //var today = curHour + ":" + curMinute + "." + curSeconds + curMeridiem + " " + dayOfWeek + " " + dayOfMonth + " of " + curMonth + ", " + curYear;
+                    var today = dayOfWeek + " " + dayOfMonth + " of " + curMonth + ", " + curYear;
+
+                    Highcharts.chart('ClinicTodaySale', {
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Clinic Patient By Speciality'
+                        },
+                        subtitle: {
+                            text: 'Today - ' + today
+                        },
+                        xAxis: {
+                            categories: dt.categories
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: 'No. of Patients'
+                            },
+                            stackLabels: {
+                                enabled: true,
+                                style: {
+                                    fontWeight: 'bold',
+                                    color: ( // theme
+                                        Highcharts.defaultOptions.title.style &&
+                                        Highcharts.defaultOptions.title.style.color
+                                    ) || 'red',
+                                    textOutline: 'none'
+                                }
+                            }
+                        },
+                        legend: {
+                            align: 'left',
+                            x: 70,
+                            verticalAlign: 'top',
+                            y: 70,
+                            floating: true,
+                            backgroundColor:
+                                Highcharts.defaultOptions.legend.backgroundColor || 'white',
+                            borderColor: '#CCC',
+                            borderWidth: 1,
+                            shadow: false
+                        },
+                        tooltip: {
+                            headerFormat: '<b>{point.x}</b><br/>',
+                            pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                        },
+                        plotOptions: {
+                            column: {
+                                stacking: 'normal',
+                                dataLabels: {
+                                    enabled: true
+                                }
+                            }
+                        },
+                        series: dt.data
+                    });
+
+                }, function myError(sReturn) {
+                    $scope.Notification('error', sReturn.data);
                 });
 
-
-
-            </script>
-            <script src="~/Content/HighCharts/Content/Highcharts-7.2.1/code/highcharts.js"></script>
-            <script src="~/Content/HighCharts/Content/Highcharts-7.2.1/code/modules/exporting.js"></script>
-            <script src="~/Content/HighCharts/Content/Highcharts-7.2.1/code/modules/export-data.js"></script>
-        }
+            };
+            $scope.GetViewDataByID();
+            $scope.GetSaleGraph_Today_Clinic();
+        });
+    </script>
+    <script src="~/Content/HighCharts/Content/Highcharts-7.2.1/code/highcharts.js"></script>
+    <script src="~/Content/HighCharts/Content/Highcharts-7.2.1/code/modules/exporting.js"></script>
+    <script src="~/Content/HighCharts/Content/Highcharts-7.2.1/code/modules/export-data.js"></script>
+}
 
 
 

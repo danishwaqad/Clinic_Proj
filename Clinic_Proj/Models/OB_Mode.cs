@@ -12,6 +12,10 @@ namespace Clinic_Proj.Models
         [Required]
         public string DocNo { get; set; }
         [Required]
+        public string TypeID { get; set; }
+        [Required]
+        public string StaffShift { get; set; }
+        [Required]
         public DateTime DocDate { get; set; }
         [Required]
         public string RsNote { get; set; }
@@ -28,11 +32,7 @@ namespace Clinic_Proj.Models
         [Required]
         public int id { get; set; }
         [Required]
-        public double Consultancy { get; set; }
-        [Required]
-        public double Session { get; set; }
-        [Required]
-        public double FirstAid { get; set; }
+        public double TotalAmount { get; set; }
         [Required]
         public string LoginID { get; set; }
         public string DivisionID { get; set; }
@@ -41,16 +41,13 @@ namespace Clinic_Proj.Models
         {
             DocNo = string.Empty;
             DocDate = new DateTime();
-            //DivisionID = "MUl";
-            //SiteID = "JM";
-            //LoginID = "Admin";
             DivisionID = SystemHelper.Get_DivisionID_Session(); //SystemHelper.DivisionID;
             SiteID = SystemHelper.Get_SiteID_Session(); //SystemHelper.SiteID;
             LoginID = SystemHelper.Get_User_Session(); //SystemHelper.Username;
-            Consultancy = 0;
-            Session = 0;
+            TotalAmount = 0;
             id = new int();
-            FirstAid = 0;
+            TypeID = string.Empty;
+            StaffShift = string.Empty;
             RsNote = string.Empty;
             Quantity = 0;
             Opening = 0;

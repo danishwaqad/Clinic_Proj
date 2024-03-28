@@ -25,9 +25,6 @@
     <!-- Custom CSS -->
     <link href="~/Content/dist/css/style.min.css" rel="stylesheet" />
     <!-- Dashboard 1 Page CSS -->
-    @*<link href="~/Content/dist/css/pages/dashboard1.css" rel="stylesheet" />*@
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-
     <link href="~/Content/assets/icons/font-awesome/css/fontawesome-all.css" rel="stylesheet" />
     <link href="~/Content/dist/css/pages/floating-label.css" rel="stylesheet" />
 
@@ -84,7 +81,7 @@
                     <ul class="navbar-nav">
                         @{
                             <li>
-                                <a class="navbar-brand text-danger font-weight-bold" href="#">@Session["SiteName"].ToString() [ @Session["SiteID"].ToString() ]</a>
+                                <a class="navbar-brand text-danger font-weight-bold" hre="#">@Session["SiteName"].ToString() [ @Session["SiteID"].ToString() ]</a>
                             </li>
                         }
                     </ul>
@@ -217,7 +214,11 @@
                                     }
                                     @if (HttpContext.Current.User.IsInRole("Mnu_OB_Edit"))
                                     {
-                                        <li>@Html.ActionLink("Edit Balance", "OBEditView", "OBEdit")</li>
+                                        <li>@Html.ActionLink("Edit Closing", "OBEditView", "OBEdit")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Closing_Rpt"))
+                                    {
+                                        <li>@Html.ActionLink("Closing Report", "ClosingRpt", "ClosingRpt")</li>
                                     }
                                     @if (HttpContext.Current.User.IsInRole("Mnu_Calender"))
                                     {
@@ -227,10 +228,14 @@
                                     {
                                         <li>@Html.ActionLink("Doctor Payment", "DoctorPayment", "DoctorsPayment")</li>
                                     }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_DocPaym_Rpt"))
+                                    {
+                                        <li>@Html.ActionLink("Doctor Payment Rpt", "DocPaymRpt", "DocPaymRpt")</li>
+                                    }
                                     @*@if (HttpContext.Current.User.IsInRole("Mnu_CBBalance"))
-                                        {
-                                            <li>@Html.ActionLink("Closing Balance", "CBView", "CB")</li>
-                                        }*@
+        {
+            <li>@Html.ActionLink("Closing Balance", "CBView", "CB")</li>
+        }*@
 
                                 </ul>
                             }
@@ -293,7 +298,7 @@
                                     }
                                     @if (HttpContext.Current.User.IsInRole("Mnu_TokenGenrate"))
                                     {
-                                        <li>@Html.ActionLink("Token Generate", "TokenGenrate", "TokenGenrate")</li>
+                                        <li>@Html.ActionLink("Token Delete", "TokenGenrate", "TokenGenrate")</li>
                                     }
                                     @if (HttpContext.Current.User.IsInRole("Mnu_Add_Patient_Vital"))
                                     {
@@ -310,6 +315,10 @@
                                     @if (HttpContext.Current.User.IsInRole("Mnu_Session"))
                                     {
                                         <li>@Html.ActionLink("Session", "PatientSession", "Session")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_SessionDate_Change"))
+                                    {
+                                        <li>@Html.ActionLink("Session Date Change", "SessionDates", "SessionDates")</li>
                                     }
                                     @if (HttpContext.Current.User.IsInRole("Mnu_Refund"))
                                     {
@@ -335,6 +344,10 @@
                                     {
                                         <li>@Html.ActionLink("Follow Up History", "FollowUpHist", "FollowUp")</li>
                                     }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Token_Detail"))
+                                    {
+                                        <li>@Html.ActionLink("Tokens Detail", "ViewTokens", "ViewTokens")</li>
+                                    }
                                     @* } *@
                                 </ul>
                             }
@@ -343,7 +356,7 @@
                                 <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-wrench" aria-hidden="true"></i><span class="hide-menu">Setups<span class="badge badge-pill badge-cyan"></span></span></a>
                                 <ul aria-expanded="false" class="collapse">
                                     @*@if (HttpContext.Current.User.IsInRole("CompanySetup_CompanyInfo"))
-                                        {*@
+        {*@
                                     @if (HttpContext.Current.User.IsInRole("Mnu_New_Vital"))
                                     {
                                         <li>@Html.ActionLink("New Vital", "AddVitalList", "AddVital")</li>
@@ -356,6 +369,10 @@
                                     {
                                         <li>@Html.ActionLink("New Diagnose", "Diagnoses", "Diagnoses")</li>
                                     }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_Doctor_Medicine"))
+                                    {
+                                        <li>@Html.ActionLink("Group Medicine", "DocMediView", "DocMedi")</li>
+                                    }
                                     @if (HttpContext.Current.User.IsInRole("Mnu_Disease_Level"))
                                     {
                                         <li>@Html.ActionLink("Disease Level", "DiagnoseLevel", "Diagnoses")</li>
@@ -363,6 +380,10 @@
                                     @if (HttpContext.Current.User.IsInRole("Mnu_Diagnose_Category"))
                                     {
                                         <li>@Html.ActionLink("Diagnose Category", "DiagnoCategory", "DiagnoCategory")</li>
+                                    }
+                                    @if (HttpContext.Current.User.IsInRole("Mnu_FreeCamp"))
+                                    {
+                                        <li>@Html.ActionLink("Free Camp", "FreeCamp", "FreeCamp")</li>
                                     }
                                     @* } *@
                                 </ul>
@@ -513,11 +534,9 @@
                 <!-- ============================================================== -->
                 @RenderBody()
             </div>
-
         </div>
         <footer class="footer">
-            @*© 2021 Corner Clinic WWW.CornerClinic.Net.*@
-            <strong>Copyright &copy; 2022 <a href="https://WWW.CornerClinic.Net">CCPL</a>.</strong> All rights reserved.&reg;
+            <strong>Copyright &copy; @DateTime.Now.Year <a href="https://WWW.CornerClinic.Net">CCPL</a>.</strong> All rights reserved.&reg;
         </footer>
     </div>
     <script src="~/content/assets/node-modules/jquery/jquery-3.2.1.min.js"></script>

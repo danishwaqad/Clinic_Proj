@@ -5,7 +5,7 @@
 
     <div ng-app="RegistrationForm" ng-controller="Home">
 
-        <div class="row page-titles">
+        @*<div class="row page-titles">
             <div class="col-md-5 align-self-center">
                 <h4 class="text-themecolor">Create Closing Balance</h4>
             </div>
@@ -17,6 +17,52 @@
                     </ol>
                 </div>
             </div>
+        </div>*@
+        <div id="DocNoNa" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">Select Document Lookup</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-7">
+
+                            </div>
+                            <div class="col-md-1">
+                                <label for="CompSearch">Search:</label>
+                            </div>
+                            <div class="col-md-4 form-material">
+                                <input type="text" class="form-control" id="UserSearch" ng-model="TypeDocSearch" />
+                            </div>
+                        </div>
+                        <div class="table-responsive-sm">
+                            <table class="table-sm table-hover table-bordered text-dark">
+                                <thead>
+                                    <tr>
+                                        <th>Doc No</th>
+                                        <th>Doc Date</th>
+                                        <th>Site ID</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in dtGetAll | filter:TypeDocSearch">
+                                        <td><button ng-click="GetDocNa(item.DocNo)" class="btn btn-link" data-dismiss="modal">{{item.DocNo}}</button></td>
+                                        <td>{{item.DocDate | date:dd-MMM-yyyy}}</td>
+                                        <td>{{item.SiteID}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
         </div>
         <div id="DocNoLookup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-xl">
@@ -48,7 +94,7 @@
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="item in dtGetAll | filter:TypeSearch">
-                                        <td><button ng-click="GetDataByID(item.DocNo)" class="btn btn-link" data-dismiss="modal">{{item.DocNo}}</button></td>
+                                        <td><button ng-click="GetCF(item.DocNo)" class="btn btn-link" data-dismiss="modal">{{item.DocNo}}</button></td>
                                         <td>{{item.DocDate | date:dd-MMM-yyyy}}</td>
                                         <td>{{item.SiteID}}</td>
                                     </tr>
@@ -72,7 +118,7 @@
                 <div class="card">
                     <!-- left column -->
                     <div class="card-header bg-info">
-                        <h4 class="m-b-0 text-white">Create Closing Balance</h4>
+                        <h4 class="m-b-0 text-white">Edit Closing Balance</h4>
                     </div>
                     <!--/.col (left) -->
                     <!-- /.row -->
@@ -84,53 +130,40 @@
                         <div class="form-horizontal">
                             <div class="card-body">
                                 <div class="form-group row">
-                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Consultancy</label>
-                                    <div class="col-sm-2">
-                                        <div class="input-group input-group-md">
-                                            <input type="text" placeholder="Consultancy" class="form-control" ng-model="TxtConsultancy">
-                                        </div>
-                                    </div>
-                                    <label for="inputEmail3" class="col-sm-1 col-form-label">First Aid</label>
-                                    <div class="col-sm-2">
-                                        <div class="input-group input-group-md">
-                                            <input type="text" placeholder="First Aid" class="form-control" ng-model="TxtFirstAid">
-                                        </div>
-                                    </div>
-                                    <label for="inputEmail3" class="col-sm-1 col-form-label">Sesssion</label>
-                                    <div class="col-sm-2">
-                                        <div class="input-group input-group-md">
-                                            <input type="text" placeholder="Session" class="form-control" ng-model="TxtSession">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Doc No</label>
+                                    <div class="col-md-1"></div>
+                                    <label for="DocNo" class="col-sm-1 col-form-label">Doc No</label>
                                     <div class="col-sm-3">
                                         <div class="input-group input-group-md">
-                                            <input type="text" placeholder="Code!" class="form-control" ng-model="TxtDocNo">
+                                            <input type="text" placeholder="Code!" class="form-control" ng-model="TxtDocNo" readonly>
                                             <span class="input-group-append">
                                                 <button type="button" class="btn btn-success btn-flat" alt="default" data-toggle="modal" data-target="#DocNoLookup" href="javascript:void(0)" ng-click="GetAllData()"><i class="ti-search"></i></button>
                                                 <button ng-click="GetData()" class="btn btn-warning" title="If You Want To Generate New DocNo"><i class="fa fa-plus"></i></button>
+                                                @*<button ng-click="GetAllData()" class="btn btn-danger" title="If Consultacy,First Aid,Session And DocPayment Not Available Then Document Select From This Button" alt="default" data-toggle="modal" data-target="#DocNoNa" href="javascript:void(0)"><i class="ti-search"></i></button>*@
                                             </span>
                                         </div>
                                     </div>
-                                    <label for="inputEmail3" class="col-sm-1 col-form-label">Doc Date</label>
+                                    <label for="DocDate" class="col-sm-1 col-form-label">Doc Date</label>
                                     <div class="col-sm-3">
                                         <div class="input-group input-group-md">
                                             <input type="datetime-local" placeholder="Code!" class="form-control" ng-model="DT_Doc">
                                         </div>
                                     </div>
+                                    <div class="col-sm-2">
+                                        <div class="input-group input-group-md">
+                                            <input type="text" placeholder="Shift" class="form-control" ng-model="DT_Shift">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-md-12 table-responsive text-nowrap">
+                                    <div class="col-md-8 table-responsive text-nowrap">
                                         <table class="table table-sm table-fixed table-striped table-hover" id="example">
                                             <thead>
                                                 <tr>
-                                                    <th>#</th>
-                                                    <th>Rs Value</th>
-                                                    <th>Qty</th>
-                                                    <th>Remarks</th>
-                                                    <th>Total</th>
+                                                    <th class="font-weight-bold">#</th>
+                                                    <th class="font-weight-bold">Rs Value</th>
+                                                    <th class="font-weight-bold">Qty</th>
+                                                    <th class="font-weight-bold">Remarks</th>
+                                                    <th class="font-weight-bold">Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -144,12 +177,43 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    <div class="col-md-4 table-responsive text-nowrap">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr class="font-weight-bold" style="font-size:14px">
+                                                    <th class="font-weight-bold">Sr#</th>
+                                                    <th class="font-weight-bold" style="text-align:right;">Description</th>
+                                                    <th class="font-weight-bold" style="text-align:right;">Amount</th>
+                                                    <th class="font-weight-bold" style="text-align:right;">Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in DTCF">
+                                                    <td>{{$index + 1}}</td>
+                                                    @*<input type="text" class="form-control font-weight-bold" ng-model="item.TypeID" />*@
+                                                <td>
+                                                        <div class="input-group">
+                                                            <select class="form-control form-input-grey" ng-model="item.TypeID">
+                                                                <option value="Consultancy">Consult</option>
+                                                                <option value="Doctor Payment">Doc Pay</option>
+                                                                <option value="First Aid">F Aid</option>
+                                                                <option value="Session">Session</option>
+                                                            </select>
+                                                        </div>
+                                                </td>
+                                                    <td><input type="number" class="form-control" ng-model="item.TotalAmount" /></td>
+                                                    <td><button ng-click="OBCloseNxt()" class="btn btn-danger"><i class="fa fa-plus"></i></button></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                                 <!-- /.card-body -->
                                 <hr />
                                 <div class="form-group row">
+                                    <div class="col-md-1"></div>
                                     <label for="Remarks" class="col-sm-1 col-form-label">Remarks</label>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-5">
                                         <div class="input-group input-group-md">
                                             <input type="text" placeholder="Remarks (If Any)!" class="form-control" ng-model="TxtRemarks">
 
@@ -181,17 +245,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                        <!-- /.card-footer -->
-                                        <!-- ./row -->
-                                    </div>
-                                </div>
-                        <!-- /.card -->
+                            </div>
+                        </div>
                     </div>
-                    <!--/.col (left) -->
                 </div>
             </div>
         </div>
-        <!-- /.content -->
     </div>
 
 @section scripts {
@@ -212,14 +271,77 @@
                     stack: 6
                 });
             };
-             //=============Display Document Data Get By ID================
-            $scope.GetDataByID = function (ID) {
-                for (var i = 0; i < $scope.dtList.length; i++) {
+             //=============Display Document Data Get By ID==============
+            $scope.GetDataByID = function (DocNum) {
                     var displayReq = {
                         method: "POST",
                         url: "/OBEdit/Get_dataid",
                         data: {
-                            DocNo: ID
+                            DocNo: DocNum
+                        }
+                    }
+                    $http(displayReq).then(function (Return) {
+                        var dt = angular.fromJson(Return.data);
+                        var total = 0;
+                        var Total = 0;
+                        if (dt.length > 0) {
+                            for (var i = 0; i < dt.length; i++) {
+                                $scope.TxtDocNo = dt[0].DocNo;
+                                $scope.DT_Shift = dt[0].StaffShift;
+                                $scope.DT_Doc = new Date(dt[0].EntryTime);
+                                if (dt[i].TypeID != '') {
+                                    $scope.DTCF[i].TypeID = dt[i].TypeID;
+                                }
+                                else {
+                                    $scope.DTCF[i].TypeID = 'Consultancy';
+                                }
+                                Total = Total + dt[i].TotalAmount;
+                                $scope.TxtAmounts = Total;
+                                $scope.CUSaveBtn = false;
+                                //$scope.CUUpdateBtn = True;
+                            }
+                            //$scope.DTCF[i].TypeID = 'Consultancy';
+                            $scope.TxtTotalAmount = total;
+                            $scope.GetRsNoteDataByID(DocNum);
+                        }
+
+                    }, function myError(Return) {
+                        $scope.Notification('error', 'Error Code LC0001', Return.data);
+                    });
+            };
+             //=============Display Document Data Get By ID If Consultancy Fa Session Or DocPayment Not Available================
+            $scope.GetDocNa = function (DocNum) {
+                    var displayReq = {
+                        method: "POST",
+                        url: "/OBEdit/Get_dataNaById",
+                        data: {
+                            DocNo: DocNum
+                        }
+                    }
+                    $http(displayReq).then(function (Return) {
+                        var dt = angular.fromJson(Return.data);
+                        if (dt.length > 0) {
+                            for (var i = 0; i < dt.length; i++) {
+                                $scope.TxtDocNo = dt[0].DocNo;
+                                $scope.DT_Shift = 'Shift-';
+                                $scope.DT_Doc = new Date(dt[0].EntryTime);
+                                $scope.CUSaveBtn = false;
+                                //$scope.CUUpdateBtn = True;
+                            }
+                            $scope.GetRsNoteDataByID(DocNum);
+                        }
+
+                    }, function myError(Return) {
+                        $scope.Notification('error', 'Error Code LC0001', Return.data);
+                    });
+            };
+            //=============Display Document Data Get By ID================
+            $scope.GetRsNoteDataByID = function (DocNum) {
+                    var displayReq = {
+                        method: "POST",
+                        url: "/OBEdit/Get_RsNotdataid",
+                        data: {
+                            DocNo: DocNum
                         }
                     }
                     $http(displayReq).then(function (Return) {
@@ -228,17 +350,11 @@
                         if (dt.length > 0) {
                             for (var i = 0; i < dt.length; i++) {
                                 total = total + dt[i].Total;
-                                $scope.TxtDocNo = dt[0].DocNo;
-                                $scope.TxtConsultancy = dt[0].Consultancy;
-                                $scope.TxtFirstAid = dt[0].FirstAid;
-                                $scope.TxtSession = dt[0].Session;
-                                $scope.DT_Doc = new Date(dt[0].EntryTime);
-                                $scope.TxtRemarks = dt[0].LineRemarks;
                                 $scope.dtList[i].RsNote = dt[i].RsNote;
                                 $scope.dtList[i].Qty = dt[i].Qty;
-                                $scope.dtList[i].LineRemarks = dt[i].LineRemarks;
                                 $scope.dtList[i].Total = dt[i].Total;
-
+                                $scope.dtList[i].LineRemarks = dt[i].LineRemarks;
+                                $scope.TxtRemarks = dt[0].LineRemarks;
                                 $scope.CUSaveBtn = false;
                                 //$scope.CUUpdateBtn = True;
                             }
@@ -248,7 +364,29 @@
                     }, function myError(Return) {
                         $scope.Notification('error', 'Error Code LC0001', Return.data);
                     });
+            };
+            //=============Get Consultancy and First Aid Data=============
+            $scope.GetCF = function (ID) {
+                var displayReq = {
+                    method: "POST",
+                    url: "/OBEdit/Get_CF",
+                    data: {
+                        DocNo:ID
+                    }
                 }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    if (dt.length > 0) {
+                        $scope.DTCF = angular.fromJson(Return.data);
+                        $scope.GetDataByID(ID);
+                    }
+                    else {
+                        $scope.DTCF = null;
+                    }
+                    //$scope.TxtTotalAmounts = TotalAmounts - TotalDocAmount;
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
             };
             //==============Display Docs Look up Data===================
             $scope.GetAllData = function () {
@@ -293,6 +431,29 @@
             $scope.PrintingTest = function () {
                 $window.open('/OBEdit/Print_Slip_Test?DocNumber=' + $scope.TxtDocNo, '_blank');
             };
+            //=================Insert OB Close Next Entry=======================
+            $scope.OBCloseNxt = function () {
+                    var displayReq = {
+                        method: "POST",
+                        url: "/OBEdit/AddOb_Closerecord",
+                        data: {
+                            DocNo: $scope.TxtDocNo,
+                            DocDate: new Date($scope.DT_Doc),
+                            StaffShift: $scope.DT_Shift
+                        }
+                    }
+                    $http(displayReq).then(function (Return) {
+                        if (Return.data == "Inserted") {
+                            $scope.Notification('success', 'Insert New Row');
+                            $scope.On_Clear();
+                        }
+                        else {
+                            $scope.Notification('warning', 'Please Contact to Admin');
+                        }
+                    }, function myError(Return) {
+                        $scope.Notification('error', Return.data);
+                        });
+            };
         //==================Final OB Insert=======================
             $scope.FinalOBSave = function () {
                 //alert("Final");
@@ -306,7 +467,7 @@
                             Opening: $scope.TxtTotalAmount,
                             RsNote: $scope.dtList[i].RsNote,
                             Quantity: $scope.dtList[i].Qty,
-                            LineRemarks: $scope.dtList[i].LineRemarks,
+                            LineRemarks: $scope.TxtRemarks,
                             Total: $scope.dtList[i].Total
 
                         }
@@ -327,20 +488,16 @@
              //==================For Closing Report OB Insert=======================
             $scope.RptFinalOBSave = function () {
                 //alert("Final");
-                for (var i = 0; i < $scope.dtList.length; i++) {
+                for (var i = 0; i < $scope.DTCF.length; i++) {
                     var displayReq = {
                         method: "POST",
                         url: "/OBEdit/RptAddF_Docrecord",
                         data: {
                             DocNo: $scope.TxtDocNo,
                             DocDate: new Date($scope.DT_Doc),
-                            RsNote: $scope.dtList[i].RsNote,
-                            Quantity: $scope.dtList[i].Qty,
-                            Remarks: $scope.TxtRemarks,
-                            Total: $scope.dtList[i].Total,
-                            Consultancy:$scope.TxtConsultancy,
-                            FirstAid: $scope.TxtFirstAid,
-                            Session: $scope.TxtSession
+                            TypeID: $scope.DTCF[i].TypeID,
+                            TotalAmount: $scope.DTCF[i].TotalAmount,
+                            StaffShift: $scope.DT_Shift
                         }
                     }
                     $http(displayReq).then(function (Return) {
@@ -428,23 +585,18 @@
                 $scope.On_Clear = function () {
                     $scope.TxtTotalAmount = '0';
                     $scope.DT_Doc = new Date();
-                    $scope.TxtConsultancy = '';
-                    $scope.TxtFirstAid = '';
-                    $scope.TxtSession = '';
                     $scope.TxtRemarks = '';
                     $scope.TxtDocNo = '';
                     $scope.dtList = '';
+                    $scope.DT_Shift = '';
+                    $scope.DTCF = '';
                 };
 
                 $scope.OnLoad = function () {
                     $scope.TxtTotalAmount = '0';
                     $scope.DT_Doc = new Date();
-                    $scope.TxtConsultancy = '';
-                    $scope.TxtFirstAid = '';
-                    $scope.TxtSession = '';
-                    $scope.TxtRemarks = '';
-                    $scope.TxtDocNo = '';
                     $scope.dtList = '';
+                    $scope.DTCF = '';
                 };
 
                 //==========The End==========

@@ -62,6 +62,22 @@ namespace Clinic_Proj.Database_Access
                 throw EX;
             }
         }
+        //==============Get Charges Total By ID For Monthly============
+        public string get_ChargesMonthly(ReportsModel rs)
+        {
+            try
+            {
+                string RtnJS;
+                DataTable dt = new DataTable();
+                dt = help.ReturnParameterizedDataTableProcedure("UD_Management_Monthly_Total_SUM", "@SiteFrom,@SiteTo,@DateFrom,@DateTo,@Doctor,@LoginID ", rs.SiteFrom, rs.SiteTo, rs.DateFrom, rs.DateTo, rs.DoctorNam, rs.LoginID);
+                RtnJS = JsonConvert.SerializeObject(dt);
+                return RtnJS;
+            }
+            catch (Exception EX)
+            {
+                throw EX;
+            }
+        }
         //Display Clinic all View data
         public string ViewClinicData(ReportsModel rs)
         {
@@ -102,6 +118,22 @@ namespace Clinic_Proj.Database_Access
                 string RtnJS;
                 DataTable dt = new DataTable();
                 dt = help.ReturnParameterizedDataTableProcedure("UD_Profit_Summary_FirstAid_ForManagement", "@SiteFrom,@SiteTo,@DateFrom,@DateTo,@Doctor,@LoginID", rs.SiteFrom, rs.SiteTo, rs.DateFrom, rs.DateTo,rs.DoctorNam,rs.LoginID);
+                RtnJS = JsonConvert.SerializeObject(dt);
+                return RtnJS;
+            }
+            catch (Exception EX)
+            {
+                throw EX;
+            }
+        }
+        //Display Monthly all View data 
+        public string ViewMonthlyData(ReportsModel rs)
+        {
+            try
+            {
+                string RtnJS;
+                DataTable dt = new DataTable();
+                dt = help.ReturnParameterizedDataTableProcedure("UD_rpt_Doctor_Revenue_Sharing", "@SiteFrom,@SiteTo,@DateFrom,@DateTo,@DrFrom,@DrTo", rs.SiteFrom, rs.SiteTo, rs.DateFrom, rs.DateTo, rs.DoctorNam, rs.DoctorNam);
                 RtnJS = JsonConvert.SerializeObject(dt);
                 return RtnJS;
             }

@@ -34,13 +34,57 @@ namespace Clinic_Proj.Database_Access
                 throw EX;
             }
         }
+        //=============Get Consultancy and First Aid Data=============
+        public string get_CF(OB_EditMode DM)
+        {
+            try
+            {
+                dt = new DataTable();
+                Query = "Select * From VW_Today_Day_Closing_Balance where SiteID= '" + DM.SiteID + "' and DivisionID='" + DM.DivisionID + "' and DocNo='" + DM.DocNo + "' ";
+                dt = help.Return_DataTable_Query(Query);
+                RtnJS = JsonConvert.SerializeObject(dt);
+                return RtnJS;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         //=============Display doc Data Get By ID================
         public string get_recordid(OB_EditMode rs)
         {
             try
             {
                 DataSet ds = new DataSet();
-                ds = help.ReturnParameterizedDataSetProcedure("Sp_VwDoc_CloseData_byID", "@DocNo,@DivisionID,@SiteID", rs.DocNo, rs.DivisionID, rs.SiteID);
+                ds = help.ReturnParameterizedDataSetProcedure("Sp_View_OB_Close_byID", "@DocNo,@DivisionID,@SiteID", rs.DocNo, rs.DivisionID, rs.SiteID);
+                return (JsonConvert.SerializeObject(ds.Tables[0]));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //=============Display Document Data Get By ID If Consultancy Fa Session Or DocPayment Not Available================
+        public string get_Narecordid(OB_EditMode rs)
+        {
+            try
+            {
+                DataSet ds = new DataSet();
+                ds = help.ReturnParameterizedDataSetProcedure("UD_OB_Header_byID", "@DocNo,@DivisionID,@SiteID", rs.DocNo, rs.DivisionID, rs.SiteID);
+                return (JsonConvert.SerializeObject(ds.Tables[0]));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //=============Display Rs Note Data Get By ID================
+        public string get_RsNoterecordid(OB_EditMode rs)
+        {
+            try
+            {
+                DataSet ds = new DataSet();
+                ds = help.ReturnParameterizedDataSetProcedure("Sp_View_OB_Detail_byID", "@DocNo,@DivisionID,@SiteID", rs.DocNo, rs.DivisionID, rs.SiteID);
                 return (JsonConvert.SerializeObject(ds.Tables[0]));
             }
             catch (Exception ex)
@@ -66,7 +110,18 @@ namespace Clinic_Proj.Database_Access
         {
             try
             {
-                help.ExecuteParameterizedProcedure("UD_Update_OB_Detail", "@DocNo,@DocDate,@RsNote,@Qty,@Total,@Opening,@DivisionID,@SiteID,@LoginID,@Remarks", DM.DocNo, DM.DocDate, DM.RsNote, DM.Quantity, DM.Total,DM.Opening, DM.DivisionID, DM.SiteID, DM.LoginID, DM.Remarks);
+                help.ExecuteParameterizedProcedure("UD_Update_OB_Detail", "@DocNo,@DocDate,@RsNote,@Qty,@Total,@Opening,@DivisionID,@SiteID,@LoginID,@Remarks", DM.DocNo, DM.DocDate, DM.RsNote, DM.Quantity, DM.Total,DM.Opening, DM.DivisionID, DM.SiteID, DM.LoginID, DM.LineRemarks);
+            }
+            catch (Exception EX)
+            {
+                throw EX;
+            }
+        }
+        public void Add_Closerecord(OB_EditMode DM)
+        {
+            try
+            {
+                help.ExecuteParameterizedProcedure("UD_Insert_New_OB_Close", "@DocNo,@DocDate,@StaffShift,@DivisionID,@SiteID,@LoginID", DM.DocNo, DM.DocDate,DM.StaffShift, DM.DivisionID, DM.SiteID, DM.LoginID);
             }
             catch (Exception EX)
             {
@@ -77,7 +132,7 @@ namespace Clinic_Proj.Database_Access
         {
             try
             {
-                help.ExecuteParameterizedProcedure("UD_Update_OB_Close", "@DocNo,@DocDate,@RsNote,@Qty,@Total,@Consultancy,@FirstAid,@Session,@LoginID,@DivisionID,@SiteID,@Remarks", DM.DocNo, DM.DocDate, DM.RsNote, DM.Quantity, DM.Total, DM.Consultancy, DM.FirstAid,DM.Session, DM.LoginID,DM.DivisionID,DM.SiteID,DM.Remarks);
+                help.ExecuteParameterizedProcedure("UD_Update_New_OB_Close", "@DocNo,@DocDate,@TypeID,@TotalAmount,@StaffShift,@LoginID,@DivisionID,@SiteID", DM.DocNo, DM.DocDate, DM.TypeID, DM.TotalAmount, DM.StaffShift,DM.LoginID,DM.DivisionID,DM.SiteID);
             }
             catch (Exception EX)
             {

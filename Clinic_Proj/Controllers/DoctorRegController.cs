@@ -35,8 +35,50 @@ namespace Clinic_Proj.Controllers
             }
             return Json(res, JsonRequestBehavior.AllowGet);
         }
-        //==================Insert Dr Share=======================
+        //=================Display View All Doctor Share Data===================
         [HttpPost]
+        public JsonResult Get_ShareViewdata(DoctorRegisterModel rs)
+        {
+            try
+            {
+                return Json(dblayer.get_ShareViewrecord(rs), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //===================View Doctor Share Data Get By ID==========================
+        [HttpPost]
+        public JsonResult Get_ViewSharebyid(DoctorRegisterModel rs)
+        {
+            try
+            {
+                return Json(dblayer.get_ViewShareRecrdbyid(rs), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //============Delete Doctor Share===============
+        [HttpPost]
+        public JsonResult OnShare_Delete(DoctorRegisterModel rs)
+        {
+            string res = string.Empty;
+            if (rs.DoctorID != 0)
+            {
+                dblayer.OnShareDelete(rs);
+                res = "Delete";
+            }
+            else
+            {
+                res = "failed";
+            }
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+    //==================Insert Dr Share=======================
+    [HttpPost]
         public JsonResult Add_Sharerecord(DoctorRegisterModel rs)
         {
             string res = string.Empty;

@@ -22,17 +22,17 @@ namespace Clinic_Proj.Models
         [Required]
         public string Remarks { get; set; }
         [Required]
+        public string TypeID { get; set; }
+        [Required]
         public string LineRemarks { get; set; }
         [Required]
         public double Total { get; set; }
         [Required]
+        public double TotalAmount { get; set; }
+        [Required]
+        public string StaffShift { get; set; }
+        [Required]
         public int id { get; set; }
-        [Required]
-        public double Consultancy { get; set; }
-        [Required]
-        public double FirstAid { get; set; }
-        [Required]
-        public double Session { get; set; }
         [Required]
         public string LoginID { get; set; }
         public string DivisionID { get; set; }
@@ -47,11 +47,11 @@ namespace Clinic_Proj.Models
             DivisionID = SystemHelper.Get_DivisionID_Session(); //SystemHelper.DivisionID;
             SiteID = SystemHelper.Get_SiteID_Session(); //SystemHelper.SiteID;
             LoginID = SystemHelper.Get_User_Session(); //SystemHelper.Username;
-            Consultancy = 0;
-            Session = 0;
             id = new int();
-            FirstAid = 0;
+            TypeID = string.Empty;
             RsNote = string.Empty;
+            TotalAmount = new double();
+            StaffShift = string.Empty;
             Quantity = 0;
             Opening = 0;
             Remarks = string.Empty;

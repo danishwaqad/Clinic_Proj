@@ -12,6 +12,48 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
             stack: 6
         });
     };
+    $scope.getTel1Length = function () {
+        $scope.length = '';
+        if ($scope.txtTel1 == undefined) {
+            $scope.Notification('error', 'Error', 'Please Enter Valid Length Mobile # Format/923121234567');
+        }
+        else {
+            //Nothing will do
+        }
+        var StartingString = $scope.txtTel1.startsWith("92");
+        $scope.length = $scope.txtTel1.length;
+        if ($scope.length == '10' && StartingString == false) {
+            $scope.txtTel1 = '92' + $scope.txtTel1;
+        }
+        else if ($scope.length == '12' && StartingString == true) {
+            $scope.txtTel1 = $scope.txtTel1;
+        }
+        else {
+            $scope.txtTel1 = '';
+            $scope.Notification('error', 'Error', 'Please Enter Valid Length Mobile # Format/923121234567');
+        }
+    };
+    $scope.getTel2Length = function () {
+        $scope.length = '';
+        if ($scope.txtTel2 == undefined) {
+            $scope.Notification('error', 'Error', 'Please Enter Valid Length Mobile # Format/923121234567');
+        }
+        else {
+            //Nothing will do
+        }
+        var StartingString = $scope.txtTel2.startsWith("92");
+        $scope.length = $scope.txtTel2.length;
+        if ($scope.length == '10' && StartingString == false) {
+            $scope.txtTel2 = '92' + $scope.txtTel2;
+        }
+        else if ($scope.length == '12' && StartingString == true) {
+            $scope.txtTel2 = $scope.txtTel2;
+        }
+        else {
+            $scope.txtTel2 = '';
+            $scope.Notification('error', 'Error', 'Please Enter Valid Length Mobile # Format/923121234567');
+        }
+    };
     //==========Get Secound Token In One Relation================
     //$scope.GetSecound_InOne = function () {
     //    var displayReq = {

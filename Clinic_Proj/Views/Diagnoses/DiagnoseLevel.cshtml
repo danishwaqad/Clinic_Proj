@@ -3,7 +3,7 @@
 }
 <div ng-app="LevelForm" ng-controller="Home">
 
-    <div class="row page-titles">
+    @*<div class="row page-titles">
         <div class="col-md-5 align-self-center">
             <h4 class="text-themecolor">Create Diagnose Level</h4>
         </div>
@@ -15,7 +15,7 @@
                 </ol>
             </div>
         </div>
-    </div>
+    </div>*@
 
     <div class="row">
         <!-- left column -->
@@ -25,6 +25,10 @@
             <div class="card card-info">
                 <!-- form start -->
                 <div class="form-horizontal">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">Create Diagnose Level</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-5" style="overflow-x:auto;overflow-y:auto;height:650px;">

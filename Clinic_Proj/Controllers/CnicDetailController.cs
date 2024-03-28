@@ -26,12 +26,29 @@ namespace Clinic_Proj.Controllers
             try
             {
                 string Rtn = dblayer.GetCNICRecord();
-                return Json(Rtn, JsonRequestBehavior.AllowGet);
+                var T = Json(Rtn, JsonRequestBehavior.AllowGet);
+                T.MaxJsonLength = int.MaxValue;
+                return T;
             }
             catch (Exception ex)
             {
                 Result = "List Failed.." + ex.Message;
                 return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+        }
+        //=============Search Data By ID=================
+        [HttpPost]
+        public JsonResult Get_Searchbyid(CnicMode rs)
+        {
+            try
+            {
+                    var tt = Json(dblayer.get_searchbyid(rs), JsonRequestBehavior.AllowGet);
+                    tt.MaxJsonLength = int.MaxValue;
+                    return tt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

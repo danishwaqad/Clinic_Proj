@@ -12,6 +12,185 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
             stack: 6
         });
     };
+    //===================Group Medicine Working
+    //=============Get Diagnose ID================
+    $scope.Get_GroupOnLoadID = function () {
+        if ($scope.txtTokenNo != '' && $scope.txtTokenNo != undefined) {
+            $scope.ShowGrpMedic_Mode = true;
+            $scope.GetDiagNoseID();
+            $scope.GetDocID();
+        }
+        else {
+            alert("Please Select First Patient MR#");
+        }
+    };
+    //===============Get Diagnose by id=======================
+    $scope.GetDiag_ForGrpByid = function (ShortName) {
+        $scope.txtDiagnoseName = ShortName;
+    };
+    //==============Display Group Data By Lookup===================
+    $scope.GetGroup1AllData = function () {
+        var displayReq = {
+            method: "POST",
+            url: "/DocMedi/GetGroup1_data",
+            data: {}
+        }
+        $http(displayReq).then(function (Return) {
+            $scope.dtGroup1All = angular.fromJson(Return.data);
+        }, function myError(Return) {
+            $scope.Notification('error', 'Error Code LC0001', Return.data);
+        });
+    };
+    //============Display Medication View All Data==============
+    $scope.Get_GroupMedicineData = function (DiagnoseID, DiagnoseName) {
+        var displayReq = {
+            method: "POST",
+            url: "/DocMedi/GetMed_Viewdata",
+            data: {
+                RefGroupID: DiagnoseID,
+                RefGroupName: DiagnoseName
+            }
+        }
+        $http(displayReq).then(function (Return) {
+
+            $scope.dt_GrpMedi_All = angular.fromJson(Return.data);
+
+        }, function myError(Return) {
+            $scope.Notification('error', 'Error Code LC0001', Return.data);
+        });
+    };
+    //==============Get Group 1 Record By ID============
+    $scope.Get_Group1_Byid = function (Group1_ID) {
+        var displayReq = {
+            method: "POST",
+            url: "/DocMedi/Get_Group1_databyid",
+            data: {
+                GroupID: Group1_ID
+            }
+        }
+        $http(displayReq).then(function (Return) {
+            var dt = angular.fromJson(Return.data);
+            if (dt.length > 0) {
+                $scope.txtDiagnoseName = dt[0].GroupName;
+                $scope.txtDiagnoseID = dt[0].GroupID;
+                $scope.txtDiagnoseHist = dt[0].Remarks;
+                $scope.Get_GroupMedicineData(dt[0].GroupID, dt[0].GroupName);
+            }
+            else {
+                $scope.GetDiagNoseID();
+                $scope.GetDocID();
+                $scope.txtDiagnoseName = '';
+                $scope.txtDiagnoseHist = '';
+            }
+
+        }, function myError(Return) {
+            $scope.Notification('error', 'Error Code LC0001', Return.data);
+        });
+    };
+    //=============Get Diagnose ID================
+    $scope.GetDiagNoseID = function () {
+        var displayReq = {
+            method: "POST",
+            url: "/DocMedi/Get_DiagID",
+            data: {
+            }
+        }
+        $http(displayReq).then(function (Return) {
+            var dt = angular.fromJson(Return.data);
+            if (dt.length > 0) {
+                $scope.txtDiagnoseID = dt[0].ID;
+            }
+            else {
+                $scope.txtDiagnoseID = '';
+            }
+
+        }, function myError(Return) {
+            $scope.Notification('error', 'Error Code LC0001', Return.data);
+        });
+    };
+    //=============Get Doctor Name And ID================
+    $scope.GetDocID = function () {
+        var displayReq = {
+            method: "POST",
+            url: "/DocMedi/Get_DoctorID",
+            data: {
+            }
+        }
+        $http(displayReq).then(function (Return) {
+            var dt = angular.fromJson(Return.data);
+            if (dt.length > 0) {
+                $scope.txtDoctorID = dt[0].DoctorID;
+                $scope.txtDoctorName = dt[0].DoctorName;
+            }
+            else {
+                $scope.txtDoctorID = '';
+                $scope.txtDoctorName = '';
+            }
+
+        }, function myError(Return) {
+            $scope.Notification('error', 'Error Code LC0001', Return.data);
+        });
+    };
+
+    //==================Group Data Insert==================
+    $scope.Save_TempGrp_Diag = function () {
+        $scope.save_GroupDiagdata();
+        for (var i = 0; i < $scope.dt_GrpMedi_All.length; i++) {
+            var displayReq = {
+                method: 'POST',
+                url: '/Consult/Add_Group_Med_Recrd',
+                data: {
+                    TokenNo: $scope.txtTokenNo,
+                    GenericName: $scope.dt_GrpMedi_All[i].ItemName,
+                    TypeID: $scope.dt_GrpMedi_All[i].TypeID,
+                    SubTypeID: $scope.dt_GrpMedi_All[i].SubTypeID,
+                    IsMorning: $scope.dt_GrpMedi_All[i].IsMorning,
+                    IsEvening: $scope.dt_GrpMedi_All[i].IsEvening,
+                    IsNight: $scope.dt_GrpMedi_All[i].IsNight,
+                    NoOfDays: $scope.dt_GrpMedi_All[i].NoOfDays,
+                    DosageQty: $scope.dt_GrpMedi_All[i].DosageQty,
+                    UrduText: $scope.dt_GrpMedi_All[i].UrduText,
+                    MediRemarks: $scope.dt_GrpMedi_All[i].Remarks
+                }
+            }
+            $http(displayReq).then(function (Return) {
+                if (Return.data == "Inserted") {
+                    $scope.Notification('success', 'Operation Completed', 'Medicines Group Insert');
+                    window.location.reload();
+                }
+                else {
+                    $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                }
+            }, function myError(Return) {
+                //$scope.On_Clear();
+                $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+            });
+        }
+    };
+    //================Group Diagnose Data Insert=========================
+    $scope.save_GroupDiagdata = function () {
+        var displayReq = {
+            method: 'POST',
+            url: '/Consult/Add_Group_DiagRecrd',
+            data: {
+                TokenNo: $scope.txtTokenNo,
+                DisagnoseSName: $scope.txtDiagnoseName,
+                DiagRemarks: $scope.txtDiagnoseHist
+
+            }
+        }
+        $http(displayReq).then(function (Return) {
+            if (Return.data == "Inserted") {
+                $scope.Notification('success', 'Operation Completed', 'Diagnose Group Insert');
+            }
+            else {
+                $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+            }
+        }, function myError(Return) {
+            $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+        });
+    };
+    //=======================================
     //==================Print Report=======================
     //$scope.ConsultacyRept = function () {
     //    var displayReq = {
@@ -431,7 +610,6 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
             //$scope.On_Clear();
             $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
         });
-
     };
     //============Display Diagnose View All Data===================
     $scope.GetDiagnoseViewData = function (Token) {
@@ -736,7 +914,7 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
         }, function myError(Return) {
             $scope.Notification('error', 'Error Code GEN0001', Return.data);
         });
-    }
+    };
     //==============Get Generic by id in Medication================
     $scope.GetGenricByid = function (GenericName, Potency, PotencyUOM, SubTypeID) {
         $scope.txtGenric = GenericName;
@@ -780,6 +958,8 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
             $scope.ChkMorning = '';
             $scope.ChkEvening = '';
             $scope.ChkNight = '';
+            $scope.ChkCurrent = '';
+            $scope.ChkContinuous = '';
             $scope.TxtDays = '';
             $scope.TxtUrdu = '';
             $scope.txtRemarks = '';
@@ -1131,7 +1311,7 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
             method: "POST",
             url: "/Consult/Get_SubTypMed",
             data: {
-                TypeID: id
+                SubTypeID: id
             }
         }
         $http(displayReq).then(function (Return) {
@@ -1269,7 +1449,6 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
         }, function myError(Return) {
             $scope.Notification('error', 'Error Code LC0001', Return.data);
         });
-
     }
     //=====================After Enter Days then its count days In Urdu text=================
     $scope.UrduCounting = function (dosageid) {
@@ -1345,50 +1524,55 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
                 else {
                     Continuous = '';
                 }
-                if (One == 1) {
-                    $scope.Dosage = true;
-                    $scope.DosageLbl = true;
-                    $scope.DaysLbl = false;
-                    $scope.DaysInp = false;
-                    $scope.MorningH = false;
-                    $scope.EveningH = false;
-                    $scope.NightH = false;
-                    $scope.FrequencyH = false;
-                    $scope.TxtUrdu = '  ' + $scope.SubTypeUrdu + '  ' + Morning + '  ' + Evening + '  ' + Night + '  ' + $scope.TxtUrduDays + '  ' + ' دن تک لگائیں ';
-                }
-                else if (Two == 1) {
-                    $scope.Dosage = false;
-                    $scope.DosageLbl = false;
-                    $scope.DaysLbl = false;
-                    $scope.DaysInp = false;
-                    $scope.MorningH = false;
-                    $scope.EveningH = false;
-                    $scope.NightH = false;
-                    $scope.FrequencyH = false;
-                    $scope.TxtUrdu = '  ' + $scope.TxtUrduQty + '  ' + $scope.SubTypeUrdu + '  ' + Morning + '  ' + Evening + '  ' + Night + '  ' + $scope.TxtUrduDays + '  ' + ' دن تک استعمال کریں ';
-                }
-                //}
-                else if (Three == 1) {
-                    $scope.Dosage = true;
-                    $scope.DosageLbl = true;
-                    $scope.DaysLbl = false;
-                    $scope.DaysInp = false;
-                    $scope.MorningH = false;
-                    $scope.EveningH = false;
-                    $scope.NightH = false;
-                    $scope.FrequencyH = false;
-                    $scope.TxtUrdu = '  ' + $scope.SubTypeUrdu + '  ' + Morning + '  ' + Evening + '  ' + Night + '  ' + $scope.TxtUrduDays + '  ' + ' دن تک استعمال کریں ';
+                if ($scope.ChkCurrent == false && $scope.ChkContinuous == false && $scope.txtGenric != '') {
+                    if (One == 1) {
+                        $scope.Dosage = true;
+                        $scope.DosageLbl = true;
+                        $scope.DaysLbl = false;
+                        $scope.DaysInp = false;
+                        $scope.MorningH = false;
+                        $scope.EveningH = false;
+                        $scope.NightH = false;
+                        $scope.FrequencyH = false;
+                        $scope.TxtUrdu = '  ' + $scope.SubTypeUrdu + '  ' + Morning + '  ' + Evening + '  ' + Night + '  ' + $scope.TxtUrduDays + '  ' + ' دن تک لگائیں ';
+                    }
+                    else if (Two == 1) {
+                        $scope.Dosage = false;
+                        $scope.DosageLbl = false;
+                        $scope.DaysLbl = false;
+                        $scope.DaysInp = false;
+                        $scope.MorningH = false;
+                        $scope.EveningH = false;
+                        $scope.NightH = false;
+                        $scope.FrequencyH = false;
+                        $scope.TxtUrdu = '  ' + $scope.TxtUrduQty + '  ' + $scope.SubTypeUrdu + '  ' + Morning + '  ' + Evening + '  ' + Night + '  ' + $scope.TxtUrduDays + '  ' + ' دن تک استعمال کریں ';
+                    }
+                    //}
+                    else if (Three == 1) {
+                        $scope.Dosage = true;
+                        $scope.DosageLbl = true;
+                        $scope.DaysLbl = false;
+                        $scope.DaysInp = false;
+                        $scope.MorningH = false;
+                        $scope.EveningH = false;
+                        $scope.NightH = false;
+                        $scope.FrequencyH = false;
+                        $scope.TxtUrdu = '  ' + $scope.SubTypeUrdu + '  ' + Morning + '  ' + Evening + '  ' + Night + '  ' + $scope.TxtUrduDays + '  ' + ' دن تک استعمال کریں ';
+                    }
+                    else {
+                        $scope.Dosage = true;
+                        $scope.DosageLbl = true;
+                        $scope.DaysLbl = false;
+                        $scope.DaysInp = false;
+                        $scope.MorningH = false;
+                        $scope.EveningH = false;
+                        $scope.NightH = false;
+                        $scope.FrequencyH = false;
+                        $scope.TxtUrdu = '  ' + $scope.SubTypeUrdu + '  ' + Morning + '  ' + Evening + '  ' + Night + '  ' + $scope.TxtUrduDays + '  ' + 'دن تک جاری رکھیں';
+                    }
                 }
                 else {
-                    $scope.Dosage = true;
-                    $scope.DosageLbl = true;
-                    $scope.DaysLbl = false;
-                    $scope.DaysInp = false;
-                    $scope.MorningH = false;
-                    $scope.EveningH = false;
-                    $scope.NightH = false;
-                    $scope.FrequencyH = false;
-                    $scope.TxtUrdu = '  ' + $scope.SubTypeUrdu + '  ' + Morning + '  ' + Evening + '  ' + Night + '  ' + $scope.TxtUrduDays + '  ' + 'دن تک جاری رکھیں';
+                    //Nothing
                 }
                 if ($scope.ChkCurrent == true) {
                     if (One == 1) {
@@ -1592,7 +1776,7 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
                 $scope.GetSessionActData(dt[0].TokenNo);
                 $scope.GetHistAllData(dt[0].TokenNo);
                 $scope.CUSaveBtn = false;
-                $scope.CUUpdateBtn = True;
+                $scope.CUUpdateBtn = true;
             }
             else {
                 $scope.CUSaveBtn = false;
@@ -1706,6 +1890,8 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
         $scope.ChkNight = '';
         $scope.TxtDays = '';
         $scope.TxtUrdu = '';
+        $scope.ChkCurrent = '';
+        $scope.ChkContinuous = '';
         $scope.dtViewGetAll = '';
         $scope.dtTrtViewGetAll = '';
         $scope.txtFARemarks = '';
@@ -1732,6 +1918,7 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
         $scope.CUUpdateBtn = true;
     };
     $scope.OnLoad = function () {
+        //$scope.GetStockAllData();
         $scope.CUSaveBtn = false;
         $scope.CUUpdateBtn = true;
         $scope.Dosage = true;

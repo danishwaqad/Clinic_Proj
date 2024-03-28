@@ -5,7 +5,7 @@
 
 <div ng-app="RegistrationForm" ng-controller="Home">
 
-    <div class="row page-titles">
+    @*<div class="row page-titles">
         <div class="col-md-5 align-self-center">
             <h4 class="text-themecolor">Management Reports</h4>
         </div>
@@ -17,7 +17,7 @@
                 </ol>
             </div>
         </div>
-    </div>
+    </div>*@
 
     <!--row-->
     <div class="row">
@@ -236,6 +236,7 @@
                             <li class="nav-item"> <a class="nav-link" ng-click="GetClinicViewAllData();GetClinicTotal()" data-toggle="tab" href="#ClinicRpt" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Clinic</span></a> </li>
                             <li class="nav-item"> <a class="nav-link" ng-click="GetSessionViewAllData();GetSessionTotal()" data-toggle="tab" href="#SessionRpt" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Sessions</span></a> </li>
                             <li class="nav-item"> <a class="nav-link" ng-click="GetFirstAidViewAllData();GetFirstAidTotal()" data-toggle="tab" href="#FirstAid" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">First Aid</span></a> </li>
+                            <li class="nav-item"> <a class="nav-link" ng-click="GetMonthlyViewAllData();GetMonthlyTotal()" data-toggle="tab" href="#MonthlyShare" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Monthly Report</span></a> </li>
                             <li class="nav-item"> <a class="nav-link" ng-click="" data-toggle="tab" href="#SummaryRpt" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Summary Report</span></a> </li>
                         </ul>
                         <div class="tab-content tabcontent-border">
@@ -478,6 +479,93 @@
                                 </div>
                                 <!-- Row -->
                             </div>
+                            <div class="tab-pane" id="MonthlyShare" role="tabpanel">
+                                <!--row-->
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title">Monthly Report</h4>
+                                                <div class="col-md-4">
+                                                    <div class="input-group input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <button type="button" class="btn btn-warning dropdown-toggle" ng-model="BtnExport" data-toggle="dropdown">
+                                                                Export
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li class="dropdown-item"><a href="#" class="btn btn-link" ng-click="PrintMonthlyRpt(txtDTFrm,txtDTTo,txtSitefrm,txtSiteTo,txtDoctor)">Pdf</a></li>
+                                                                <li class="dropdown-divider"></li>
+                                                                <li class="dropdown-item"><a href="#" class="btn btn-link" ng-click="ExportToExcellMonthly()">Excell</a></li>
+                                                            </ul>
+                                                        </div>
+                                                        <!-- /btn-group -->
+                                                        <input type="text" class="form-control" ng-model="TxtFileName" placeholder="Enter Export File Name Here..">
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                                <div class="modal-body" style="overflow-x:auto;overflow-y:scroll;height:400px; font-size:12px;">
+                                                    <table id="MonthlyShare" class="table table-sm table-bordered display">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Sr #</th>
+                                                                <th>TokenDate</th>
+                                                                <th>PatType</th>
+                                                                <th>TotalPatient</th>
+                                                                <th>TotalAmount</th>
+                                                                <th>Discount</th>
+                                                                <th>Paid</th>
+                                                                <th>Refund</th>
+                                                                <th>Revenue</th>
+                                                                <th>ShareAmount</th>
+                                                                <th>CCPLShareAmount</th>
+                                                                <th>DoctorTyp</th>
+                                                                <th>Share%</th>
+                                                                <th>SiteID</th>
+                                                                <th>Doctor</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in dtMonthlyGetAll">
+                                                                <td>{{$index + 1}}</td>
+                                                                <td>{{item.TokenDate | date:dd-MMM-yyyy}}</td>
+                                                                <td>{{item.PatType}}</td>
+                                                                <td>{{item.TotalPatient}}</td>
+                                                                <td>{{item.TotalFee}}</td>
+                                                                <td>{{item.Discount}}</td>
+                                                                <td>{{item.PaidFee}}</td>
+                                                                <td>{{item.RefundFee}}</td>
+                                                                <td>{{item.NetRevenue}}</td>
+                                                                <td>{{item.DrShareAmount}}</td>
+                                                                <td>{{item.CCPLShareAmount}}</td>
+                                                                <td>{{item.DoctorType}}</td>
+                                                                <td>{{item.DrSharePer}}</td>
+                                                                <td>{{item.SiteID}}</td>
+                                                                <td>{{item.DrName}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tfoot>
+                                                            <tr ng-repeat="item in dtGetSumMonthly">
+                                                                <td colspan="3">Total</td>
+                                                                <td>{{item.TotalPatient}}</td>
+                                                                <td>{{item.TotalFee}}</td>
+                                                                <td>{{item.Discount}}</td>
+                                                                <td>{{item.PaidFee}}</td>
+                                                                <td>{{item.RefundFee}}</td>
+                                                                <td>{{item.NetRevenue}}</td>
+                                                                <td>{{item.DrShareAmount}}</td>
+                                                                <td>{{item.CCPLShareAmount}}</td>
+                                                                <td colspan="3"></td>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Row -->
+                            </div>
                             <div class="tab-pane" id="SummaryRpt" role="tabpanel">
                                 <!--row-->
                                 <div class="row">
@@ -578,6 +666,19 @@
                     FileName = $scope.TxtFileName;
                 }
                 $("#FirstAid").table2excel({
+                    filename: FileName + ".xls"
+                });
+            };
+            //=============Export to Excell Monthly==============
+            $scope.ExportToExcellMonthly = function () {
+                var FileName = $scope.TxtFileName;
+                if (FileName == null) {
+                    FileName = 'Export1';
+                }
+                else {
+                    FileName = $scope.TxtFileName;
+                }
+                $("#MonthlyShare").table2excel({
                     filename: FileName + ".xls"
                 });
             };
@@ -706,6 +807,38 @@
                         doctorNam = '';
                     }
                     $window.open("/Reports/Print_FirstAid_Rpt?DateFrom=" + new Date(datefrom).toDateString() + "&DateTo=" + new Date(dateto).toDateString() + "&SiteFrom=" + sitefrom + "&SiteTo=" + siteto + "&DoctorNam=" + doctorNam, "_blank");
+                    //alert(new Date(datefrom).toDateString() + '-' + new Date(dateto).toDateString() + '-' + sitefrom + '-' + siteto);
+                }
+            }; 
+            $scope.PrintMonthlyRpt = function (datefrom, dateto, sitefrom, siteto,doctorNam)
+            {
+                //alert(id + ' ' + new Date(datefrom) + ' ' + dateto + ' ' + sitefrom + ' ' + siteto);
+                if (datefrom == 'undefined') {
+                    $scope.Notification('error', 'please select Date from..');
+                }
+                else if (dateto == 'undefined') {
+                    $scope.Notification('error', 'please select Date to..');
+                }
+                else if (sitefrom == 'undefined') {
+                    $scope.Notification('error', 'please select Site from..');
+                }
+                else if (siteto == 'undefined') {
+                    $scope.Notification('error', 'please select Site to..');
+                }
+                else if (doctorNam == 'undefined') {
+                    $scope.Notification('error', 'please select Doctor..');
+                }
+                else {
+                    if (doctorNam == undefined) {
+                        doctorNam = '';
+                    }
+                    if (sitefrom == undefined) {
+                        sitefrom = '';
+                    }
+                    if (siteto == undefined) {
+                        siteto = '';
+                    }
+                    $window.open("/Reports/Print_Monthly_Rpt?DateFrom=" + new Date(datefrom).toDateString() + "&DateTo=" + new Date(dateto).toDateString() + "&SiteFrom=" + sitefrom + "&SiteTo=" + siteto + "&DrFrom=" + doctorNam+ "&DrTo=" + doctorNam, "_blank");
                     //alert(new Date(datefrom).toDateString() + '-' + new Date(dateto).toDateString() + '-' + sitefrom + '-' + siteto);
                 }
             }; 
@@ -911,6 +1044,47 @@
                         $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
                     });
             };
+            //==================Get Total Charges by ID For Monthly=======================
+            $scope.GetMonthlyTotal = function () {
+                var DF = $scope.txtDTFrm;
+                //alert("Date " + DF);
+                if (DF == null) {
+                    DF = '01/01/1900';
+                }
+                else {
+                    DF = new Date($scope.txtDTFrm);
+                    //alert("Date " + DF);
+                }
+
+                var TF = $scope.txtDTTo;
+
+                if (TF == null) {
+                    TF = '01/01/1900';
+                }
+                else {
+                    TF = new Date($scope.txtDTTo);
+                    //alert("Date " + TF);
+                }
+                var displayReq = {
+                    method: 'POST',
+                    url: '/Reports/Get_Monthly_Total',
+                    data:
+                    {
+                        SiteFrom: $scope.txtSitefrm,
+                        SiteTo: $scope.txtSiteTo,
+                        DateFrom: DF,
+                        DateTo: TF,
+                        DoctorNam:$scope.txtDoctor
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    $scope.dtGetSumMonthly = angular.fromJson(Return.data);
+                }, function myError(Return) {
+                        //$scope.On_Clear();
+                        $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                    });
+            };
             //Display Token Data
             $scope.GetTokenViewData = function (Token) {
                 var displayReq = {
@@ -1012,6 +1186,48 @@
                         $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
                     });
             };
+            //================View All Data Monthly=========================
+            $scope.GetMonthlyViewAllData = function () {
+                var DF = $scope.txtDTFrm;
+                //alert("Date " + DF);
+                if (DF == null) {
+                    DF = '01/01/1900';
+                }
+                else {
+                    DF = new Date($scope.txtDTFrm);
+                    //alert("Date " + DF);
+                }
+
+                var TF = $scope.txtDTTo;
+
+                if (TF == null) {
+                    TF = '01/01/1900';
+                }
+                else {
+                    TF = new Date($scope.txtDTTo);
+                    //alert("Date " + TF);
+                }
+                var displayReq = {
+                    method: 'POST',
+                    url: '/Reports/Get_MonthlyViewdata',
+                    data:
+                    {
+                        SiteFrom: $scope.txtSitefrm,
+                        SiteTo: $scope.txtSiteTo,
+                        DateFrom: DF,
+                        DateTo: TF,
+                        DoctorNam:$scope.txtDoctor
+                    }
+                }
+                $http(displayReq).then(function (Return) {
+                    var dt = angular.fromJson(Return.data);
+                    $scope.dtMonthlyGetAll = angular.fromJson(Return.data);
+                    $scope.GetMonthlyTotal();
+                }, function myError(Return) {
+                        //$scope.On_Clear();
+                        $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                    });
+            };
             //================View All Data For First Aid=========================
             $scope.GetFirstAidViewAllData = function () {
                 var DF = $scope.txtDTFrm;
@@ -1103,8 +1319,10 @@
                 $scope.dtClinicGetAll = null;
                 $scope.dtSessionGetAll = null;
                 $scope.dtFirstAidGetAll = null;
+                $scope.dtMonthlyGetAll = null;
                 $scope.dtGetSumClinic = null;
                 $scope.dtGetSumFirstAid = null;
+                $scope.dtGetSumMonthly = null;
                 $scope.dtGetSumSession = null;
                 //$scope.GetViewAllData();
 

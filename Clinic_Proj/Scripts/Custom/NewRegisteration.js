@@ -12,6 +12,203 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
             stack: 6
         });
     };
+    $scope.SetMaxLen = function () {
+        $scope.length6 = '';
+        $scope.length6 = $scope.txtCnic.length;
+        if ($scope.length6 > 10) {
+            $scope.txtCnic = '';
+            $scope.Notification('error', 'Warning', 'Please Check Length Not Greater Then By 10');
+        }
+        else {
+        }
+    };
+    $scope.getMobileLength = function () {
+        $scope.length5 = '';
+        if ($scope.txtCnic == undefined) {
+            $scope.txtRegNo = '';
+            $scope.Notification('error', 'Error', 'Please Enter Valid Length Mobile # Format/923121234567');
+        }
+        else {
+            //Nothing will do
+        }
+        var StartingString = $scope.txtCnic.startsWith("0");
+        var StartingString1 = $scope.txtCnic.startsWith("92");
+        if (StartingString == false) {
+            $scope.length5 = $scope.txtCnic.length;
+            if ($scope.length5 == '10' && StartingString1 == false) {
+            var id = '92' + $scope.txtCnic;
+            $scope.TESTING(id);
+         }
+        else {
+            $scope.txtRegNo = '';
+            $scope.Notification('error', 'Error', 'Please Enter Valid Length Mobile # Format/923121234567');
+        }
+        }
+        else {
+            $scope.txtRegNo = '';
+            $scope.Notification('error', 'Error', 'Please Enter Valid Input Not Start With 0 Please Check Valid Mobile # Format/3121234567');
+        }
+    };
+    $scope.getTelLength = function () {
+        $scope.length = '';
+        if ($scope.txtTelephone == undefined) {
+            $scope.Notification('error', 'Error', 'Please Enter Valid Length Mobile # Format/923121234567');
+        }
+        else {
+            //Nothing will do
+        }
+        var StartingString = $scope.txtTelephone.startsWith("92");
+        $scope.length = $scope.txtTelephone.length;
+            if ($scope.length == '10' && StartingString == false) {
+                $scope.txtTelephone = '92' + $scope.txtTelephone;
+            }
+            else if ($scope.length == '12' && StartingString == true) {
+                $scope.txtTelephone = $scope.txtTelephone;
+            }
+            else {
+                $scope.txtTelephone = '';
+                $scope.Notification('error', 'Error', 'Please Enter Valid Length Mobile # Format/923121234567');
+            }
+    };
+    $scope.getTel1Length = function () {
+        $scope.length = '';
+        if ($scope.txtTel1 == undefined) {
+            $scope.Notification('error', 'Error', 'Please Enter Valid Length Mobile # Format/923121234567');
+        }
+        else {
+            //Nothing will do
+        }
+        var StartingString = $scope.txtTel1.startsWith("92");
+        $scope.length = $scope.txtTel1.length;
+        if ($scope.length == '10' && StartingString == false) {
+            $scope.txtTel1 = '92' + $scope.txtTel1;
+        }
+        else if ($scope.length == '12' && StartingString == true) {
+            $scope.txtTel1 = $scope.txtTel1;
+        }
+        else {
+            $scope.txtTel1 = '';
+            $scope.Notification('error', 'Error', 'Please Enter Valid Length Mobile # Format/923121234567');
+        }
+    };
+    $scope.getTel2Length = function () {
+        $scope.length = '';
+        if ($scope.txtTel2 == undefined) {
+            $scope.Notification('error', 'Error', 'Please Enter Valid Length Mobile # Format/923121234567');
+        }
+        else {
+            //Nothing will do
+        }
+        var StartingString = $scope.txtTel2.startsWith("92");
+        $scope.length = $scope.txtTel2.length;
+        if ($scope.length == '10' && StartingString == false) {
+            $scope.txtTel2 = '92' + $scope.txtTel2;
+        }
+        else if ($scope.length == '12' && StartingString == true) {
+            $scope.txtTel2 = $scope.txtTel2;
+        }
+        else {
+            $scope.txtTel2 = '';
+            $scope.Notification('error', 'Error', 'Please Enter Valid Length Mobile # Format/923121234567');
+        }
+    };
+    $scope.getTelephoneLength = function (TelPhoneWhats) {
+        $scope.length = '';
+        if (TelPhoneWhats == undefined) {
+            $scope.Notification('error', 'Error', 'Please Enter Valid Length Mobile # Format/923121234567');
+        }
+        else {
+            //Nothing will do
+        }
+        var StartingString = TelPhoneWhats.startsWith("92");
+        $scope.length = TelPhoneWhats.length;
+        if ($scope.length == '10' && StartingString == false) {
+            $scope.txtTelephoneW = '92' + TelPhoneWhats;
+            }
+            else if ($scope.length == '12' && StartingString == true) {
+                $scope.txtTelephoneW = TelPhoneWhats;
+            }
+            else {
+                $scope.txtTelephoneW = '';
+                $scope.Notification('error', 'Error', 'Please Enter Valid Length Mobile # Format/923121234567');
+            }
+    };
+    $scope.getCnicLength = function () {
+        $scope.length = '';
+        $scope.length1 = '';
+        $scope.length2 = '';
+        $scope.length = $scope.txtCnic.length;
+        if ($scope.length == '5') {
+            var CnicTest = $scope.txtCnic;
+            var PutFirstSlash = CnicTest + '-';
+            $scope.txtCnic = PutFirstSlash;
+        }
+        else {
+         //Nothing First IF
+        }
+        $scope.length1 = $scope.txtCnic.length;
+        if ($scope.length1 == '13') {
+            PutSecoSlash = $scope.txtCnic;
+            var CnicTest2 = PutSecoSlash + '-';
+            $scope.txtCnic = CnicTest2;
+        }
+        else {
+            //Nothing Secound IF
+        }
+        $scope.length2 = $scope.txtCnic.length;
+        if ($scope.length2 == '15') {
+            id = $scope.txtCnic;
+            $scope.TESTING(id);
+        }
+        else {
+            //Nothing Third IF
+        }
+        if ($scope.length2 > '15' || $scope.length2 == '0') {
+            $scope.txtRegNo = '';
+            $scope.Notification('error', 'Error', 'Please Enter Valid Format CNIC #/12345-1234567-1');
+        }
+        else {
+            //Nothing Fourth IF
+            //$scope.Notification('warning', 'Warning', 'Please You Enter Valid Format CNIC #/12345-1234567-1');
+        }
+        if ($scope.length2 < '15') {
+            $scope.txtRegNo = '';
+        }
+        else {
+            //Nothing Fifth IF
+        }
+    };
+    $scope.CheckNewCnicSelction = function () {
+        var CheckTelNo = $scope.CheckNewCnic_Mobile;
+        $scope.txtCnic = '';
+        $scope.txtRegNo = '';
+        if (CheckTelNo == "" || CheckTelNo == undefined)
+        {
+            $scope.NewMobileNum = true;
+            $scope.NewCnic = false;
+            $scope.OldCnic = true;
+            $scope.OldHideCnic = true;
+        }
+        else if (CheckTelNo == "NewMobile") {
+            $scope.NewMobileNum = false;
+            $scope.NewCnic = true;
+            $scope.OldHideCnic = true;
+        }
+        else if (CheckTelNo == "Old") {
+            $scope.NewMobileNum = true;
+            $scope.NewCnic = true;
+            $scope.OldHideCnic = false;
+            $scope.OldCnic = false;
+        }
+        else if (CheckTelNo == "NewCnic") {
+            $scope.NewMobileNum = true;
+            $scope.NewCnic = false;
+            $scope.OldHideCnic = true;
+        }
+        else {
+            //Nothing
+        }
+    };
     //==================Get Date Of Birth Calculate=======================
     $scope.GetMonthCalc = function () {
         var YY = $filter('date')(new Date(), 'yyyy');
@@ -657,6 +854,8 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
                 $scope.txtTokenNo = '';
                 $scope.txtPatType = 'Consultancy';
                 $scope.DDLTitle = '';
+                $scope.CheckNewCnic_Mobile = 'NewCnic';
+                $scope.CheckNewCnic_Mobile = 'NewCnic';
                 $scope.txtFPatientName = '';
                 $scope.txtMPatientName = '';
                 $scope.txtLPatientName = '';
@@ -1015,8 +1214,9 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
         $window.open("/Registeration/Token_Print?TokenNo=" + $scope.txtTokenNo, "_blank");
     };
     //=================CNIC No Transfer to Registration No====================
-    $scope.TESTING = function () {
-        $scope.txtRegNo = $scope.txtCnic;
+    $scope.TESTING = function (id) {
+        $scope.txtRegNo = id;
+        $scope.txtCnic = id;
     };
     //==============Close Popup if Patient are not Avilable=================
     $scope.CloseCNICRegModal = function () {
@@ -1183,6 +1383,7 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
                 $scope.txtRegDate = new Date();
                 $scope.txtDOB = new Date('01/01/1900');
                 $scope.DDLTitle = 'Mr';
+                $scope.CheckNewCnic_Mobile = 'NewCnic';
                 $scope.txtFPatientName = '';
                 $scope.txtMPatientName = '';
                 $scope.txtLPatientName = '';
@@ -1344,6 +1545,7 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
                 $scope.txtRegDate = new Date();
                 $scope.txtDOB = new Date('01/01/1900');
                 $scope.DDLTitle = 'Mr';
+                $scope.CheckNewCnic_Mobile = 'NewCnic';
                 $scope.txtFPatientName = '';
                 $scope.txtMPatientName = '';
                 $scope.txtLPatientName = '';
@@ -1460,6 +1662,7 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
         $scope.txtRegDate = new Date();
         $scope.txtDOB = new Date('01/01/1900');
         $scope.DDLTitle = 'Mr';
+        $scope.CheckNewCnic_Mobile = 'NewCnic';
         $scope.txtGender = 'Male';
         $scope.txtFamilyNo = '';
         $scope.txtFPatientName = '';
@@ -1512,6 +1715,8 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
     }
     //===================On Load Function======================
     $scope.OnLoad = function () {
+        $scope.CheckNewCnicSelction();
+        $scope.CheckNewCnic_Mobile = 'NewCnic';
         $scope.GetAddressType();
         $scope.GetContactType();
         $scope.txtRegDate = new Date();
@@ -1532,6 +1737,7 @@ RegistrationForm.controller("Home", function ($scope, $http, $window, $filter) {
         $scope.txtPatType = 'Consultancy';
         $scope.DDLDisType = '0';
         $scope.DDLTitle = 'Mr';
+        $scope.CheckNewCnic_Mobile = 'NewCnic';
         $scope.txtPayMethod = 'Cash';
         //===Doctor Portion Disable
         $scope.DocBankBtnDisable = true;

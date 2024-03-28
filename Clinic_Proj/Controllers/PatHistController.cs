@@ -142,7 +142,7 @@ namespace Clinic_Proj.Controllers
                     string ReportPath = Path + @"\rpt_Prescription_History.rpt";
                     cryRpt.Load(ReportPath);
 
-                    cryRpt.SetParameterValue("@DocNo", Token);
+                    cryRpt.SetParameterValue("@TokenNo", Token);
                     cryRpt.SetParameterValue("@SiteID", SiteID);
                     //cryRpt.SetDatabaseLogon("sa", "ccpl@jm2021");
                     cryRpt.SetDatabaseLogon(dbID, dbPass, "HMS_CCPL", "CCPL_HMS");
@@ -241,7 +241,11 @@ namespace Clinic_Proj.Controllers
         {
             try
             {
-                return Json(dblayer.get_CNICFTrecord(rs), JsonRequestBehavior.AllowGet);
+                //return Json(dblayer.get_CNICFTrecord(rs), JsonRequestBehavior.AllowGet);
+                string Rtn = dblayer.get_CNICFTrecord(rs);
+                var T = Json(Rtn, JsonRequestBehavior.AllowGet);
+                T.MaxJsonLength = int.MaxValue;
+                return T;
             }
             catch (Exception ex)
             {
@@ -312,7 +316,9 @@ namespace Clinic_Proj.Controllers
             {   
                 string Result = null;
                 Result = dblayer.ViewData(rs);
-                return Json(Result, JsonRequestBehavior.AllowGet);
+                var T = Json(Result, JsonRequestBehavior.AllowGet);
+                T.MaxJsonLength = int.MaxValue;
+                return T;
             }
             catch (Exception Ex)
             {

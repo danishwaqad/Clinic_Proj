@@ -19,7 +19,45 @@ namespace Clinic_Proj.Database_Access
         {
             try
             {
-                help.ExecuteParameterizedProcedure("UD_Add_Doctor", "@DoctorID,@Type,@Name,@FName,@CNIC,@Tel1,@Tel2,@EmailID,@Address,@City,@Country,@Gender,@DOB,@Desc,@Remarks,@Designation,@DivisionID,@SiteID,@Status,@LoginID,@Shift,@Fee,@UserName,@Pass,@Sharepercent,@Home_Consultancy", rs.DoctorID, rs.DoctorType, rs.DoctorName, rs.DrFName, rs.CNIC, rs.Tel1, rs.Tel2, rs.EmailID, rs.Address, rs.City, rs.Country, rs.Gender, rs.DOB, rs.Description, rs.Remarks, rs.ReferBy, rs.DivisionID, rs.SiteID, rs.Status, rs.LoginID, rs.DrShift, rs.Charges, rs.UserName, rs.Pass, rs.SharePercent, rs.HomeStatus);
+                help.ExecuteParameterizedProcedure("UD_Add_Doctor", "@DoctorID,@Type,@Name,@FName,@CNIC,@Tel1,@Tel2,@EmailID,@Address,@City,@Country,@Gender,@DOB,@Desc,@Remarks,@Designation,@DivisionID,@SiteID,@Status,@LoginID,@Shift,@Fee,@UserName,@Pass,@Sharepercent,@Home_Consultancy,@Education", rs.DoctorID, rs.DoctorType, rs.DoctorName, rs.DrFName, rs.CNIC, rs.Tel1, rs.Tel2, rs.EmailID, rs.Address, rs.City, rs.Country, rs.Gender, rs.DOB, rs.Description, rs.Remarks, rs.ReferBy, rs.DivisionID, rs.SiteID, rs.Status, rs.LoginID, rs.DrShift, rs.Charges, rs.UserName, rs.Pass, rs.SharePercent, rs.HomeStatus,rs.Education);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //=================Display View All Doctor Share Data===================
+        public string get_ShareViewrecord(DoctorRegisterModel rs)
+        {
+            try
+            {
+                ds = help.ReturnParameterizedDataSetProcedure("Sp_View_DoctorShare_get", "@DoctorID,@SiteID", rs.DoctorID,rs.SiteID);
+                return (JsonConvert.SerializeObject(ds.Tables[0]));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //===================View Share Doctor Data Get By ID==========================
+        public string get_ViewShareRecrdbyid(DoctorRegisterModel rs)
+        {
+            try
+            {
+                ds = help.ReturnParameterizedDataSetProcedure("Sp_View_DoctorShareByID_get", "@DoctorID,@ShareType,@SiteID", rs.DoctorID,rs.ShareType,rs.SiteID);
+                return (JsonConvert.SerializeObject(ds.Tables[0]));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //===========Delete Doctor Share==============
+        public void OnShareDelete(DoctorRegisterModel rs)
+        {
+            try
+            {
+                help.ExecuteParameterizedProcedure("UD_Delete_DoctorShare", "@DoctorID,@ShareType,@SiteID", rs.DoctorID, rs.ShareType, rs.SiteID);
             }
             catch (Exception ex)
             {
@@ -56,7 +94,7 @@ namespace Clinic_Proj.Database_Access
         {
             try
             {
-                help.ExecuteParameterizedProcedure("UD_Add_Doctor", "@DoctorID,@Type,@Name,@FName,@CNIC,@Tel1,@Tel2,@EmailID,@Address,@City,@Country,@Gender,@DOB,@Desc,@Remarks,@Designation,@DivisionID,@SiteID,@LoginID,@Status,@Shift,@Fee,@UserName,@Pass,@Sharepercent,@Home_Consultancy", rs.DoctorID, rs.DoctorType, rs.DoctorName, rs.DrFName, rs.CNIC, rs.Tel1, rs.Tel2, rs.EmailID, rs.Address, rs.City, rs.Country, rs.Gender, rs.DOB, rs.Description, rs.Remarks, rs.ReferBy, rs.DivisionID, rs.SiteID, rs.LoginID, rs.Status, rs.DrShift, rs.Charges, rs.UserName, rs.Pass, rs.SharePercent, rs.HomeStatus);
+                help.ExecuteParameterizedProcedure("UD_Add_Doctor", "@DoctorID,@Type,@Name,@FName,@CNIC,@Tel1,@Tel2,@EmailID,@Address,@City,@Country,@Gender,@DOB,@Desc,@Remarks,@Designation,@DivisionID,@SiteID,@LoginID,@Status,@Shift,@Fee,@UserName,@Pass,@Sharepercent,@Home_Consultancy,@Education", rs.DoctorID, rs.DoctorType, rs.DoctorName, rs.DrFName, rs.CNIC, rs.Tel1, rs.Tel2, rs.EmailID, rs.Address, rs.City, rs.Country, rs.Gender, rs.DOB, rs.Description, rs.Remarks, rs.ReferBy, rs.DivisionID, rs.SiteID, rs.LoginID, rs.Status, rs.DrShift, rs.Charges, rs.UserName, rs.Pass, rs.SharePercent, rs.HomeStatus,rs.Education);
             }
             catch (Exception ex)
             {

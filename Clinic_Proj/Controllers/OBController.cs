@@ -216,7 +216,6 @@ namespace Clinic_Proj.Controllers
                     //cryRpt.SetParameterValue("Title", em.DocNo);
                     string ReportPath = Path + @"\Closing_Report.rpt";
                     cryRpt.Load(ReportPath);
-
                     cryRpt.SetParameterValue("@DocNo", DocNumber);
                     cryRpt.SetParameterValue("@SiteID", SystemHelper.Get_SiteID_Session());
                     cryRpt.SetParameterValue("@DivisionID", SystemHelper.Get_DivisionID_Session());
@@ -369,9 +368,9 @@ namespace Clinic_Proj.Controllers
                 res = "Inserted";
             }
 
-            catch (Exception)
+            catch (Exception ex)
             {
-                res = "failed";
+                throw ex;
             }
             return Json(res, JsonRequestBehavior.AllowGet);
         }
@@ -386,9 +385,26 @@ namespace Clinic_Proj.Controllers
                 res = "Inserted";
             }
 
-            catch (Exception)
+            catch (Exception ex)
             {
-                res = "failed";
+                throw ex;
+            }
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+        //=================Empty Consultancy Insert=====================
+        [HttpPost]
+        public JsonResult EmptyConsult_Docrecord(OB_Mode DM)
+        {
+            string res = string.Empty;
+            try
+            {
+                dblayer.AddEmpty_DCrecord(DM);
+                res = "Inserted";
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
             }
             return Json(res, JsonRequestBehavior.AllowGet);
         }

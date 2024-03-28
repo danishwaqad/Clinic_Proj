@@ -29,5 +29,23 @@ namespace Clinic_Proj.Database_Access
                 throw ex;
             }
         }
+        //=============Search Data By ID=================
+        public string get_searchbyid(CnicMode rs)
+        {
+            try
+            {
+
+                if (rs.SearchCnic == null)
+                {
+                    rs.SearchCnic = "";
+                }
+                ds = help.ReturnParameterizedDataSetProcedure("UD_CNIC_DetailSearch_get", "@SearchCNIC", rs.SearchCnic);
+                return (JsonConvert.SerializeObject(ds.Tables[0]));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

@@ -9,6 +9,13 @@ namespace Clinic_Proj.Models
 {
     public class GraphMode
     {
+        public List<string> categories { get; set; }
+        public List<Clinic_Series_Data> data { get; set; }
+        public class Clinic_Series_Data
+        {
+            public string name { get; set; }
+            public List<decimal> data { get; set; }
+        }
         [Required]
         public string LoginID { get; set; }
         [Required]

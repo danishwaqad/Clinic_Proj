@@ -147,6 +147,22 @@ namespace Clinic_Proj.Controllers
                 throw ex;
             }
         }
+        //=============Get Consultancy and First Aid Data=============
+        [HttpPost]
+        public JsonResult Get_CF(OB_EditMode DM)
+        {
+            try
+            {
+                Result = dblayer.get_CF(DM);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Result = "List Failed.." + ex.Message;
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         //=============Display Doc Data Get By ID================
         [HttpPost]
         public JsonResult Get_dataid(OB_EditMode rs)
@@ -154,6 +170,32 @@ namespace Clinic_Proj.Controllers
             try
             {
                 return Json(dblayer.get_recordid(rs), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //=============Display Document Data Get By ID If Consultancy Fa Session Or DocPayment Not Available================
+        [HttpPost]
+        public JsonResult Get_dataNaById(OB_EditMode rs)
+        {
+            try
+            {
+                return Json(dblayer.get_Narecordid(rs), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //=============Display Rs Note Data Get By ID================
+        [HttpPost]
+        public JsonResult Get_RsNotdataid(OB_EditMode rs)
+        {
+            try
+            {
+                return Json(dblayer.get_RsNoterecordid(rs), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -189,6 +231,23 @@ namespace Clinic_Proj.Controllers
             {
                 dblayer.Add_DCrecord(DM);
                 res = "Updated";
+            }
+
+            catch (Exception)
+            {
+                res = "failed";
+            }
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+        //================Ob Close Next Record Enter===================
+        [HttpPost]
+        public JsonResult AddOb_Closerecord(OB_EditMode DM)
+        {
+            string res = string.Empty;
+            try
+            {
+                dblayer.Add_Closerecord(DM);
+                res = "Inserted";
             }
 
             catch (Exception)

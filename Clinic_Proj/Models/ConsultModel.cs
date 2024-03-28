@@ -112,6 +112,9 @@ namespace Clinic_Proj.Models
             //LoginID = SystemHelper.Username;
             DosageQty = new double();
             NoOfDays = new double();
+            IsMorning = new bool();
+            IsEvening = new bool();
+            IsNight = new bool();
             NoOfSession = new double();
             DateFrom = new DateTime();
             DateTo = new DateTime();

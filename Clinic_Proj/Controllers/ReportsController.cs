@@ -56,7 +56,7 @@ namespace Clinic_Proj.Controllers
             }
         }
         [HttpGet]
-        public ActionResult Print_FirstAid_Rpt(DateTime DateFrom, DateTime DateTo, string SiteFrom, string SiteTo, string DoctorNam,string loginID)
+        public ActionResult Print_FirstAid_Rpt(DateTime DateFrom, DateTime DateTo, string SiteFrom, string SiteTo, string DoctorNam, string loginID)
         {
             try
             {
@@ -85,6 +85,83 @@ namespace Clinic_Proj.Controllers
                     cryRpt.SetParameterValue("@SiteTo", SiteTo);
                     cryRpt.SetParameterValue("@Doctor", DoctorNam);
                     cryRpt.SetParameterValue("@LoginID", loginID);
+                    //cryRpt.SetParameterValue("@DocDate", DateTime.Now);
+                    //cryRpt.SetDatabaseLogon("sa", "ccpl@jm2021");
+                    cryRpt.SetDatabaseLogon(dbID, dbPass, "HMS_CCPL", "CCPL_HMS");
+
+                    Response.Buffer = false;
+                    Response.ClearContent();
+                    Response.ClearHeaders();
+
+                    Stream stream = null;
+
+                    if (ReportFormat == "Excel")
+                    {
+                        stream = cryRpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                        stream.Seek(0, SeekOrigin.Begin);
+                        return File(stream, "application/xml", FileName + ".xls");
+
+                    }
+                    else
+                    {
+                        //stream = cryRpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                        //stream.Seek(0, SeekOrigin.Begin);
+                        //return File(stream, "application/pdf");
+                        stream = cryRpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                        stream.Seek(0, SeekOrigin.Begin);
+                        if (string.IsNullOrEmpty(FileName))
+                        {
+                            return File(stream, "application/pdf");
+                        }
+                        else
+                        {
+                            //return File(stream, "application/pdf", FileName + ".pdf");
+                            return File(stream, "application/pdf");
+                        }
+                    }
+                }
+                else
+                {
+                    return File("", "application/pdf");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Result = "PDR Doc Print Error.." + ex.Message;
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public ActionResult Print_Monthly_Rpt(DateTime DateFrom, DateTime DateTo, string SiteFrom, string SiteTo, string DrFrom, string DrTo)
+        {
+            try
+            {
+                //=============Print=========
+                dt = SystemHelper.Business_Setting();
+                if (dt.Rows.Count > 0)
+                {
+                    string Path = dt.Rows[0]["ReportPath"].ToString().Trim();
+                    string dbID = dt.Rows[0]["dbID"].ToString().Trim();
+                    string dbPass = dt.Rows[0]["dbPass"].ToString().Trim();
+                    ReportDocument cryRpt = new ReportDocument();
+
+                    string ReportFormat = "pdf";
+                    string FileName = "ManagementMonthlyRpt";
+                    //loginID = SystemHelper.Get_User_Session();
+                    //ReportDocument cryRpt = new ReportDocument();
+
+                    //cryRpt.Load(@"C:\Users\Usman Khalid\Desktop\Barcode Testing\rpt.rpt");
+                    //cryRpt.SetParameterValue("Title", em.DocNo);
+                    string ReportPath = Path + @"\rpt_Doctor_Revenue_Sharing_2.rpt";
+                    cryRpt.Load(ReportPath);
+
+                    cryRpt.SetParameterValue("@DateFrom", DateFrom);
+                    cryRpt.SetParameterValue("@DateTo", DateTo);
+                    cryRpt.SetParameterValue("@SiteFrom", SiteFrom);
+                    cryRpt.SetParameterValue("@SiteTo", SiteTo);
+                    cryRpt.SetParameterValue("@DrFrom", DrFrom);
+                    cryRpt.SetParameterValue("@DrTo", DrTo);
                     //cryRpt.SetParameterValue("@DocDate", DateTime.Now);
                     //cryRpt.SetDatabaseLogon("sa", "ccpl@jm2021");
                     cryRpt.SetDatabaseLogon(dbID, dbPass, "HMS_CCPL", "CCPL_HMS");
@@ -375,6 +452,20 @@ namespace Clinic_Proj.Controllers
                 throw Ex;
             }
         }
+        //Display Monthly all View data
+        [HttpPost]
+        public JsonResult Get_MonthlyViewdata(ReportsModel rs)
+        {
+            try
+            {
+                Result = dblayer.ViewMonthlyData(rs);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
+        }
         //=============Get Total For CLinic=========
         [HttpPost]
         public JsonResult Get_Clinic_Total(ReportsModel rs)
@@ -410,6 +501,20 @@ namespace Clinic_Proj.Controllers
             try
             {
                 Result = dblayer.get_ChargesFirstAid(rs);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
+        }
+        //=============Get Total For Monthly=========
+        [HttpPost]
+        public JsonResult Get_Monthly_Total(ReportsModel rs)
+        {
+            try
+            {
+                Result = dblayer.get_ChargesMonthly(rs);
                 return Json(Result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception Ex)

@@ -5,7 +5,7 @@
 
 <div ng-app="RegistrationForm" ng-controller="Home">
 
-    <div class="row page-titles">
+    @*<div class="row page-titles">
         <div class="col-md-5 align-self-center">
         </div>
         <div class="col-md-7 align-self-center">
@@ -16,7 +16,7 @@
                 </ol>
             </div>
         </div>
-    </div>
+    </div>*@
     <!--row-->
     <div class="row">
         <div class="col-lg-12">
@@ -566,7 +566,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <input type="text" maxlength="12" id="Tel1" placeholder="923001234567" class="form-control form-input-grey" ng-model="txtTel1"/>
+                                        <input type="text" maxlength="12" id="Tel1" placeholder="3001234567" ng-blur="getTel1Length()" class="form-control form-input-grey" ng-model="txtTel1"/>
                                     </div>
                                 </div>
                                 <div class="col-md-1"></div>
@@ -575,7 +575,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <input type="text" maxlength="12" id="Tel2" placeholder="923001234567" class="form-control form-input-grey" ng-model="txtTel2"/>
+                                        <input type="text" maxlength="12" id="Tel2" placeholder="3001234567" ng-blur="getTel2Length()" class="form-control form-input-grey" ng-model="txtTel2"/>
                                     </div>
                                 </div>
                             </div>
@@ -678,7 +678,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="input-group">
-                                                            <input type="text" id="DisAprov" class="form-control form-input-grey" ng-disabled="DocApprDisable" ng-model="txtDisAprov" maxlength="50" />
+                                                            <input type="text" id="DisAprov" class="form-control form-input-grey" ng-disabled="DocApprDisable" ng-model="txtDisAprov"/>
                                                         </div>
                                                     </div>
 

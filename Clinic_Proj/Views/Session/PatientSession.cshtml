@@ -3,7 +3,7 @@
 }
 <div ng-app="RegistrationForm" ng-controller="Home">
 
-    <div class="row page-titles">
+    @*<div class="row page-titles">
         <div class="col-md-5 align-self-center">
             <h4 class="text-themecolor">Session Token</h4>
         </div>
@@ -15,7 +15,7 @@
                 </ol>
             </div>
         </div>
-    </div>
+    </div>*@
 
     <!--row-->
     @*===========================Main Form============================*@
@@ -466,7 +466,7 @@
 </div>
 
 @section scripts {
-    <script language="javascript">
+    @*<script language="javascript">
         var today = new Date();
         var dd = String(today.getDate() + 1).padStart(2, '0');
         var mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -474,7 +474,7 @@
         today = yyyy + '-' + mm + '-' + dd;
         $('#FrmDate').attr('min', today);
         $('#ToDate').attr('min', today);
-    </script>
+    </script>*@
     <script>
         var RegistrationForm = angular.module("RegistrationForm", []);
         RegistrationForm.controller("Home", function ($scope, $filter, $http, $window) {
@@ -932,6 +932,7 @@
                     }
                     $http(displayReq).then(function (Return) {
                         if (Return.data == "Inserted") {
+                            $scope.SaveFullPayData();
                             $scope.Notification('success', 'Extra Full Pacakge Save');
                             $scope.On_ExtSesionClear();
                         }
@@ -943,7 +944,6 @@
                         $scope.Notification('error', Return.data);
                     });
                 }
-                $scope.SaveFullPayData();
             };
             //==================Single Paid Amount Insert=======================
             $scope.SinglepkgSave = function (TknSession, TotalFee) {

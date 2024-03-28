@@ -1,0 +1,128 @@
+﻿
+@{
+    ViewBag.Title = "ClosingRpt";
+}
+<div ng-app="RegistrationForm" ng-controller="Home">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Closing Documents Detail</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row p-t-20">
+                        <div class="col-md-1"></div>
+                        @*<div class="col-md-1"></div>*@
+                        <div class="col-sm-1">
+                            <label class="control-label text-dark" for="Search">Search:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" id="TxtSearchfrm" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtSearchfrm" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="input-group input-group-sm">
+                                <button ng-click="GetDocs_HistData()" class="btn btn-sm btn-outline-success form-control"><i class="fa fa-list-ol"></i> Load </button>
+                                <button ng-click="On_Clear()" class="btn btn-sm btn-outline-success form-control"><i class="fa fa-list-ol"></i> Clear </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="" role="tabpanel">
+                        <!--row-->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Documents Detail</h4>
+                                        <hr />
+                                        <div class="table-responsive-sm" style="overflow-x:auto;overflow-y:scroll;height:600px; font-size:9px;">
+                                            <table class="table-sm table-hover table-bordered text-dark">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Doc No</th>
+                                                        <th>Doc Date</th>
+                                                        <th>Site ID</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in dtGetAll | filter:TypeSearch">
+                                                        <td>{{item.DocNo}}</td>
+                                                        <td>{{item.DocDate | date:dd-MMM-yyyy}}</td>
+                                                        <td>{{item.SiteID}}</td>
+                                                        <td class="text-center">
+                                                            <button type="button" ng-click="PrintDocumentRpt(item.DocNo,item.SiteID)" class="btn btn-xs btn btn-primary" title="Document Print"><span class="fa fa-print"></span></button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <hr />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Row -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row -->
+</div>
+@section scripts {
+
+    <script>
+
+        var RegistrationForm = angular.module("RegistrationForm", []);
+        RegistrationForm.controller("Home", function ($scope, $http,$window) {
+            $scope.Notification = function (Type, Heading, Test) {
+                //info, warning, success, error
+                $.toast({
+                    heading: Heading,
+                    text: Test,
+                    position: 'top-right',
+                    loaderBg: '#ff6849',
+                    icon: Type,
+                    hideAfter: 3500,
+                    stack: 6
+                });
+            };
+            //==============Display Docs Look up Data===================
+            $scope.GetDocs_HistData = function () {
+                var displayReq = {
+                    method: "POST",
+                    url: "/ObEdit/Get_DoLokupdata",
+                    data: {
+                    }
+                }
+                $http(displayReq).then(function (Return)
+                {
+                    $scope.dtGetAll = angular.fromJson(Return.data);
+                }, function myError(Return) {
+                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                });
+            };
+            $scope.PrintDocumentRpt = function (DocNum,Site)
+            {
+                if (DocNum == 'undefined') {
+                    $scope.Notification('error', 'Please Select Token..');
+                }
+                if (Site == 'undefined') {
+                    $scope.Notification('error', 'Please Select Site..');
+                }
+                else {
+                    $window.open("/ClosingRpt/Print_Document_Rpt?DocNo=" + DocNum+ "&SiteID=" + Site, "_blank");
+                }
+            }; 
+            $scope.On_Clear = function ()
+            {
+                $scope.dtGetAll = '';
+            };
+        });
+    </script>
+
+}
+

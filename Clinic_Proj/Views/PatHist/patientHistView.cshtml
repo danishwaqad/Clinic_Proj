@@ -5,7 +5,7 @@
 
 <div ng-app="RegistrationForm" ng-controller="Home">
 
-    <div class="row page-titles">
+    @*<div class="row page-titles">
         <div class="col-md-5 align-self-center">
             <h4 class="text-themecolor">Patient History</h4>
         </div>
@@ -17,7 +17,7 @@
                 </ol>
             </div>
         </div>
-    </div>
+    </div>*@
 
     <!--row-->
     <div class="row">
@@ -135,7 +135,8 @@
                                     <table class="table-sm table-hover table-head-fixed table-hover table-bordered text-dark">
                                         <thead>
                                             <tr>
-                                                <th>MR #</th>
+                                                <th>Sr #</th>
+                                                <th>CNIC #</th>
                                                 <th>Reg Date</th>
                                                 <th>Name</th>
                                                 <th>Gender</th>
@@ -144,6 +145,7 @@
                                         </thead>
                                         <tbody>
                                             <tr ng-repeat="item in dtGetCFTAll | filter:CnicFTSearch">
+                                                <td>{{$index + 1}}</td>
                                                 <td><button ng-click="GetCFByID(item.CNIC)" class="btn btn-sm btn-link" data-dismiss="modal">{{item.CNIC}}</button></td>
                                                 <td>{{item.RegDate | date:"dd-MMM-yyyy"}}</td>
                                                 <td>{{item.FullName}}</td>
@@ -688,7 +690,7 @@
                                             <td>{{item.Tel2}}</td>
                                             <td>{{item.Telephone}}</td>
                                             <td>{{item.ContactType}}</td>
-                                            <td>{{item.DrName}}</td>
+                                            <td class="text-center">{{item.DrName}}</td>
                                             <td>{{item.TokenDate | date:'dd-MMM-yyyy'}} {{item.EntryTime | date:'hh:mm:ss a'}}</td>
                                             <td>{{item.TotalFee | number:0}}</td>
                                             <td>{{item.Discount | number:0}}</td>

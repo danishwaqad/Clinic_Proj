@@ -5,7 +5,7 @@
 
 <div ng-app="RegistrationForm" ng-controller="Home">
 
-<div class="row page-titles">
+@*<div class="row page-titles">
     <div class="col-md-5 align-self-center">
         <h4 class="text-themecolor">First Aid</h4>
     </div>
@@ -17,7 +17,7 @@
             </ol>
         </div>
     </div>
-</div>
+</div>*@
 
 <!--row-->
 <div class="row">
@@ -150,7 +150,7 @@
                 <!-- /.modal-dialog -->
             </div>
             <div class="card-header bg-info">
-                <h4 class="m-b-0 text-white">First Aid</h4>
+                <h4 class="m-b-0 text-white">Patient First Aid</h4>
             </div>
             <div class="card-body">
                 @*<label class="control-label text-danger" ng-hide="txtBeforeIN"><b>Before You Add Service Check Mode And Recomendation</b></label>*@
@@ -570,7 +570,6 @@
             };
             //============Recomendation Delete==========================
             $scope.OnRecDelete = function (id) {
-
                 var displayReq = {
                     method: "POST",
                     url: "/FirstAdd/OnrecDelete",
@@ -591,7 +590,6 @@
                 }, function myError(Return) {
                     $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
                 });
-
             };
             //==============Calculate Fee=============
             $scope.CalculateFee = function () {

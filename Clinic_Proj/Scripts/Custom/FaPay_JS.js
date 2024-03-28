@@ -194,7 +194,8 @@ RegistrationForm.controller("Home", function ($scope, $http, $window) {
                         PaymentMeth: $scope.txtPayMethod,
                         Bank: $scope.txtBank,
                         Balance: $scope.txtBalance,
-                        PaidFee: $scope.txtPaid
+                        PaidFee: $scope.txtPaid,
+                        Remarks: $scope.txtRemarks
                         //RefundApproval: $scope.txtRefundApproval,
                         //RefundType: $scope.txtPatRefundType
                     }
@@ -225,6 +226,7 @@ RegistrationForm.controller("Home", function ($scope, $http, $window) {
                 $scope.txtTotalFee = 0;
                 $scope.txtBalance = 0;
                 $scope.txtPaid = 0;
+                $scope.txtRemarks = '';
                 $scope.txtPayMethod = 'Cash';
                 $scope.txtBank='';
             };

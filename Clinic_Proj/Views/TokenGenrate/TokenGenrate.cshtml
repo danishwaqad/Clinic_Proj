@@ -1,1115 +1,173 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "TokenGenrate";
 }
 <div ng-app="RegistrationForm" ng-controller="Home">
-
-    <div class="row page-titles">
-        <div class="col-md-5 align-self-center">
-            <h4 class="text-themecolor">Token Generate</h4>
-        </div>
-        <div class="col-md-7 align-self-center">
-            <div class="d-flex justify-content-end align-items-center">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                    <li class="breadcrumb-item active">Token Generate</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-
-    <!--row-->
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <ul class="nav nav-tabs justify-content-center nav-pills nav-justified" style="font-size:14px;color:red;" role="tablist" ng-hide="UpdateTokens">
-                    <li class="nav-item text-center"> <a class="nav-link" ng-click="" data-toggle="tab" href="#RegisterCNIC" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="fa fa-medkit"></i></span> <span class="hidden-xs-down">Register CNIC</span></a> </li>
-                    <li class="nav-item text-center"> <a class="nav-link" ng-click="" data-toggle="tab" href="#NewPatient" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="fa fa-stethoscope"></i></span> <span class="hidden-xs-down">Update Patient</span></a> </li>
-                </ul>
-                <div class="tab-content tabcontent-border" ng-hide="UpdateTokens">
-                    <div class="tab-pane" id="RegisterCNIC" role="tabpanel">
-                        <!--row-->
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <br />
-                                <table class="table-sm table-hover table-bordered text-dark">
-                                    <thead>
-                                        <tr>
-                                            <th>Vital Name</th>
-                                            <th>Vital Value</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="item in dtViewGetAll">
-                                            <td>{{item.VitalName}}</td>
-                                            <td>{{item.VitalValue}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Today Tokens Delete</h4>
+                </div>
+                <div id="Patient_TodayToken" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Today Token Register</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
 
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label for="CompSearch">Search:</label>
+                                    </div>
+                                    <div class="col-md-4 form-material">
+                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtToday_TknSearch" />
+                                    </div>
+                                </div>
+                                <div class="table-responsive-sm">
+                                    <table class="table-sm table-hover table-bordered text-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Sr#</th>
+                                                <th>Token#</th>
+                                                <th>CNIC</th>
+                                                <th>Token Date</th>
+                                                <th>FullName</th>
+                                                <th>Gender</th>
+                                                <th>Age</th>
+                                                <th>SiteID</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dtToday_ToknGetAll | filter:TxtToday_TknSearch">
+                                                <td>{{$index + 1}}</td>
+                                                <td><button ng-click="Get_TodayTknByID(item.TokenNo)" class="btn btn-link" data-dismiss="modal">{{item.TokenNo}}</button></td>
+                                                <td>{{item.CNIC}}</td>
+                                                <td>{{item.TokenDate | date:dd-MMM-yyyy}}</td>
+                                                <td>{{item.FullName}}</td>
+                                                <td>{{item.Gender}}</td>
+                                                <td>{{item.Age}}</td>
+                                                <td>{{item.SiteID}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
                             </div>
                         </div>
-                        <!-- Row -->
                     </div>
-
-                    <!-------------------------------------------------- Diagnosis ------------------------------>
-
-                    <div class="tab-pane" id="NewPatient" role="tabpanel">
-                        <!--row-->
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <form name="DiagnoseFrm">
-                                            <div class="form-body form-group">
-
-                                                <div class="row p-t-20">
-                                                    <div class="col-md-4">
-                                                        <label class="control-label text-dark" for="DiagnoseNam">Diagnose Name:</label>
-                                                        <div class="input-group">
-                                                            <input type="text" id="DiagnoseNam" ng-model="txtDiagnoseNam" class="form-control form-input-grey" maxlength="100" required />
-                                                            <div class="input-group-append">
-                                                                <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#DiagConName" href="javascript:void(0)" ng-click="GetDiagCNAllData()"><i class="ti-search"></i></button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    @*<div class="col-md-8">
-                                                <label class="control-label text-dark" for="Remarks">Remarks:</label>
-                                                <input type="text" id="Remarks" ng-model="txtRemarks" class="form-control form-input-grey" maxlength="100" />
-                                            </div>*@
-                                                    <div class="col-md-8">
-                                                        <label class="control-label text-dark" for="Remarks">Remarks:</label>
-                                                        <textarea rows="5" ng-model="txtRemarks" class="form-control form-input-grey"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="row p-t-20">
-                                                    <div class="col-md-10"></div>
-                                                    <div class="col-md-2">
-                                                        <div class="form-group">
-                                                            <button ng-click="savedata()" ng-hide="CUSaveBtn" ng-disabled="DiagnoseFrm.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
-                                                            @*<button ng-click="On_Update()" ng-hide="CUUpdateBtn" ng-disabled="CreatePatientVital.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Update</button>*@
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </form>
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <table class=" table table-sm table-hover table-bordered text-dark">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Diagnose</th>
-                                                            <th>Remarks</th>
-                                                            <th>Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr ng-repeat="item in dtGetDiagnoseviewAll">
-                                                            <td>{{item.DisagnoseSName}}</td>
-                                                            <td>{{item.Remarks}}</td>
-                                                            <td>
-                                                                <button ng-click="OnDelete(item.CCPL_ROW_ID)" class="btn btn-xs btn-danger" alt="default" data-toggle="modal" data-target="#" href="javascript:void(0)"><i class="fa fa-trash"></i></button>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Row -->
-                    </div>
-                    </div>
-                    <div class="card-header bg-info">
-                        <h4 class="m-b-0 text-white">Token Generate</h4>
-                    </div>
-                    <div class="card-body">
-                        <div id="PatientName" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
-                            <div class="modal-dialog modal-xl">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="myLargeModalLabel">Select Patient Name</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-7">
-
-                                            </div>
-                                            <div class="col-md-1">
-                                                <label for="CompSearch">Search:</label>
-                                            </div>
-                                            <div class="col-md-4 form-material">
-                                                <input type="text" class="form-control" id="UserSearch" ng-model="TxtTokenSearch" />
-                                            </div>
-                                        </div>
-                                        <div class="table-responsive-sm">
-                                            <table class="table-sm table-hover table-bordered text-dark">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Reg #</th>
-                                                        <th>Patient Name</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr ng-repeat="item in dtGetAll | filter:TxtTokenSearch">
-                                                        <td><button ng-click="GetDataByID(item.RegNo)" class="btn btn-link" data-dismiss="modal">{{item.RegNo}}</button></td>
-                                                        <td>{{item.FullName}}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                                <!-- /.modal-content -->
-                            </div>
-                            <!-- /.modal-dialog -->
-                        </div>
-                        <div id="PatientCnicModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
-                            <div class="modal-dialog modal-xl">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="myLargeModalLabel">Select Patient CNIC Already Register</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-7">
-
-                                            </div>
-                                            <div class="col-md-1">
-                                                <label for="CompSearch">Search:</label>
-                                            </div>
-                                            <div class="col-md-4 form-material">
-                                                <input type="text" class="form-control" id="UserSearch" ng-model="TxtinfoSearch" />
-                                            </div>
-                                        </div>
-                                        <div class="table-responsive-sm">
-                                            <table class="table-sm table-hover table-bordered text-dark">
-                                                <thead>
-                                                    <tr>
-                                                        <th>CNIC</th>
-                                                        <th>Reg No</th>
-                                                        <th>FullName</th>
-                                                        <th>Gender</th>
-                                                        <th>Age</th>
-                                                        <th>Address</th>
-                                                        <th>SiteID</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr ng-repeat="item in dtCNGetAll | filter:TxtinfoSearch">
-                                                        <td><button ng-click="GetCNDataByID(item.CNIC)" class="btn btn-link" data-dismiss="modal">{{item.CNIC}}</button></td>
-                                                        <td>{{item.RegNo}}</td>
-                                                        <td>{{item.FullName}}</td>
-                                                        <td>{{item.Gender}}</td>
-                                                        <td>{{item.Age}}</td>
-                                                        <td>{{item.Address}}</td>
-                                                        <td>{{item.SiteID}}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                                <!-- /.modal-content -->
-                            </div>
-                            <!-- /.modal-dialog -->
-                        </div>
-                        <div id="PatientPanal" class="modal fade show" ng-if="ShowPatient == true" role="dialog" aria-labelledby="myLargeModalLabel" style="display: block; padding-right: 17px;" aria-modal="true">
-                            <div class="modal-dialog-scrollable">
-                                <div class="modal-dialog modal-xl">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" id="myLargeModalLabel">Select Panal Patients</h4>
-                                            <button type="button" ng-click="ClosePanalPatientModal()" class="btn btn-danger" aria-hidden="true">×</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col-md-7">
-
-                                                </div>
-                                                <div class="col-md-1">
-                                                    <label for="CompSearch">Search:</label>
-                                                </div>
-                                                <div class="col-md-4 form-material">
-                                                    <input type="text" class="form-control" id="PatTypeSearch" ng-model="TxtAvailSearch" />
-                                                </div>
-                                            </div>
-                                            <div class="table-responsive-sm">
-                                                <table class="table-sm table-hover table-bordered text-dark">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>CNIC</th>
-                                                            <th>Dependent CNIC</th>
-                                                            <th>Name</th>
-                                                            <th>Gender</th>
-                                                            <th>Tel1</th>
-                                                            <th>Tel2</th>
-                                                            <th>Address</th>
-                                                            <th>City</th>
-                                                            <th>Country</th>
-                                                            <th>DOB</th>
-                                                            <th>Relation</th>
-                                                            <th>Company</th>
-                                                            <th>Remarks</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr ng-repeat="item in dtPanlGetPatAvail | filter:TxtAvailSearch">
-                                                            <td><button ng-click="REG_CNIC(item.CNIC);CnicDataInsert(item.CNIC)" class="btn btn-link" data-dismiss="modal">{{item.CNIC}}</button></td>
-                                                            <td>{{item.EmpCNIC}}</td>
-                                                            <td>{{item.Name}}</td>
-                                                            <td>{{item.Gender}}</td>
-                                                            <td>{{item.Tel1}}</td>
-                                                            <td>{{item.Tel2}}</td>
-                                                            <td>{{item.Address}}</td>
-                                                            <td>{{item.City}}</td>
-                                                            <td>{{item.Country}}</td>
-                                                            <td>{{item.DOB | date:dd-MMM-yyyy}} [ {{item.Age}} ]</td>
-                                                            <td>{{item.Relation}}</td>
-                                                            <td>{{item.CompanyName}}</td>
-                                                            <td>{{item.Remarks}}</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button ng-click="ClosePanalPatientModal()" class="btn btn-danger">Close</button>
-                                        </div>
-                                    </div>
-                                    <!-- /.modal-content -->
-                                </div>
-                            </div>
-                        </div>
-                        @*======================================*@
-                        <!--Patient CNIC Are Availabe-->
-                        <div id="PatientAvai" class="modal fade show" ng-if="ShowCNICReg == true" role="dialog" aria-labelledby="myLargeModalLabel" style="display: block; padding-right: 17px;" aria-modal="true">
-                            <div class="modal-dialog modal-dialog-centered modal-sm">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="myLargeModalLabel">CNIC Registeration</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <p>CNIC is Already Registered...</p>
-                                                <p>Do You Want To Proceed For Patient Registration..?</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        @*<button ng-click="OpenCNICRegForm();REG_CNIC()" class="btn btn-success">Proceed</button>*@
-                                        <button ng-click="REG_CNIC(txtCnic)" class="btn btn-success">Proceed</button>
-                                        <button type="button" ng-click="CloseCNICRegModal()" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                                <!-- /.modal-content -->
-                            </div>
-                        </div>
-                        @*======================================*@
-                        <!--Patient Proceed Or Not-->
-                        @*<div id="PatientProcNot" class="modal fade show" role="dialog" aria-labelledby="myLargeModalLabel" style="display: block; padding-right: 17px;" aria-modal="true">*@
-                        <div id="PatientProcNot" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
-                            <div class="modal-dialog modal-dialog-centered modal-md">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="myLargeModalLabel">You Want To Continue Your Registration</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <p>For Self Registration Please Click (Self)Token GeneRate</p>
-                                                <p>For Other Registration Please Click (Other)Token GeneRate</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button ng-click="GetPatType();NewToken(txtCnic,'Self');GetDoctorname();InfoTransfer(txtCnic);GetBank();GetPayMeth()" alt="default" data-toggle="modal" href="javascript:void(0)" data-target="#PatientModlDes" class="btn btn-outline-success"><i class="fa fa-check"></i>(Self) Token GeneRate</button>
-                                        @using (Html.BeginForm("patientreg", "patientreg", FormMethod.Post))
-                                        {
-                                            <button ng-click="TrasferCNData()" class="btn btn-success">(Other)Token GeneRate</button>
-                                        }
-                                        @*<button ng-click="CloseCNICRegModal()" class="btn btn-danger">Close</button>*@
-                                        @*<div class="modal-footer">*@
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-
-                                    </div>
-                                </div>
-                                <!-- /.modal-content -->
-                            </div>
-                        </div>
-                        @* ===============================CNIC For Further Proceeding======================= *@
-                        <div id="PatientModlDes" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
-                            <div class="modal-dialog modal-xl modal-x">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="myLargeModalLabel">Register Self Token</h4>
-                                        <button type="button" ng-click="On_ClearForPopup()" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    </div>
-                                    <form name="PatientSelfRegister">
-                                        <div class="form-body form-group">
-                                            <div class="modal-body">
-                                                <div id="Banks" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
-                                                    <div class="modal-dialog modal-xl">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" id="myLargeModalLabel">Select Bank Name</h4>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="row">
-                                                                    <div class="col-md-7">
-
-                                                                    </div>
-                                                                    <div class="col-md-1">
-                                                                        <label for="CompSearch">Search:</label>
-                                                                    </div>
-                                                                    <div class="col-md-4 form-material">
-                                                                        <input type="text" class="form-control" id="UserSearch" ng-model="TxtBnkSearch" />
-                                                                    </div>
-                                                                </div>
-                                                                <div class="table-responsive-sm">
-                                                                    <table class="table-sm table-hover table-bordered text-dark">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>Banks Name</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <tr ng-repeat="item in dtBankName | filter: TxtBnkSearch">
-                                                                                <td><button ng-click="GetBankName(item.BankName)" class="btn btn-link" data-dismiss="modal">{{item.BankName}}</button></td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
-                                                            </div>
-                                                        </div>
-                                                        <!-- /.modal-content -->
-                                                    </div>
-                                                    <!-- /.modal-dialog -->
-                                                </div>
-                                                @*<div id="PayMeth" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
-                                            <div class="modal-dialog modal-xl">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title" id="myLargeModalLabel">Select Payment Method</h4>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="row">
-                                                            <div class="col-md-7">
-
-                                                            </div>
-                                                            <div class="col-md-1">
-                                                                <label for="CompSearch">Search:</label>
-                                                            </div>
-                                                            <div class="col-md-4 form-material">
-                                                                <input type="text" class="form-control" id="UserSearch" ng-model="TxtPaySearch" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="table-responsive-sm">
-                                                            <table class="table-sm table-hover table-bordered text-dark">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Payment Methods</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr ng-repeat="item in dtPayMeth | filter: TxtPaySearch">
-                                                                        <td><button ng-click="GetPayByid(item.MethodName)" class="btn btn-link" data-dismiss="modal">{{item.MethodName}}</button></td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
-                                                    </div>
-                                                </div>
-                                                <!-- /.modal-content -->
-                                            </div>
-                                            <!-- /.modal-dialog -->
-                                        </div>*@
-                                                <div class="row p-t-20">
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-md-1">
-                                                        <label class="control-label text-dark" for="TokenNo">M.R #:</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="input-group">
-                                                            <input type="text" id="TokenNo" class="form-control form-input-grey" ng-model="txtTokenNo" readonly />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-md-1">
-                                                        <label class="control-label text-dark" for="PatType">Types:</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <select class="form-control" ng-model="txtPatType" ng-blur="TypeWiseSelection()" required>
-                                                            @*<option value="0" label="-Please Select-"></option>*@
-                                                            <option ng-repeat="item in dtGetTypeAll" value="{{item.PatientType}}">{{item.PatientType}}</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row p-t-20">
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-sm-1">
-                                                        <label class="control-label text-dark" for="FathName">Father Name:</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="input-group">
-                                                            <input type="text" id="FathName" class="form-control form-input-grey" ng-model="txtFathname" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-sm-1">
-                                                        <label class="control-label text-dark" for="City">City:</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="input-group">
-                                                            <input type="text" id="City" class="form-control form-input-grey" ng-model="txtCity" />
-                                                        </div>
-                                                    </div>
-
-
-                                                </div>
-                                                <div class="row p-t-20">
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-sm-1">
-                                                        <label class="control-label text-dark" for="Country">Country:</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="input-group">
-                                                            <input type="text" id="Country" class="form-control form-input-grey" ng-model="txtCountry" />
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-sm-1">
-                                                        <label class="control-label text-dark" for="EmailID">Email:</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="input-group">
-                                                            <input type="text" id="EmailID" class="form-control form-input-grey" ng-model="txtEmailID" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row p-t-20">
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-md-1">
-                                                        <label class="control-label text-dark" for="Tel1">Cell Ph# 1:</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="input-group">
-                                                            <input type="text" id="Tel1" class="form-control form-input-grey" ng-model="txtTel1" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-md-1">
-                                                        <label class="control-label text-dark" for="Tel2">Cell Ph# 2:</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="input-group">
-                                                            <input type="text" id="Tel1" class="form-control form-input-grey" ng-model="txtTel2" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row p-t-20">
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-sm-1">
-                                                        <label class="control-label text-dark" for="Address">Address:</label>
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        <div class="input-group">
-                                                            <input type="text" id="Address" class="form-control form-input-grey" ng-model="txtAddress" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row p-t-20">
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-sm-1">
-                                                        <label class="control-label text-dark" for="Remarks">Remarks<br />If Any:</label>
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        <div class="input-group">
-                                                            <input type="text" id="Remarks" class="form-control form-input-grey" ng-model="txtRemarks" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row p-t-20">
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-md-1">
-                                                        <label class="control-label text-dark" for="DoctorName">Doctor Name:</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <select class="form-control" ng-model="txtDoctName" ng-disabled="DocNamSelDisable" ng-blur="GetDoctorByid()">
-                                                            <option value="0" label="-Please Select-"></option>
-                                                            <option ng-repeat="item in dtGetDocName" value="{{item.DrName}}">{{item.DrName}}</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-md-1">
-                                                        <label class="control-label text-dark" for="Charges">Fee Charges:</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="input-group">
-                                                            <input disabled type="text" id="Charges" ng-disabled="DocFeeDisable" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtCharges" readonly />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row p-t-20">
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-md-1">
-                                                        <label class="control-label text-dark" for="PaidFee">Paid Amount:</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="input-group">
-                                                            <input type="number" id="PaidFee" class="form-control form-input-grey text-center font-weight-bold" ng-disabled="DocPaidDisable" ng-model="txtPaidFee" value="0" ng-blur="CalculateFee()" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-md-1">
-                                                        <label class="control-label text-dark" for="Discount">Discount:</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="input-group">
-                                                            <select class="form-control form-input-grey" ng-disabled="DocDiscDisable" ng-model="DDLDisType">
-                                                                <option value="0">-Select-</option>
-                                                                <option value="%">%</option>
-                                                                <option value="Rs">Rs.</option>
-                                                            </select>
-                                                            <input type="number" id="Discount" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtDiscount" ng-disabled="DocApprDisable" ng-change="CalculateDiscount()" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row p-t-20">
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-md-1">
-                                                        <label class="control-label text-dark" for="Balance">Balance Amount:</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="input-group">
-                                                            <input type="number" id="Balance" ng-disabled="DocBalDisable" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtBalance" readonly />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-md-1">
-                                                        <label class="control-label text-dark" for="DisAprov">Approved By:</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="input-group">
-                                                            <input type="text" id="DisAprov" class="form-control form-input-grey" ng-disabled="DocApprDisable" ng-model="txtDisAprov" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row p-t-20">
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-sm-1">
-                                                        <label class="control-label text-dark" for="Bank">Payment Method:</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <select class="form-control" ng-model="txtPayMethod" ng-disabled="DocPayInpDisable" ng-blur="GetPayByid()">
-                                                            <option value="0" label="-Please Select-"></option>
-                                                            <option ng-repeat="item in dtPayMeth" value="{{item.MethodName}}">{{item.MethodName}}</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-sm-1">
-                                                        <label class="control-label text-dark" for="Bank">Bank:</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <select class="form-control" ng-model="txtBank" ng-disabled="DocBankInpDisable" ng-blur="GetBankName()">
-                                                            <option value="0" label="-Please Select-"></option>
-                                                            <option ng-repeat="item in dtBankName" value="{{item.BankName}}">{{item.BankName}}</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row p-t-20">
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-md-2"></div>
-                                                    <div class="col-md-2">
-                                                        <div class="form-group">
-                                                            <button ng-click="On_ClearForPopup()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-md-2">
-                                                        <div class="form-group">
-                                                            @*<button ng-click="savedata(); saveFeedata()" ng-hide="CUSaveBtn" ng-disabled="CreatePatient.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
-                                                    <button ng-click="On_Update(); On_Fee_Update()" ng-hide="CUUpdateBtn" ng-disabled="CreatePatient.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Update</button>*@
-                                                            <button ng-click="TypeWiseInsert()" ng-hide="CUSaveBtn" ng-disabled="PatientSelfRegister.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Generate Token</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </form>
-                                    <div class="modal-footer">
-                                        <button type="button" ng-click="On_ClearForPopup()" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                                <!-- /.modal-content -->
-                            </div>
-                            <!-- /.modal-dialog -->
-                        </div>
-                        <!-- /.modal -->
-                        @*=====================================*@
-                        <form name="PatientRegister">
+                </div>
+                        <form name="CreatePatient">
                             <div class="form-body form-group">
                                 <div class="row p-t-20">
                                     <div class="col-md-1"></div>
                                     <div class="col-sm-1">
-                                        <label class="control-label text-dark" for="Cnic">CNIC/Cell #:</label>
+                                        <label class="control-label text-dark" for="CNIC">CNIC/Cell #:</label>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="input-group">
-                                            <input type="text" id="Cnic" class="form-control font-weight-bold" required ng-model="txtCnic" ng-blur="GetPanalPatAvail(txtCnic)" ng-change="TESTING()" />
+                                            <input type="text" id="Cnic" class="form-control font-weight-bold" required ng-model="txtCNICNo" readonly />
                                             <div class="input-group-append">
-                                                <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#PatientCnicModal" href="javascript:void(0)" ng-click="GetCNAllData()"><i class="ti-search"></i></button>
+                                                <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#Patient_TodayToken" href="javascript:void(0)" ng-click="Get_ToknAllData()"><i class="ti-search"></i></button>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-1"></div>
                                     <div class="col-sm-1">
-                                        <label class="control-label text-dark" for="RegNo">Reg No:</label>
+                                        <label class="control-label text-dark" for="Relation">Relation:</label>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <div class="input-group">
-                                            <input type="text" id="RegNo" class="form-control font-weight-bold" required ng-model="txtRegNo" readonly />
+                                            <input type="text" id="Relation" class="form-control form-input-grey" ng-model="txtRelation_Pat" readonly required />
                                         </div>
-                                    </div>
-                                    <!--/span-->
-                                    <div class="col-sm-1">
-                                        <label class="control-label text-dark" for="RegDate">Reg Date:</label>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <input type="date" id="RegDate" class="form-control font-weight-bold text-center" ng-model="txtRegDate" required readonly />
                                     </div>
                                 </div>
                                 <div class="row p-t-20">
                                     <div class="col-md-1"></div>
                                     <div class="col-sm-1">
-                                        <label class="control-label text-dark" for="PatientName">Name:</label>
+                                        <label class="control-label text-dark" for="TokenNo">M.R #:</label>
                                     </div>
-                                    <div class="col-md-9">
+                                    <div class="col-md-3">
                                         <div class="input-group">
-                                            <select class="form-control form-input-grey col-md-2" ng-model="DDLTitle" ng-change="GenderSelction()">
+                                            <input type="text" id="TokenNo" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtTokenNo_Pat" maxlength="100" required readonly />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-1">
+                                        <label class="control-label text-dark" for="TknDate">Token Date:</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <input type="date" ng-model="txtTokenDate" class="form-control text-center font-weight-bold" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                                <h4 class="card-title"></h4>
+                                <hr />
+                                <div class="row p-t-20">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-1">
+                                        <label class="control-label text-dark" for="PatientName">Patient Name:</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="input-group">
+                                            <select class="form-control form-input-grey col-md-2" ng-model="DDLTitle_Pat" readonly>
                                                 <option value="Mr">Mr.</option>
                                                 <option value="Master">Master.</option>
                                                 <option value="Mrs">Mrs.</option>
                                                 <option value="MS">Ms.</option>
-                                                <option value="Mrs">Baby.</option>
+                                                <option value="Baby">Baby.</option>
                                             </select>
-                                            <input type="text" id="PatientFName" class="form-control form-input-grey" placeholder="First Name" ng-model="txtFPatientName" required />
-                                            <input type="text" id="PatientMName" class="form-control form-input-grey" placeholder="Middle Name" ng-model="txtMPatientName" />
-                                            <input type="text" id="PatientLName" class="form-control form-input-grey" placeholder="Last Name" ng-model="txtLPatientName" />
-
+                                            <input type="text" id="PatientFName" class="form-control form-input-grey" placeholder="First Name" ng-model="txtFPatientName_Pat" readonly required />
+                                            <input type="text" id="PatientMName" class="form-control form-input-grey" placeholder="Middle Name" ng-model="txtMPatientName_Pat" readonly />
+                                            <input type="text" id="PatientLName" class="form-control form-input-grey" placeholder="Last Name" ng-model="txtLPatientName_Pat" readonly />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row p-t-20">
-
-                                    <!--/span-->
                                     <div class="col-md-1"></div>
                                     <div class="col-sm-1">
-                                        <label class="control-label text-dark" for="DOB">DOB:</label>
+                                        <label class="control-label text-dark" for="TknDelRemarks">Token Delete Remarks:</label>
                                     </div>
-                                    <div class="col-md-3">
-                                        <input type="date" id="DOB" class="form-control" ng-model="txtDOB" required />
-                                    </div>
-                                    <div class="col-md-2 input-group-append">
-                                        <label class="control-label text-dark" for="DOB">If Anyone Cannot Provide CNIC:</label>
-                                        <button ng-click="GetPatCNICByID()" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                                    <div class="col-md-8">
+                                        <div class="input-group">
+                                            <input type="text" id="TknDelRemarks" class="form-control form-input-grey" placeholder="Enter Must Token Delete Remarks" ng-model="txtDel_Remarks" />
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row p-t-20">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-sm-1">
-                                        <label class="control-label text-dark" for="Fname">Father Name:</label>
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <button ng-click="On_ClearTodayTkn()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+                                        </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <input type="text" id="Fname" class="form-control form-input-grey" ng-model="txtFname" />
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <button ng-click="DeleteTodayTkn_Data()" ng-disabled="CreatePatient.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Delete Token</button>
+                                        </div>
                                     </div>
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-1">
-                                        <label class="control-label text-dark" for="Gender">Gender:</label>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <button ng-click="DeleteTodayTkn_GetBackData()" ng-disabled="CreatePatient.$invalid" class="btn btn-outline-success form-control"><i class="icon-reload"></i>Token Get Back</button>
+                                        </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <select id="Gender" ng-model="txtGender" class="btn btn-outline-secondary dropdown-toggle form-control form-input-grey" required>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                        </select>
-                                    </div>
+                                    @*<div class="col-md-3"></div>*@
                                 </div>
-                                <div class="row p-t-20">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-sm-1">
-                                        <label class="control-label text-dark" for="CnicIssue">CNIC Issue Date:</label>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <input type="date" id="CnicIssue" class="form-control" ng-model="txtCnicIssue" ng-blur="GetCNICIsue()" />
-                                    </div>
-                                    <!--/span-->
-                                    <div class="col-md-1"></div>
-                                    <div class="col-sm-1">
-                                        <label class="control-label text-dark" for="CnicExp">CNIC Expire Date:</label>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <input type="date" id="CnicExp" class="form-control form-input-grey" ng-model="txtCnicExp" ng-blur="GetCNICExpiry()" />
-                                    </div>
-                                </div>
-                                <div class="row p-t-20">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-sm-1">
-                                        <label class="control-label text-dark" for="FamilyNo">Family No:</label>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <input type="text" id="FamilyNo" class="form-control form-input-grey" ng-model="txtFamilyNo" />
-                                    </div>
-                                    <!--/span-->
-                                    <div class="col-md-1"></div>
-                                    <div class="col-sm-1">
-                                        <label class="control-label text-dark" for="CnicIdentity">CNIC Identity:</label>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <input type="text" id="CnicIdentity" class="form-control form-input-grey" ng-model="txtCnicIdentity" />
-                                    </div>
-                                </div>
-                                @*<div class="row p-t-20">
-                            <div class="col-md-1"></div>
-                            <div class="col-sm-1">
-                                <label class="control-label text-dark" for="ReferBy">Refer By:</label>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="input-group">
-                                    <input type="text" id="ReferBy" class="form-control form-input-grey" ng-model="txtReferBy" />
-                                </div>
-                            </div>
-                        </div>*@
-
                             </div>
                         </form>
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item"> <a class="nav-link" ng-click="GetAllAVData();On_ClearC()" data-toggle="tab" href="#TabAddress" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Address</span></a> </li>
-                            <li class="nav-item"> <a class="nav-link" ng-click="GetAllCVData();On_ClearA()" data-toggle="tab" href="#Contact" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Contact</span></a> </li>
-                        </ul>
-                        <div class="tab-content" id="myTabContent">
-                            @*=================Patient Address================== *@
-                            <div class="tab-pane" id="TabAddress" role="tabpanel">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h4 class="card-title">Address Detail</h4>
-                                                <hr />
-                                                <form name="AddressDetail">
-                                                    <div class="form-body form-group">
-                                                        <div class="row p-t-20">
-                                                            <div class="col-md-1"></div>
-                                                            <div class="col-md-1">
-                                                                <label class="control-label text-dark" for="TypeID">Types:</label>
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <select class="form-control" ng-model="txtType">
-                                                                    <option value="0" label="-Please Select-"></option>
-                                                                    <option ng-repeat="item in dtGetAddressType" value="{{item.TypeID}}">{{item.TypeID}}</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-md-1"></div>
-                                                            <div class="col-sm-1">
-                                                                <label class="control-label text-dark" for="HouseNo">Houese #:</label>
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <div class="input-group">
-                                                                    <input type="text" id="HouseNo" class="form-control" ng-model="txtHouseNo" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row p-t-20">
-                                                            <div class="col-md-1"></div>
-                                                            <div class="col-sm-1">
-                                                                <label class="control-label text-dark" for="Town">Town:</label>
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <div class="input-group">
-                                                                    <input type="text" id="Town" class="form-control" ng-model="txtTown" />
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-1"></div>
-                                                            <div class="col-sm-1">
-                                                                <label class="control-label text-dark" for="StreetNo">Street #:</label>
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <div class="input-group">
-                                                                    <input type="text" id="StreetNo" class="form-control" ng-model="txtStreetNo" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row p-t-20">
-                                                            <div class="col-md-1"></div>
-                                                            <div class="col-sm-1">
-                                                                <label class="control-label text-dark" for="City">City:</label>
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <div class="input-group">
-                                                                    <input type="text" id="City" class="form-control" ng-model="txtCity" />
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-1"></div>
-                                                            <div class="col-sm-1">
-                                                                <label class="control-label text-dark" for="State">State:</label>
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <div class="input-group">
-                                                                    <input type="text" id="State" class="form-control" ng-model="txtState" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row p-t-20">
-                                                            <div class="col-md-1"></div>
-                                                            <div class="col-sm-1">
-                                                                <label class="control-label text-dark" for="Country">Country:</label>
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <div class="input-group">
-                                                                    <input type="text" id="Country" class="form-control" ng-model="txtCountry" />
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-1"></div>
-                                                            <div class="col-sm-1">
-                                                                <label class="control-label text-dark" for="Zip">Zip Code:</label>
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <div class="input-group">
-                                                                    <input type="text" id="Zip" class="form-control" ng-model="txtZip" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row p-t-20">
-                                                            <div class="col-md-1"></div>
-                                                            <div class="col-sm-1">
-                                                                <label class="control-label text-dark" for="Remarks">Remarks<br />If Any:</label>
-                                                            </div>
-                                                            <div class="col-md-8">
-                                                                <div class="input-group">
-                                                                    <input type="text" id="Remarks" class="form-control" ng-model="txtARemarks" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row p-t-20">
-                                                            <div class="col-md-6"></div>
-                                                            <div class="col-md-2">
-                                                                <div class="form-group">
-                                                                    <button ng-click="On_ClearA()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <div class="form-group">
-                                                                    <button ng-click="savedataA()" ng-hide="CUSaveBtnA" ng-disabled="AddressDetail.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-3"></div>
-                                                        </div>
-
-                                                    </div>
-                                                </form>
-                                                <div class="table-responsive-sm">
-                                                    <table class="table-sm table-hover table-bordered text-dark">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Type</th>
-                                                                <th>House #</th>
-                                                                <th>Street #</th>
-                                                                <th>City</th>
-                                                                <th>Town</th>
-                                                                <th>State</th>
-                                                                <th>Country</th>
-                                                                <th>Zip Code</th>
-                                                                <th>Address</th>
-                                                                <th>Remarks</th>
-                                                                <th>Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr ng-repeat="item in dtAViewData">
-                                                                <td>{{item.AddressType}}</td>
-                                                                <td>{{item.HouseNo}}</td>
-                                                                <td>{{item.StreetNo}}</td>
-                                                                <td>{{item.City}}</td>
-                                                                <td>{{item.Town}}</td>
-                                                                <td>{{item.State}}</td>
-                                                                <td>{{item.Country}}</td>
-                                                                <td>{{item.ZipCode}}</td>
-                                                                <td>{{item.Address}}</td>
-                                                                <td>{{item.Remarks}}</td>
-                                                                <td class="text-center">
-                                                                    <button type="button" ng-click="DeleteAddress(item.CCPL_ROW_ID)" title="Delete" class="btn btn-xs btn-danger" alt="default" data-toggle="modal" data-target="#" href="javascript:void(0)"><span class="fas fa-trash"></span></button>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <hr />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Row -->
-                            </div>
-                            @*=================Patient Contact================== *@
-                            <div class="tab-pane" id="Contact" role="tabpanel">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h4 class="card-title">Contact Detail</h4>
-                                                <hr />
-                                                <form name="ContactDetail">
-                                                    <div class="form-body form-group">
-                                                        <div class="row p-t-20">
-                                                            <div class="col-md-1"></div>
-                                                            <div class="col-md-1">
-                                                                <label class="control-label text-dark" for="TypeID">Contact Types:</label>
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <select class="form-control" ng-model="txtContactType">
-                                                                    <option value="0" label="-Please Select-"></option>
-                                                                    <option ng-repeat="item in dtGetContactType" value="{{item.TypeID}}">{{item.TypeID}}</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-md-1"></div>
-                                                            <div class="col-sm-1">
-                                                                <label class="control-label text-dark" for="Telephone">Tel #:</label>
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <div class="input-group">
-                                                                    <input type="text" id="Telephone" class="form-control" ng-model="txtTelephone" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row p-t-20">
-                                                            <div class="col-md-1"></div>
-                                                            <div class="col-sm-1">
-                                                                <label class="control-label text-dark" for="Email">Email:</label>
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <div class="input-group">
-                                                                    <input type="email" id="Email" class="form-control" ng-model="txtEmail" />
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-1"></div>
-                                                            <div class="col-sm-1">
-                                                                <label class="control-label text-dark" for="Remarks">Remarks:</label>
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <div class="input-group">
-                                                                    <input type="text" id="Remarks" class="form-control" ng-model="txtCRemarks" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row p-t-20">
-                                                            <div class="col-md-6"></div>
-                                                            <div class="col-md-2">
-                                                                <div class="form-group">
-                                                                    <button ng-click="On_ClearC()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <div class="form-group">
-                                                                    <button ng-click="savedataC()" ng-hide="CUSaveBtnC" ng-disabled="ContactDetail.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-3"></div>
-                                                        </div>
-
-                                                    </div>
-                                                </form>
-                                                <div class="table-responsive-sm">
-                                                    <table class="table-sm table-hover table-bordered text-dark">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Type</th>
-                                                                <th>Tel #</th>
-                                                                <th>Email</th>
-                                                                <th>Remarks</th>
-                                                                <th>Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr ng-repeat="item in dtCViewData">
-                                                                <td>{{item.ContactType}}</td>
-                                                                <td>{{item.Telephone}}</td>
-                                                                <td>{{item.EmailID}}</td>
-                                                                <td>{{item.Remarks}}</td>
-                                                                <td class="text-center">
-                                                                    <button type="button" ng-click="DeleteContact(item.CCPL_ROW_ID)" title="Delete" class="btn btn-xs btn-danger" alt="default" data-toggle="modal" data-target="#" href="javascript:void(0)"><span class="fas fa-trash"></span></button>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <hr />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Row -->
-                            </div>
-                        </div>
-                        <div class="row p-t-20">
-                            <div class="col-sm-1">
-                                <label class="control-label text-dark" for="Remarks">Remarks:</label>
-                            </div>
-                            <div class="col-md-11">
-                                <input type="text" id="Remarks" class="form-control font-weight-bold" ng-model="txtORemarks" />
-                            </div>
-                        </div>
                         <hr />
-                        <div class="row p-t-20">
-                            <div class="col-md-6"></div>
-                            <div class="col-md-2"></div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    @*<button ng-click="SaveCompData()" data-target="#PatientProcNot" class="btn btn-outline-success form-control"><i class="fa fa-check"></i> Register</button>*@
-                                    <button ng-click="SaveCompData()" ng-disabled="PatientRegister.$invalid" alt="default" data-toggle="modal" href="javascript:void(0)" data-target="#PatientProcNot" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Register</button>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <button ng-click="On_Clear()" ng-disabled="PatientRegister.$invalid" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear</button>
-                                </div>
-                            </div>
-                            @*<div class="col-md-2">
-                    <div class="form-group">
-                        <button ng-click="UpdateCompData()" alt="default" data-toggle="modal" href="javascript:void(0)" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Update</button>
-                        @*<button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#PatientModlDes" href="javascript:void(0)" ng-click="GetPatType();NewToken(txtCnic,'Self');GetDoctorname()"><i class="ti-search"></i></button>*@
-                            @*<button ng-click="GetPatType();NewToken(txtCnic,'Self');GetDoctorname();InfoTransfer(txtCnic)" alt="default" data-toggle="modal" href="javascript:void(0)" data-target="#PatientModlDes" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Generate Token(Self)</button>*@
-                            @*  </div>*@
-                            @* </div> *@
+            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-    </div>
-</div>
 @section scripts {
-    <script src="~/Scripts/Custom/NewRegisteration.js"></script>
+    <script src="~/Scripts/Custom/Update_Tokens.js"></script>
 }
 
 

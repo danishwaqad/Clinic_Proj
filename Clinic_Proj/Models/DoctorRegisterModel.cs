@@ -15,6 +15,8 @@ namespace Clinic_Proj.Models
         [Required]
         public string ShareType { get; set; }
         [Required]
+        public string Education { get; set; }
+        [Required]
         public double SharePercent { get; set; }
         [Required]
         public string DoctorName { get; set; }
@@ -90,6 +92,7 @@ namespace Clinic_Proj.Models
             DrShift = string.Empty;
             UserName = string.Empty;
             ShareType = string.Empty;
+            Education = string.Empty;
             Pass = string.Empty;
             Charges = "0";
             HomeStatus = string.Empty;

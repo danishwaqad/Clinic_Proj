@@ -5,7 +5,7 @@
 
 <div ng-app="RegistrationForm" ng-controller="Home">
 
-    <div class="row page-titles">
+    @*<div class="row page-titles">
         <div class="col-md-5 align-self-center">
             <h4 class="text-themecolor">Register Employee</h4>
         </div>
@@ -17,7 +17,7 @@
                 </ol>
             </div>
         </div>
-    </div>
+    </div>*@
 
     <!--row-->
     <div class="row">
@@ -248,7 +248,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <input type="text" maxlength="12" id="EmpTel1" placeholder="923001234567" class="form-control form-input-grey" ng-model="txtEmpTel1" required />
+                                        <input type="text" maxlength="12" id="EmpTel1" placeholder="3001234567" class="form-control form-input-grey" ng-blur="getTel1Length()" ng-model="txtEmpTel1" required />
                                     </div>
                                 </div>
                                 <div class="col-md-1"></div>
@@ -257,7 +257,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <input type="text" maxlength="12" id="EmpTel2" placeholder="923001234567" class="form-control form-input-grey" ng-model="txtEmpTel2" />
+                                        <input type="text" maxlength="12" id="EmpTel2" placeholder="3001234567" class="form-control form-input-grey" ng-blur="getTel2Length()" ng-model="txtEmpTel2" />
                                     </div>
                                 </div>
                                 <!--/span-->
@@ -442,6 +442,48 @@
                     stack: 6
                 });
             };
+            $scope.getTel1Length = function () {
+            $scope.length = '';
+            if ($scope.txtEmpTel1 == undefined) {
+                $scope.Notification('error', 'Error', 'Please Enter Valid Length Mobile # Format/923121234567');
+            }
+            else {
+                //Nothing will do
+            }
+            var StartingString = $scope.txtEmpTel1.startsWith("92");
+            $scope.length = $scope.txtEmpTel1.length;
+            if ($scope.length == '10' && StartingString == false) {
+                $scope.txtEmpTel1 = '92' + $scope.txtEmpTel1;
+            }
+            else if ($scope.length == '12' && StartingString == true) {
+                $scope.txtEmpTel1 = $scope.txtEmpTel1;
+            }
+            else {
+                $scope.txtEmpTel1 = '';
+                $scope.Notification('error', 'Error', 'Please Enter Valid Length Mobile # Format/923121234567');
+            }
+        };
+        $scope.getTel2Length = function () {
+            $scope.length = '';
+            if ($scope.txtEmpTel2 == undefined) {
+                $scope.Notification('error', 'Error', 'Please Enter Valid Length Mobile # Format/923121234567');
+            }
+            else {
+                //Nothing will do
+            }
+            var StartingString = $scope.txtEmpTel2.startsWith("92");
+            $scope.length = $scope.txtEmpTel2.length;
+            if ($scope.length == '10' && StartingString == false) {
+                $scope.txtEmpTel2 = '92' + $scope.txtEmpTel2;
+            }
+            else if ($scope.length == '12' && StartingString == true) {
+                $scope.txtEmpTel2 = $scope.txtEmpTel2;
+            }
+            else {
+                $scope.txtEmpTel2 = '';
+                $scope.Notification('error', 'Error', 'Please Enter Valid Length Mobile # Format/923121234567');
+            }
+        };
             //===========Display All Company Data by lookup=============
             $scope.GetAllData = function () {
                 var displayReq = {

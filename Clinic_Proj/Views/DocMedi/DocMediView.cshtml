@@ -1,0 +1,1472 @@
+﻿
+@{
+    ViewBag.Title = "DocMediView";
+}
+    <div ng-app="RegistrationForm" ng-controller="Home">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header bg-info">
+                        <h4 class="m-b-0 text-white">Create Diagnose Category</h4>
+                    </div>
+                    <div id="DiagConName" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Diagnose</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="TxtDiagSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr #</th>
+                                                    <th>Short Name</th>
+                                                    <th>Long Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtGetCNAll | filter:TxtDiagSearch">
+                                                    <td>{{$index + 1}}</td>
+                                                    <td><button ng-click="GetDiagByid(item.ShortName)" class="btn btn-link" data-dismiss="modal">{{item.ShortName}}</button></td>
+                                                    <td>{{item.LongName}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <div id="MediDiagName" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Diagnose</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="TxtDiagSearch2" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr #</th>
+                                                    <th>Short Name</th>
+                                                    <th>Long Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtMediGetCNAll | filter:TxtDiagSearch2">
+                                                    <td>{{$index + 1}}</td>
+                                                    <td><button ng-click="GetMediDiagByid(item.ShortName)" class="btn btn-link" data-dismiss="modal">{{item.ShortName}}</button></td>
+                                                    <td>{{item.LongName}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <div id="MediDiagnoseHead" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Diagnose Group 1</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="TxtDiagGroup2Search" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr #</th>
+                                                    <th>Diagnose Name</th>
+                                                    <th>Diagnose History</th>
+                                                    <th>Doctor Name</th>
+                                                    <th>In Active</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtGroup2All | filter:TxtDiagGroup2Search">
+                                                    <td>{{$index + 1}}</td>
+                                                    <td><button ng-click="Get_Group2_Byid(item.GroupID)" class="btn btn-link" data-dismiss="modal">{{item.GroupName}}</button></td>
+                                                    <td>{{item.Remarks}}</td>
+                                                    <td>{{item.DoctorName}}</td>
+                                                    <td>{{item.InActive}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <div id="DiagnoseHead" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Diagnose Group 1</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="TxtDiagGroup1Search" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr #</th>
+                                                    <th>Diagnose Name</th>
+                                                    <th>Diagnose History</th>
+                                                    <th>Doctor Name</th>
+                                                    <th>In Active</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtGroup1All | filter:TxtDiagGroup1Search">
+                                                    <td>{{$index + 1}}</td>
+                                                    <td><button ng-click="Get_Group1_Byid(item.GroupID)" class="btn btn-link" data-dismiss="modal">{{item.GroupName}}</button></td>
+                                                    <td>{{item.Remarks}}</td>
+                                                    <td>{{item.DoctorName}}</td>
+                                                    <td>{{item.InActive}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!--------------------Type---------------------------->
+                    <div id="Typeid" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Type About Medication</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="TxtMediSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Type</th>
+                                                    <th>Urdu Text</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dttypeGetAll | filter:TxtMediSearch">
+                                                    <td><button ng-click="GetTypeByid(item.TypeID)" class="btn btn-link" data-dismiss="modal">{{item.TypeID}}</button></td>
+                                                    <td>{{item.UrduText}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!----------------------------------------------->
+                    <!--------------------Genric Data---------------------------->
+                    <div id="GenricData" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl modal-x">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Type About Genric</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="TxtGenricSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr #</th>
+                                                    <th>Genric Name</th>
+                                                    <th>Brand Name</th>
+                                                    <th>Full Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtGenricGetAll | filter:TxtGenricSearch">
+                                                    <td>{{$index + 1}}</td>
+                                                    <td><button ng-click="GetGenricByid(item.GenericName,item.Potency,item.PotencyUOM,item.SubTypeID)" class="btn btn-link" data-dismiss="modal">{{item.GenericName}}</button></td>
+                                                    <td>{{item.BrandName}}</td>
+                                                    <td>{{item.FullItemName}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!--------------------Stock Data---------------------------->
+                    <div id="StockData" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl modal-x">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Type About Stock</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="TxtStockSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr #</th>
+                                                    <th>Brand Name</th>
+                                                    <th>Genric Name</th>
+                                                    <th>Sub Type ID</th>
+                                                    <th>Potency With UOM</th>
+                                                    <th>Stock Qty</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtStockGetAll | filter:TxtStockSearch">
+                                                    <td>{{$index + 1}}</td>
+                                                    <td><button ng-click="GetStockByid(item.BrandName,item.PotencyWithUOM,item.SubTypeID)" class="btn btn-link" data-dismiss="modal">{{item.BrandName}}</button></td>
+                                                    <td>{{item.GenericName}}</td>
+                                                    <td>{{item.SubTypeID}}</td>
+                                                    <td>{{item.PotencyWithUOM}}</td>
+                                                    <td>{{item.StockUnitQty}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!----------------------------------------------->
+                    <!--------------------Sub type---------------------------->
+                    <div id="SubType" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myLargeModalLabel">Select Sub Type About Medication</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="CompSearch">Search:</label>
+                                        </div>
+                                        <div class="col-md-4 form-material">
+                                            <input type="text" class="form-control" id="UserSearch" ng-model="TxtSubtypeSearch" />
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive-sm">
+                                        <table class="table-sm table-hover table-bordered text-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sub Type</th>
+                                                    <th>Type</th>
+                                                    <th>Urdu Text</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in dtSbtypGetAll | filter:TxtSubtypeSearch">
+                                                    <td><button ng-click="GetSbTypByid(item.SubTypeID,item.UrduText)" class="btn btn-link" data-dismiss="modal">{{item.SubTypeID}}</button></td>
+                                                    <td>{{item.TypeID}}</td>
+                                                    <td>{{item.UrduText}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!--row-->
+                    <ul class="nav nav-tabs justify-content-center nav-pills nav-justified" style="font-size:14px;color:red;" role="tablist">
+                        <li class="nav-item text-center"> <a class="nav-link" ng-click="On_ClearDiag()" data-toggle="tab" href="#DiagnoseForm" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="fa fa-medkit"></i></span> <span class="hidden-xs-down">Diagnose Group 1</span></a> </li>
+                        <li class="nav-item text-center"> <a class="nav-link" ng-click="On_ClearMedi()" data-toggle="tab" href="#MedicationForm" role="tab" aria-selected="true"><span class="hidden-sm-up"><i class="fa fa-stethoscope"></i></span> <span class="hidden-xs-down">Medication Group 2</span></a> </li>
+                    </ul>
+                    <div class="tab-content tabcontent-border">
+                        @* ===================Start Diagnose================== *@
+                        <div class="tab-pane" role="tabpanel" id="DiagnoseForm">
+                            <div class="card-body">
+                                <div class="col-md-12">
+                                    <form name="DiagnoseHead">
+                                        <div class="row p-t-20">
+                                            <div class="col-md-1"></div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label text-dark" for="DiagnoseID">Diagnose ID:</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <input type="text" id="DiagnoseID" class="form-control form-input-grey text-center font-weight-bold" ng-model="txtDiagnoseID" required readonly />
+                                                    <div class="input-group-append">
+                                                        <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#DiagnoseHead" href="javascript:void(0)" ng-click="GetGroup1AllData()"><i class="ti-search"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1"></div>
+                                            <div class="col-sm-1">
+                                                <label class="control-label text-dark" for="DoctorID">Doctor ID:</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <input type="text" id="DoctorID" class="form-control form-input-grey" ng-model="txtDoctorID" required readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-1"></div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label text-dark" for="DoctorName">Doctor Name:</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <input type="text" id="DoctorName" class="form-control form-input-grey" ng-model="txtDoctorName" required readonly />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-1">
+                                                <label class="control-label text-dark" for="DiagnoseName">Diagnose Name:</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <input type="text" id="DiagnoseName" class="form-control form-input-grey" ng-model="txtDiagnoseName" required />
+                                                    <div class="input-group-append">
+                                                        <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#DiagConName" href="javascript:void(0)" ng-click="GetDiagCNAllData()"><i class="ti-search"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label text-dark" for="DiagnoseHist">Diagnose History:</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="input-group">
+                                                    <textarea rows="5" ng-model="txtDiagnoseHist" class="form-control form-input-grey"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label text-dark" for="InActive">InActive:</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <select id="Status" ng-model="txtInActive" class="btn btn-outline-secondary dropdown-toggle form-control form-input-grey">
+                                                    <option value="false">Active</option>
+                                                    <option value="true">InActive</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <button ng-click="saveDiagdata()" ng-disabled="DiagnoseHead.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <button ng-click="On_ClearDiag()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <button ng-disabled="DiagnoseHead.$invalid" ng-click="OnGroup1_Delete()" class="btn btn-outline-danger form-control"><i class="icon-trash"></i>Delete</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        @*================ Start Medication ====================*@
+                        <div class="tab-pane" role="tabpanel" id="MedicationForm">
+                            <div class="card-body">
+                                <div class="col-md-12">
+                                    <form name="MedicineEntry">
+                                        <div class="form-body form-group">
+                                            <div class="row p-t-20">
+                                                <div class="col-sm-1">
+                                                    <label class="control-label text-dark" for="DiagnoseID">Diagnose ID:</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="input-group">
+                                                        <input type="text" id="DiagnoseID" class="form-control form-input-grey" ng-model="txtDiagnoseID2" required />
+                                                        <div class="input-group-append">
+                                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#MediDiagnoseHead" href="javascript:void(0)" ng-click="GetGroup2AllData()"><i class="ti-search"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <label class="control-label text-dark" for="DiagnoseName">Diagnose Name:</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="input-group">
+                                                        <input type="text" id="DiagnoseName" class="form-control form-input-grey" ng-model="txtDiagnoseName2" required />
+                                                        <div class="input-group-append">
+                                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#MediDiagName" href="javascript:void(0)" ng-click="GetMediCNAllData()"><i class="ti-search"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <label class="control-label text-dark" for="InActive2">InActive:</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <select id="Status" ng-model="txtInActive2" class="btn btn-outline-secondary dropdown-toggle form-control form-input-grey">
+                                                        <option value="false">Active</option>
+                                                        <option value="true">InActive</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row p-t-20">
+                                                <div class="col-md-6">
+                                                    <label class="control-label text-dark" for="Genric">Generic Name:</label>
+                                                    &nbsp;
+                                                    <input type="checkbox" id="ChkCurrent" ng-true-value="true" ng-false-value="false" ng-model="ChkCurrent" ng-change="GenerateUrdu()" /><label>Current</label>
+                                                    &nbsp;
+                                                    <input type="checkbox" id="ChkContinuous" ng-true-value="true" ng-false-value="false" ng-model="ChkContinuous" ng-change="GenerateUrdu()" /><label>Continuous</label>
+                                                    <div class="input-group">
+                                                        <input type="text" id="Genric" ng-model="txtGenric" ng-disabled="StockList" placeholder="Select Generic" class="form-control form-input-grey" required />
+                                                        <input type="text" id="Potency" class="form-control form-input-grey text-left font-weight-bold col-md-3" placeholder="Potency" ng-model="txtPotency" />
+                                                        <div class="input-group-append">
+                                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" ng-hide="GenericList" data-target="#GenricData" href="javascript:void(0)" ng-click="GetGenricAllData()"><i class="ti-search"></i></button>
+                                                        </div>
+                                                        <div class="input-group-append">
+                                                            <button type="button" class="btn btn-success" alt="default" data-toggle="modal" ng-hide="StockList" data-target="#StockData" href="javascript:void(0)" ng-click="GetStockAllData()"><i class="ti-search"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="control-label text-dark" for="TypeID">Type ID:</label>
+                                                    <div class="input-group">
+                                                        <input type="text" id="TypeID" ng-model="txtTypeID" class="form-control form-input-grey" maxlength="100" required readonly />
+                                                        <div class="input-group-append">
+                                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#Typeid" href="javascript:void(0)" ng-click="GetTypeAllData()"><i class="ti-search"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="control-label text-dark" for="SbTypeID">Sub Type ID:</label>
+                                                    <div class="input-group">
+                                                        <input type="text" id="SbTypeID" ng-model="txtSbTypeID" class="form-control form-input-grey" maxlength="100" required readonly />
+                                                        <div class="input-group-append">
+                                                            <button type="button" class="btn btn-info" alt="default" data-toggle="modal" data-target="#SubType" href="javascript:void(0)" ng-click="GetSbTypAllData(txtTypeID)"><i class="ti-search"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row p-t-20">
+
+                                                <div class="col-md-1">
+                                                    <label class="control-label text-dark" ng-hide="DosageLbl" for="Dosage">Dosage:</label>
+                                                    <input type="number" step="any" ng-hide="Dosage" id="Dosage" ng-blur="UrduCounting(TxtDosages)" ng-change="GenerateUrdu()" ng-model="TxtDosages" class="form-control form-input-grey" />
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <label class="control-label text-dark" ng-hide="DaysLbl" for="Days">Days:</label>
+                                                    <input type="number" id="Days" ng-hide="DaysInp" ng-blur="UrduDaysCounting(TxtDays)" ng-change="GenerateUrdu()" ng-model="TxtDays" class="form-control form-input-grey" />
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label class="control-label text-dark" for="Frequency" ng-hide="FrequencyH">Frequency</label>
+                                                    <div class="form-group">
+                                                        <input type="checkbox" id="ChkMorning" ng-true-value="true" ng-false-value="false" ng-hide="MorningH" ng-model="ChkMorning" ng-change="GenerateUrdu()" /><label ng-hide="MorningH">Morning</label>
+                                                        &nbsp;
+                                                        <input type="checkbox" id="ChkEvening" ng-true-value="true" ng-false-value="false" ng-hide="EveningH" ng-model="ChkEvening" ng-change="GenerateUrdu()" /><label ng-hide="EveningH">Mid Day</label>
+                                                        &nbsp;
+                                                        <input type="checkbox" id="ChkNight" ng-true-value="true" ng-false-value="false" ng-hide="NightH" ng-model="ChkNight" ng-change="GenerateUrdu()" /><label ng-hide="NightH">Evening</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <label class="control-label text-dark" for="Urdutxt">Urdu Text:</label>
+                                                    <input type="text" id="Urdutxt" ng-model="TxtUrdu" class="form-control form-input-grey text-center font-weight-bold" readonly />
+                                                </div>
+                                            </div>
+                                            <div class="row p-t-20">
+                                                <div class="col-md-12">
+                                                    <input type="text" id="Remarks" ng-model="txtRemarks2" class="form-control form-input-grey" placeholder="Remarks if any.." />
+                                                </div>
+                                            </div>
+                                            <div class="row p-t-20">
+                                                <div class="col-sm-6"></div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <button ng-click="saveMedidata()" ng-disabled="MedicineEntry.$invalid" class="btn btn-outline-success form-control"><i class="fa fa-check"></i>Save</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <button ng-click="On_ClearMedi()" class="btn btn-outline-warning form-control"><i class="icon-refresh"></i> Clear </button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <button ng-disabled="MedicineEntry.$invalid" ng-click="OnDeleteMedi()" class="btn btn-outline-danger form-control"><i class="icon-trash"></i>Delete</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <table class=" table table-sm table-hover table-bordered text-dark">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Sr#</th>
+                                                                <th>Generic Name</th>
+                                                                <th>Urdu Text</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in dtGetMediviewAll">
+                                                                <td>{{$index + 1}}</td>
+                                                                <td>{{item.ItemName}}</td>
+                                                                <td>{{item.UrduText}}</td>
+                                                                <td>
+                                                                    <button ng-click="OnMediDelete(item.CCPL_ROW_ID)" class="btn btn-xs btn-danger" alt="default" data-toggle="modal" data-target="#" href="javascript:void(0)"><i class="fa fa-trash"></i></button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+                </div>
+                @section scripts {
+
+                    <script>
+                        var RegistrationForm = angular.module("RegistrationForm", []);
+                        RegistrationForm.controller("Home", function ($scope, $http) {
+                            $scope.Notification = function (Type, Heading, Test) {
+                                //info, warning, success, error
+                                $.toast({
+                                    heading: Heading,
+                                    text: Test,
+                                    position: 'top-right',
+                                    loaderBg: '#ff6849',
+                                    icon: Type,
+                                    hideAfter: 3500,
+                                    stack: 6
+                                });
+                            };
+                            //=============Get Diagnose ID================
+                            $scope.GetDiagNoseID = function () {
+                                var displayReq = {
+                                    method: "POST",
+                                    url: "/DocMedi/Get_DiagID",
+                                    data: {
+                                    }
+                                }
+                                $http(displayReq).then(function (Return) {
+                                    var dt = angular.fromJson(Return.data);
+                                    if (dt.length > 0) {
+                                        $scope.txtDiagnoseID = dt[0].ID;
+                                    }
+                                    else {
+                                        $scope.txtDiagnoseID = '';
+                                    }
+
+                                }, function myError(Return) {
+                                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                                });
+                            };
+                            //=============Get Doctor Name And ID================
+                            $scope.GetDocID = function () {
+                                var displayReq = {
+                                    method: "POST",
+                                    url: "/DocMedi/Get_DoctorID",
+                                    data: {
+                                    }
+                                }
+                                $http(displayReq).then(function (Return) {
+                                    var dt = angular.fromJson(Return.data);
+                                    if (dt.length > 0) {
+                                        $scope.txtDoctorID = dt[0].DoctorID;
+                                        $scope.txtDoctorName = dt[0].DoctorName;
+                                    }
+                                    else {
+                                        $scope.txtDoctorID = '';
+                                        $scope.txtDoctorName = '';
+                                    }
+
+                                }, function myError(Return) {
+                                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                                });
+                            };
+                            //==============Display Diagnose Data By Lookup===================
+                            $scope.GetDiagCNAllData = function () {
+                                var displayReq = {
+                                    method: "POST",
+                                    url: "/DocMedi/GetDiag_data",
+                                    data: {}
+                                }
+                                $http(displayReq).then(function (Return) {
+                                    $scope.dtGetCNAll = angular.fromJson(Return.data);
+
+                                }, function myError(Return) {
+                                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                                });
+                            };
+                            //==============Display Group Data By Lookup===================
+                            $scope.GetGroup1AllData = function () {
+                                var displayReq = {
+                                    method: "POST",
+                                    url: "/DocMedi/GetGroup1_data",
+                                    data: {}
+                                }
+                                $http(displayReq).then(function (Return) {
+                                    $scope.dtGroup1All = angular.fromJson(Return.data);
+                                }, function myError(Return) {
+                                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                                });
+                            };
+                            //=============Diagnose Data Insert=================
+                            $scope.saveDiagdata = function () {
+                                var displayReq = {
+                                    method: 'POST',
+                                    url: '/DocMedi/Add_DiagRecrd',
+                                    data: {
+                                        GroupID: $scope.txtDiagnoseID,
+                                        GroupName: $scope.txtDiagnoseName,
+                                        DoctorID: $scope.txtDoctorID,
+                                        DoctorName: $scope.txtDoctorName,
+                                        Remarks: $scope.txtDiagnoseHist,
+                                        InActive: $scope.txtInActive
+                                    }
+                                }
+                                $http(displayReq).then(function (Return) {
+                                    $scope.On_ClearDiag();
+                                    if (Return.data == "Inserted") {
+                                        $scope.Notification('success', 'Operation Completed', 'Insert Diagnose Group 1');
+                                    }
+                                    else {
+                                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                                    }
+                                }, function myError(Return) {
+                                    $scope.On_ClearDiag();
+                                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                                });
+                            };
+                            //===============Get Diagnose by id=======================
+                            $scope.GetDiagByid = function (ShortName) {
+                                $scope.txtDiagnoseName = ShortName;
+                            };
+                            //==============Get Group 1 Record By ID============
+                            $scope.Get_Group1_Byid = function (Group1_ID) {
+                                var displayReq = {
+                                    method: "POST",
+                                    url: "/DocMedi/Get_Group1_databyid",
+                                    data: {
+                                        GroupID: Group1_ID
+                                    }
+                                }
+                                $http(displayReq).then(function (Return) {
+                                    var dt = angular.fromJson(Return.data);
+                                    if (dt.length > 0) {
+                                        $scope.txtDiagnoseName = dt[0].GroupName;
+                                        $scope.txtDiagnoseID = dt[0].GroupID;
+                                        $scope.txtDoctorID = dt[0].DoctorID;
+                                        $scope.txtDoctorName = dt[0].DoctorName;
+                                        $scope.txtDiagnoseHist = dt[0].Remarks;
+                                        if (dt[0].InActive == false) {
+                                            $scope.txtInActive = 'false';
+                                        }
+                                        else {
+                                            $scope.txtInActive = 'true';
+                                        }
+                                        //$scope.CUSaveBtn = false;
+                                    }
+                                    else {
+                                        //$scope.CUSaveBtn = true;
+                                        $scope.GetDiagNoseID();
+                                        $scope.GetDocID();
+                                        $scope.txtInActive = 'false';
+                                        $scope.txtDiagnoseName = '';
+                                        $scope.txtDiagnoseHist = '';
+                                    }
+
+                                }, function myError(Return) {
+                                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                                });
+                            };
+                            //============Delete Group 1 Data=======================
+                            $scope.OnGroup1_Delete = function () {
+                                var displayReq = {
+                                    method: "POST",
+                                    url: "/DocMedi/OnGroup1_DataDelete",
+                                    data: {
+                                        GroupID: $scope.txtDiagnoseID
+                                    }
+                                }
+                                $http(displayReq).then(function (Return) {
+                                    if (Return.data == "Delete") {
+                                        $scope.On_ClearDiag();
+                                        $scope.Notification('success', 'Operation Completed', 'Delete Diagnose From Group 1');
+                                    }
+                                    else {
+                                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                                    }
+                                }, function myError(Return) {
+                                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                                });
+                            };
+                            //========================Consultancy Start=============================================
+                               //===============Medication List Button Enable Or Disable Func=============
+                                $scope.GetEnabl_Disabl = function () {
+                                    var displayReq = {
+                                        method: "POST",
+                                        url: "/Consult/GetEnable_Data",
+                                        data: {}
+                                    }
+                                    $http(displayReq).then(function (Return) {
+                                        var dt = angular.fromJson(Return.data);
+                                        if (dt[0].IsAllow == 1) {
+                                            $scope.StockList = false;
+                                            $scope.GenericList = true;
+                                        }
+                                        else {
+                                            $scope.StockList = true;
+                                            $scope.GenericList = false;
+                                        }
+
+                                    }, function myError(Return) {
+                                        $scope.Notification('error', 'Error Code GEN0001', Return.data);
+                                    });
+                            }
+                                //===============Generate URDU================
+                                $scope.GenerateUrdu = function () {
+                                    var displayReq = {
+                                        method: "POST",
+                                        url: "/Consult/Get_EnableUrduText",
+                                        data: {
+                                            SubTypeID: $scope.txtSbTypeID
+                                        }
+                                    }
+                                    $http(displayReq).then(function (Return) {
+                                        var dt = angular.fromJson(Return.data);
+                                        if (dt.length > 0) {
+                                            var Morning, Evening, Night, Current, Continuous;
+                                            var One, Two, Three, Fourth;
+                                            One = dt[0].NormalType;
+                                            Two = dt[0].SecoundType;
+                                            Three = dt[0].ThirdType;
+                                            Fourth = dt[0].FourthType;
+                                            if ($scope.ChkMorning == true) {
+                                                Morning = 'صبح';
+                                            }
+                                            else {
+                                                Morning = '';
+                                            }
+                                            if ($scope.ChkEvening == true) {
+                                                Evening = 'دوپہر';
+                                            }
+                                            else {
+                                                Evening = '';
+                                            }
+                                            if ($scope.ChkNight == true) {
+                                                Night = 'شام';
+                                            }
+                                            else {
+                                                Night = '';
+                                            }
+                                            if ($scope.ChkCurrent == true) {
+                                                Current = 'ابھی';
+                                            }
+                                            else {
+                                                Current = '';
+                                            }
+                                            if ($scope.ChkContinuous == true) {
+                                                Continuous = 'مستقل';
+                                            }
+                                            else {
+                                                Continuous = '';
+                                            }
+                                            if ($scope.ChkCurrent == false && $scope.ChkContinuous == false && $scope.txtGenric != '') {
+                                                if (One == 1) {
+                                                    $scope.Dosage = true;
+                                                    $scope.DosageLbl = true;
+                                                    $scope.DaysLbl = false;
+                                                    $scope.DaysInp = false;
+                                                    $scope.MorningH = false;
+                                                    $scope.EveningH = false;
+                                                    $scope.NightH = false;
+                                                    $scope.FrequencyH = false;
+                                                    $scope.TxtUrdu = '  ' + $scope.SubTypeUrdu + '  ' + Morning + '  ' + Evening + '  ' + Night + '  ' + $scope.TxtUrduDays + '  ' + ' دن تک لگائیں ';
+                                                }
+                                                else if (Two == 1) {
+                                                    $scope.Dosage = false;
+                                                    $scope.DosageLbl = false;
+                                                    $scope.DaysLbl = false;
+                                                    $scope.DaysInp = false;
+                                                    $scope.MorningH = false;
+                                                    $scope.EveningH = false;
+                                                    $scope.NightH = false;
+                                                    $scope.FrequencyH = false;
+                                                    $scope.TxtUrdu = '  ' + $scope.TxtUrduQty + '  ' + $scope.SubTypeUrdu + '  ' + Morning + '  ' + Evening + '  ' + Night + '  ' + $scope.TxtUrduDays + '  ' + ' دن تک استعمال کریں ';
+                                                }
+                                                //}
+                                                else if (Three == 1) {
+                                                    $scope.Dosage = true;
+                                                    $scope.DosageLbl = true;
+                                                    $scope.DaysLbl = false;
+                                                    $scope.DaysInp = false;
+                                                    $scope.MorningH = false;
+                                                    $scope.EveningH = false;
+                                                    $scope.NightH = false;
+                                                    $scope.FrequencyH = false;
+                                                    $scope.TxtUrdu = '  ' + $scope.SubTypeUrdu + '  ' + Morning + '  ' + Evening + '  ' + Night + '  ' + $scope.TxtUrduDays + '  ' + ' دن تک استعمال کریں ';
+                                                }
+                                                else {
+                                                    $scope.Dosage = true;
+                                                    $scope.DosageLbl = true;
+                                                    $scope.DaysLbl = false;
+                                                    $scope.DaysInp = false;
+                                                    $scope.MorningH = false;
+                                                    $scope.EveningH = false;
+                                                    $scope.NightH = false;
+                                                    $scope.FrequencyH = false;
+                                                    $scope.TxtUrdu = '  ' + $scope.SubTypeUrdu + '  ' + Morning + '  ' + Evening + '  ' + Night + '  ' + $scope.TxtUrduDays + '  ' + 'دن تک جاری رکھیں';
+                                                }
+                                            }
+                                            else {
+                                                //Nothing
+                                            }
+                                            if ($scope.ChkCurrent == true) {
+                                                if (One == 1) {
+                                                    $scope.Dosage = true;
+                                                    $scope.DosageLbl = true;
+                                                    $scope.DaysLbl = true;
+                                                    $scope.DaysInp = true;
+                                                    $scope.MorningH = true;
+                                                    $scope.EveningH = true;
+                                                    $scope.NightH = true;
+                                                    $scope.FrequencyH = true;
+                                                    $scope.TxtUrdu = '  ' + $scope.SubTypeUrdu + '  ' + Current + '  ' + 'لگائیں';
+                                                }
+                                                else if (Two == 1) {
+                                                    $scope.Dosage = false;
+                                                    $scope.DosageLbl = false;
+                                                    $scope.DaysLbl = true;
+                                                    $scope.DaysInp = true;
+                                                    $scope.MorningH = true;
+                                                    $scope.EveningH = true;
+                                                    $scope.NightH = true;
+                                                    $scope.FrequencyH = true;
+                                                    $scope.TxtUrdu = '  ' + $scope.TxtUrduQty + '  ' + $scope.SubTypeUrdu + '  ' + Current + '  ' + 'استعمال کریں';
+                                                }
+                                                else if (Three == 1) {
+                                                    $scope.Dosage = true;
+                                                    $scope.DosageLbl = true;
+                                                    $scope.DaysLbl = true;
+                                                    $scope.DaysInp = true;
+                                                    $scope.MorningH = true;
+                                                    $scope.EveningH = true;
+                                                    $scope.NightH = true;
+                                                    $scope.FrequencyH = true;
+                                                    $scope.TxtUrdu = '  ' + $scope.SubTypeUrdu + '  ' + Current + '  ' + 'استعمال کریں';
+                                                }
+                                                else {
+                                                    $scope.Dosage = true;
+                                                    $scope.DosageLbl = true;
+                                                    $scope.DaysLbl = true;
+                                                    $scope.DaysInp = true;
+                                                    $scope.MorningH = true;
+                                                    $scope.EveningH = true;
+                                                    $scope.NightH = true;
+                                                    $scope.FrequencyH = true;
+                                                    $scope.TxtUrdu = '  ' + $scope.SubTypeUrdu + '  ' + Current + '  ' + 'لیں';
+                                                }
+                                            }
+                                            else {
+                                                //alert('nothing find in urdu current');
+                                            }
+                                            if ($scope.ChkContinuous == true) {
+                                                if (One == 1) {
+                                                    $scope.Dosage = true;
+                                                    $scope.DosageLbl = true;
+                                                    $scope.DaysLbl = true;
+                                                    $scope.DaysInp = true;
+                                                    $scope.MorningH = false;
+                                                    $scope.EveningH = false;
+                                                    $scope.NightH = false;
+                                                    $scope.FrequencyH = true;
+                                                    $scope.TxtUrdu = '  ' + $scope.SubTypeUrdu + '  ' + Morning + '  ' + Evening + '  ' + Night + '  ' + Continuous + '  ' + 'لگائیں';
+                                                }
+                                                else if (Two == 1) {
+                                                    $scope.Dosage = false;
+                                                    $scope.DosageLbl = false;
+                                                    $scope.DaysLbl = true;
+                                                    $scope.DaysInp = true;
+                                                    $scope.MorningH = false;
+                                                    $scope.EveningH = false;
+                                                    $scope.NightH = false;
+                                                    $scope.FrequencyH = true;
+                                                    $scope.TxtUrdu = '  ' + $scope.TxtUrduQty + '  ' + $scope.SubTypeUrdu + '  ' + Morning + '  ' + Evening + '  ' + Night + '  ' + Continuous + '  ' + 'استعمال کریں';
+                                                }
+                                                else if (Three == 1) {
+                                                    $scope.Dosage = true;
+                                                    $scope.DosageLbl = true;
+                                                    $scope.DaysLbl = true;
+                                                    $scope.DaysInp = true;
+                                                    $scope.MorningH = false;
+                                                    $scope.EveningH = false;
+                                                    $scope.NightH = false;
+                                                    $scope.FrequencyH = true;
+                                                    $scope.TxtUrdu = '  ' + $scope.SubTypeUrdu + '  ' + Morning + '  ' + Evening + '  ' + Night + '  ' + Continuous + '  ' + 'استعمال کریں';
+                                                }
+                                                else if (Fourth == 1) {
+                                                    $scope.Dosage = true;
+                                                    $scope.DosageLbl = true;
+                                                    $scope.DaysLbl = true;
+                                                    $scope.DaysInp = true;
+                                                    $scope.MorningH = true;
+                                                    $scope.EveningH = true;
+                                                    $scope.NightH = true;
+                                                    $scope.FrequencyH = true;
+                                                    $scope.TxtUrdu = '  ' + $scope.SubTypeUrdu + '  ' + Morning + '  ' + Evening + '  ' + Night + '  ' + Continuous + '  ' + 'لیں';
+                                                }
+                                            }
+                                            else {
+                                                //alert('nothing find in urdu continous');
+                                            }
+                                        }
+                                    });
+                            };
+                                //===============Display Genric Related Data in Medication With API==============
+                                $scope.GetGenricAllData = function () {
+                                    var displayReq = {
+                                        method: "POST",
+                                        url: "/Consult/GetAPI",
+                                        data: {}
+                                    }
+                                    $http(displayReq).then(function (Return) {
+                                        var response = angular.fromJson(Return.data);
+                                        if (response.Code == 200) {
+                                            $scope.dtGenricGetAll = response.data;
+                                        }
+                                        else {
+                                            $scope.Notification('error', response.Code, response.Msg);
+                                        }
+                                    }, function myError(Return) {
+                                        $scope.Notification('error', 'Error Code GEN0001', Return.data);
+                                    });
+                                };
+                                //===============Display Stock Related Data in Medication With API==============
+                                $scope.GetStockAllData = function () {
+                                    var displayReq = {
+                                        method: "POST",
+                                        url: "/Consult/GetStockAPI",
+                                        data: {}
+                                    }
+                                    $http(displayReq).then(function (Return) {
+                                        //alert(Return.data);
+                                        var response = angular.fromJson(Return.data);
+                                        if (response.Code == 200) {
+                                            $scope.dtStockGetAll = response.data;
+                                        }
+                                        else {
+                                            alert(Return.data);
+                                            $scope.Notification('error', response.Code, response.Msg);
+                                        }
+                                    }, function myError(Return) {
+                                        $scope.Notification('error', 'Error Code GEN0001', Return.data);
+                                    });
+                                };
+                               //=========Display Medicine Type Related Data================= 
+                                $scope.GetTypeAllData = function () {
+                                    var displayReq = {
+                                        method: "POST",
+                                        url: "/Consult/Get_TypeMed",
+                                        data: {}
+                                    }
+                                    $http(displayReq).then(function (Return) {
+                                        $scope.txtTypeID = '';
+                                        $scope.txtSbTypeID = '';
+                                        $scope.dttypeGetAll = angular.fromJson(Return.data);
+
+                                    }, function myError(Return) {
+                                        $scope.Notification('error', 'Error Code LC0001', Return.data);
+                                    });
+                            };
+                               //============Display Medicine Sub Type Related Data=============== 
+                                $scope.GetSbTypAllData = function (id) {
+                                    var displayReq = {
+                                        method: "POST",
+                                        url: "/Consult/Get_SubTypMed",
+                                        data: {
+                                            SubTypeID: id
+                                        }
+                                    }
+                                    $http(displayReq).then(function (Return) {
+                                        $scope.dtSbtypGetAll = angular.fromJson(Return.data);
+
+                                    }, function myError(Return) {
+                                        $scope.Notification('error', 'Error Code LC0001', Return.data);
+                                    });
+                            };
+                                //==============Get Medicine Type Display by id===============
+                                $scope.GetTypeByid = function (TypeID) {
+                                    $scope.txtTypeID = TypeID;
+                            };
+                                //==============Get Generic by id in Medication================
+                                $scope.GetGenricByid = function (GenericName, Potency, PotencyUOM, SubTypeID) {
+                                    $scope.txtGenric = GenericName;
+                                    $scope.txtPotency = Potency + "" + PotencyUOM;
+                                    $scope.txtTypeID = SubTypeID;
+                            };
+                            //==============Get Stock by id in Medication================
+                            $scope.GetStockByid = function (StockNam, PotencyWUom, SubTypeID) {
+                                $scope.txtGenric = StockNam;
+                                $scope.txtPotency = PotencyWUom;
+                                $scope.txtTypeID = SubTypeID;
+                            };
+                               //============Get Medicine Sub Type Related Data by id=================
+                                $scope.GetSbTypByid = function (SubTypeID) {
+                                    var displayReq = {
+                                        method: "POST",
+                                        url: "/Consult/Get_EnableText",
+                                        data: {
+                                            SubTypeID: SubTypeID
+                                        }
+                                    }
+                                    $http(displayReq).then(function (Return) {
+                                        var dt = angular.fromJson(Return.data);
+                                        if (dt.length > 0) {
+                                            var SubtypeID = dt[0].FirstType;
+                                            $scope.txtSbTypeID = dt[0].SubTypeID;
+                                            $scope.SubTypeUrdu = dt[0].UrduText;
+                                            if (SubtypeID == 1) {
+                                                $scope.Dosage = true;
+                                                $scope.DosageLbl = true;
+                                                $scope.DaysLbl = false;
+                                                $scope.DaysInp = false;
+                                                $scope.MorningH = false;
+                                                $scope.EveningH = false;
+                                                $scope.NightH = false;
+                                                $scope.FrequencyH = false;
+                                                $scope.GenerateUrdu();
+                                            }
+                                            else if (SubtypeID == 0) {
+                                                $scope.Dosage = false;
+                                                $scope.DosageLbl = false;
+                                                $scope.DaysLbl = false;
+                                                $scope.DaysInp = false;
+                                                $scope.MorningH = false;
+                                                $scope.EveningH = false;
+                                                $scope.NightH = false;
+                                                $scope.FrequencyH = false;
+                                                $scope.GenerateUrdu();
+                                            }
+                                            else {
+                                            }
+                                            if ($scope.ChkCurrent == true) {
+                                                if (SubtypeID == 1) {
+                                                    $scope.Dosage = true;
+                                                    $scope.DosageLbl = true;
+                                                    $scope.DaysLbl = true;
+                                                    $scope.DaysInp = true;
+                                                    $scope.MorningH = true;
+                                                    $scope.EveningH = true;
+                                                    $scope.NightH = true;
+                                                    $scope.FrequencyH = true;
+                                                    $scope.GenerateUrdu();
+                                                }
+                                                else if (SubTypeID == 0) {
+                                                    $scope.Dosage = false;
+                                                    $scope.DosageLbl = false;
+                                                    $scope.DaysLbl = true;
+                                                    $scope.DaysInp = true;
+                                                    $scope.MorningH = true;
+                                                    $scope.EveningH = true;
+                                                    $scope.NightH = true;
+                                                    $scope.FrequencyH = true;
+                                                    $scope.GenerateUrdu();
+                                                }
+                                                else {
+                                                }
+                                            }
+                                            else {
+                                                //alert('Nothing Can Be Find In Current');
+                                            }
+                                            if ($scope.ChkContinuous == true) {
+                                                if (SubtypeID == 1) {
+                                                    $scope.Dosage = true;
+                                                    $scope.DosageLbl = true;
+                                                    $scope.DaysLbl = true;
+                                                    $scope.DaysInp = true;
+                                                    $scope.MorningH = false;
+                                                    $scope.EveningH = false;
+                                                    $scope.NightH = false;
+                                                    $scope.FrequencyH = true;
+                                                    $scope.GenerateUrdu();
+                                                }
+                                                else if (SubtypeID == 0) {
+                                                    $scope.Dosage = false;
+                                                    $scope.DosageLbl = false;
+                                                    $scope.DaysLbl = true;
+                                                    $scope.DaysInp = true;
+                                                    $scope.MorningH = false;
+                                                    $scope.EveningH = false;
+                                                    $scope.NightH = false;
+                                                    $scope.FrequencyH = true;
+                                                    $scope.GenerateUrdu();
+                                                }
+                                                else {
+                                                }
+                                            }
+                                            else {
+                                                //alert('Nothing Can Be Find In Continuous');
+                                            }
+                                        }
+                                    }, function myError(Return) {
+                                        $scope.Notification('error', 'Error Code LC0001', Return.data);
+                                    });
+                            };
+                               //=====================After Enter Days then its count days In Urdu text=================
+                                $scope.UrduCounting = function (dosageid) {
+                                    var displayReq = {
+                                        method: "POST",
+                                        url: "/Consult/Get_DosageID",
+                                        data:
+                                        {
+                                            urducnt: dosageid
+                                        }
+                                    }
+                                    $http(displayReq).then(function (Return) {
+                                        var dt = angular.fromJson(Return.data);
+                                        if (dt.length > 0) {
+                                            $scope.TxtUrduQty = dt[0].UrduText;
+                                            $scope.GenerateUrdu();
+                                            //$scope.TxtDosages = dt[0].DosageQty;
+                                        }
+                                        else {
+                                            $scope.TxtUrduQty = '';
+                                            //$scope.TxtDosages = 0;
+                                        }
+                                    }, function myError(Return) {
+                                        $scope.Notification('error', 'Error Code LC0001', Return.data);
+                                    });
+                            }
+                                //=====================After Enter Days then its count days In Urdu text=================
+                                $scope.UrduDaysCounting = function (dosageid) {
+                                    var displayReq = {
+                                        method: "POST",
+                                        url: "/Consult/Get_DosageID",
+                                        data:
+                                        {
+                                            urducnt: dosageid
+                                        }
+                                    }
+                                    $http(displayReq).then(function (Return) {
+                                        var dt = angular.fromJson(Return.data);
+                                        if (dt.length > 0) {
+                                            $scope.TxtUrduDays = dt[0].UrduText;
+                                            $scope.GenerateUrdu();
+                                            //$scope.TxtDays = dt[0].NoOfDays;
+                                        }
+                                        else {
+                                            $scope.TxtUrduDays = '';
+                                            //$scope.TxtDays = 0;
+                                        }
+
+
+                                    }, function myError(Return) {
+                                        $scope.Notification('error', 'Error Code LC0001', Return.data);
+                                    });
+                            }
+                                //============Display Medication View All Data==============
+                                    $scope.GetMedViewAllData = function (DiagnoseID,DiagnoseName) {
+                                        var displayReq = {
+                                            method: "POST",
+                                            url: "/DocMedi/GetMed_Viewdata",
+                                            data: {
+                                                RefGroupID: DiagnoseID,
+                                                RefGroupName: DiagnoseName
+                                            }
+                                        }
+                                        $http(displayReq).then(function (Return) {
+
+                                            $scope.dtGetMediviewAll = angular.fromJson(Return.data);
+
+                                        }, function myError(Return) {
+                                            $scope.Notification('error', 'Error Code LC0001', Return.data);
+                                        });
+                            };
+                               //=============For Delete Medication==================
+                                $scope.OnMediDelete = function (ids) {
+                                    var displayReq = {
+                                        method: "POST",
+                                        url: "/DocMedi/OnMediDelete",
+                                        data: {
+                                            id: ids
+                                        }
+                                    }
+                                    $http(displayReq).then(function (Return) {
+                                        $scope.GetMedViewAllData($scope.txtDiagnoseID2,$scope.txtDiagnoseName2);
+                                        if (Return.data == "Delete") {
+                                            $scope.Notification('success', 'Operation Completed', 'Delete Medication');
+                                        }
+                                        else {
+                                            $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                                        }
+                                    }, function myError(Return) {
+                                        $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                                    });
+                            };
+                           //================Insert Medication==============
+                            $scope.saveMedidata = function () {
+                                var displayReq = {
+                                    method: 'POST',
+                                    url: '/DocMedi/Add_Medication',
+                                    data: {
+                                        GenericName: $scope.txtGenric + ' ' + $scope.txtPotency,
+                                        TypeID: $scope.txtTypeID,
+                                        SubTypeID: $scope.txtSbTypeID,
+                                        DosageQty: $scope.TxtDosages,
+                                        IsMorning: $scope.ChkMorning,
+                                        IsEvening: $scope.ChkEvening,
+                                        IsNight: $scope.ChkNight,
+                                        NoOfDays: $scope.TxtDays,
+                                        UrduText: $scope.TxtUrdu,
+                                        MediRemarks: $scope.txtRemarks2,
+                                        RefGroupID: $scope.txtDiagnoseID2,
+                                        RefGroupName: $scope.txtDiagnoseName2
+                                    }
+                                }
+                                $http(displayReq).then(function (Return) {
+                                    $scope.GetMedViewAllData($scope.txtDiagnoseID2,$scope.txtDiagnoseName2);
+                                    if (Return.data == "Inserted") {
+                                        $scope.Notification('success', 'Operation Completed', 'Insert Medication');
+                                        $scope.On_ClearMedi();
+                                    }
+                                    else {
+                                        $scope.Notification('error', 'Error Code CU1002', 'Please Contact to Admin');
+                                    }
+                                }, function myError(Return) {
+                                    $scope.Notification('error', 'Error Code CU0002', 'Please Contact to Admin');
+                                });
+                            };
+                            //==============Display Group 2 Diagnose Data By Lookup===================
+                            $scope.GetGroup2AllData = function () {
+                                var displayReq = {
+                                    method: "POST",
+                                    url: "/DocMedi/GetGroup1_data",
+                                    data: {}
+                                }
+                                $http(displayReq).then(function (Return) {
+                                    $scope.dtGroup2All = angular.fromJson(Return.data);
+                                }, function myError(Return) {
+                                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                                });
+                            };
+                            //==============Get Group 2 Diagnose Record By ID============
+                            $scope.Get_Group2_Byid = function (Group1_ID) {
+                                var displayReq = {
+                                    method: "POST",
+                                    url: "/DocMedi/Get_Group1_databyid",
+                                    data: {
+                                        GroupID: Group1_ID
+                                    }
+                                }
+                                $http(displayReq).then(function (Return) {
+                                    var dt = angular.fromJson(Return.data);
+                                    if (dt.length > 0) {
+                                        $scope.txtDiagnoseName2 = dt[0].GroupName;
+                                        $scope.txtDiagnoseID2 = dt[0].GroupID;
+                                        if (dt[0].InActive == false) {
+                                            $scope.txtInActive2 = 'false';
+                                        }
+                                        else {
+                                            $scope.txtInActive2 = 'true';
+                                        }
+                                        $scope.GetMedViewAllData(dt[0].GroupID,dt[0].GroupName);
+                                        //$scope.CUSaveBtn = false;
+                                    }
+                                    else {
+                                        //$scope.CUSaveBtn = true;
+                                        $scope.txtInActive2 = 'false';
+                                        $scope.txtDiagnoseName2 = '';
+                                        $scope.txtDiagnoseID2 = '';
+                                    }
+
+                                }, function myError(Return) {
+                                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                                });
+                            };
+                            //==============Display Group 2 Diagnose Data By Lookup===================
+                            $scope.GetMediCNAllData = function () {
+                                var displayReq = {
+                                    method: "POST",
+                                    url: "/DocMedi/GetDiag_data",
+                                    data: {}
+                                }
+                                $http(displayReq).then(function (Return) {
+                                    $scope.dtMediGetCNAll = angular.fromJson(Return.data);
+
+                                }, function myError(Return) {
+                                    $scope.Notification('error', 'Error Code LC0001', Return.data);
+                                });
+                            };
+                            //===============Get Diagnose by id=======================
+                            $scope.GetMediDiagByid = function (ShortName) {
+                                $scope.txtDiagnoseName2 = ShortName;
+                            };
+                            //=============================Consultancy End=========================================
+                            $scope.OnLoad = function () {
+                                $scope.GetDiagNoseID();
+                                $scope.GetDocID();
+                                $scope.txtInActive = 'false';
+                                $scope.txtInActive2 = 'false';
+                                $scope.GetEnabl_Disabl();
+                            };
+                            $scope.On_ClearDiag = function () {
+                                $scope.GetDiagNoseID();
+                                $scope.GetDocID();
+                                $scope.txtInActive = 'false';
+                                $scope.txtDiagnoseName = '';
+                                $scope.txtDiagnoseHist = '';
+                            };
+                            $scope.On_ClearMedi = function () {
+                                $scope.txtGenric = '';
+                                $scope.txtPotency = '';
+                                $scope.txtTypeID = '';
+                                $scope.txtSbTypeID = '';
+                                $scope.TxtDosages = '';
+                                $scope.ChkMorning = '';
+                                $scope.ChkEvening = '';
+                                $scope.ChkNight = '';
+                                $scope.ChkCurrent = '';
+                                $scope.ChkContinuous = '';
+                                $scope.TxtDays = '';
+                                $scope.TxtUrdu = '';
+                                $scope.txtRemarks2 = '';
+                            };
+                            $scope.OnLoad();
+                        });
+                    </script>
+
+                }
+

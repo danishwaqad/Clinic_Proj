@@ -13,6 +13,7 @@ namespace Clinic_Proj.Controllers
     public class GraphController : Controller
     {
         Clinic_Proj.Database_Access.GraphDb dblayer = new Clinic_Proj.Database_Access.GraphDb();
+        string Result;
         // GET: Graph
         public ActionResult Index()
         {
@@ -25,6 +26,19 @@ namespace Clinic_Proj.Controllers
             try
             {
                 return Json(dblayer.get_Graphrecord(rs), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //=================Display Daily Graph Data===================
+        [HttpPost]
+        public JsonResult Get_DailyGraphData(GraphMode rs)
+        {
+            try
+            {
+                return Json(dblayer.get_DailyGraphrecord(rs), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -48,5 +62,23 @@ namespace Clinic_Proj.Controllers
             }
             return Json(res, JsonRequestBehavior.AllowGet);
         }
+        //=============Get Site Sale Graph Today=========
+        [HttpPost]
+        public JsonResult Site_Sale_Graph_Today_Clinic()
+        {
+            GraphMode response = new GraphMode();
+            //string response = "";
+            try
+            {
+                response = dblayer.Get_Site_Sale_Graph_Today_Clinic();
+                return Json(response, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Result = "Site Clinic Sale Graph Today Failed.." + ex.Message;
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }
